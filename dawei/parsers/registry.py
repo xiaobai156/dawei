@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
-from dataclasses import replace
 import re
+from collections.abc import Callable
 
-from dawei.domain.errors import ConfigurationError, ScrapeError
+from dawei.domain.errors import ConfigurationError, ScrapeError, ValidationError
 from dawei.domain.models import CandidateEvidence, ParsedRecord, SiteConfig
-
+from dawei.domain.validation import validate_candidate_evidence
 
 Parser = Callable[[str, SiteConfig], ParsedRecord]
 Candidate = CandidateEvidence
@@ -16,6 +15,94 @@ CandidateCollector = Callable[
     [str, SiteConfig],
     tuple[list[Candidate], list[tuple[int, int, str]], set[int]],
 ]
+
+
+def extract_from_candidates(
+    text_or_html: str,
+    config: SiteConfig,
+    candidate_collector: CandidateCollector,
+    *,
+    no_candidates_message: str,
+    issue_range_error: str,
+    include_seen_issue_list: bool = True,
+    include_invalid_candidates: bool = True,
+) -> ParsedRecord:
+    """Apply the shared candidate selection contract after format-specific collection."""
+    from dawei.parsers.generic_36 import (
+        DEFAULT_ISSUE_MAX,
+        DEFAULT_ISSUE_MIN,
+        best_invalid_candidate_reason,
+        exact_issue_candidates_for_selection,
+        issue_in_range,
+        parsed_record_from_candidate,
+        select_candidate_for_position,
+        select_latest_issue_candidate,
+    )
+
+    candidates, invalid_candidates, seen_matching_issues = candidate_collector(
+        text_or_html,
+        config,
+    )
+    if not candidates:
+        if config.fixed_issue is not None:
+            exact_invalid = [
+                candidate
+                for candidate in invalid_candidates
+                if candidate[0] == config.fixed_issue
+            ]
+            if exact_invalid:
+                reason = best_invalid_candidate_reason(exact_invalid)
+                raise ScrapeError(f"{config.fixed_issue}期数据无效: {reason}")
+            if config.fixed_issue in seen_matching_issues:
+                raise ScrapeError(f"{config.fixed_issue}期没有找到完整36码数据")
+            if include_seen_issue_list and seen_matching_issues:
+                issues = ", ".join(
+                    str(issue)
+                    for issue in sorted(seen_matching_issues, reverse=True)[:8]
+                )
+                raise ScrapeError(
+                    f"未找到指定{config.fixed_issue}期；页面可命中的期数: {issues}"
+                )
+        if include_invalid_candidates and invalid_candidates:
+            issue, _, reason = max(
+                invalid_candidates,
+                key=lambda item: (item[0], item[1]),
+            )
+            raise ScrapeError(f"{issue}期数据无效: {reason}")
+        raise ScrapeError(no_candidates_message)
+
+    if config.fixed_issue is not None:
+        exact = exact_issue_candidates_for_selection(
+            candidates,
+            config.fixed_issue,
+            config,
+        )
+        if not exact:
+            seen_valid = sorted({candidate.issue for candidate in candidates}, reverse=True)
+            if seen_valid:
+                issues = ", ".join(str(issue) for issue in seen_valid[:8])
+                raise ScrapeError(
+                    f"未找到指定{config.fixed_issue}期；可用有效期数: {issues}"
+                )
+            raise ScrapeError(
+                f"no latest 36-number record found for issue {config.fixed_issue}"
+            )
+        return parsed_record_from_candidate(
+            config,
+            select_candidate_for_position(exact, config),
+        )
+
+    candidates = [
+        candidate
+        for candidate in candidates
+        if issue_in_range(candidate.issue, DEFAULT_ISSUE_MIN, DEFAULT_ISSUE_MAX)
+    ]
+    if not candidates:
+        raise ScrapeError(issue_range_error)
+    return parsed_record_from_candidate(
+        config,
+        select_latest_issue_candidate(candidates, config),
+    )
 
 LEGACY_RECORD_ID_PARSERS = {
     "6a0445a74ea5c20141013e81": "renjianrenai",
@@ -52,10 +139,6 @@ LEGACY_URL_FRAGMENTS = (
 def resolve_parser_id(config: SiteConfig) -> str:
     if config.parser_id and config.parser_id != "legacy":
         return config.parser_id
-    if config.image_decoder == "bb48kk_fixed":
-        return "image_bb48kk"
-    if config.image_decoder == "tuku2135_ocr":
-        return "image_tuku2135"
     if config.source_type == "dynamic_collection" or "/users/3792/forums" in (config.api_url or ""):
         return "kunnan_magazine"
     record_id = config.record_id
@@ -109,37 +192,13 @@ class ParserRegistry:
 
     def parse(self, text_or_html: str, config: SiteConfig) -> ParsedRecord:
         result = self.get(config.parser_id)(text_or_html, config)
-        if config.parser_id not in self._candidate_collectors:
-            if result.evidence is None:
-                raise ScrapeError(
-                    f"{config.parser_id}正式解析结果缺少CandidateEvidence，拒绝写成功"
-                )
-            return result
-        from dawei.parsers.generic_36 import (
-            exact_issue_candidates_for_selection,
-            select_candidate_for_position,
-            select_latest_issue_candidate,
-        )
-
-        candidates, _, _ = self.candidate_collector(config.parser_id)(text_or_html, config)
-        if config.fixed_issue is not None:
-            exact = exact_issue_candidates_for_selection(
-                candidates,
-                config.fixed_issue,
-                config,
-            )
-            selected = select_candidate_for_position(exact, config)
-        else:
-            selected = select_latest_issue_candidate(candidates, config)
-        if selected.issue != result.issue or selected.numbers != result.numbers:
+        try:
+            validate_candidate_evidence(result)
+        except ValidationError as exc:
             raise ScrapeError(
-                f"{config.parser_id}解析结果与统一候选证据不一致，拒绝写成功"
-            )
-        return replace(
-            result,
-            raw_position=selected.page_index,
-            evidence=selected,
-        )
+                f"{config.parser_id}正式解析结果证据校验失败: {exc}"
+            ) from exc
+        return result
 
     def candidate_collector(self, parser_id: str) -> CandidateCollector:
         try:

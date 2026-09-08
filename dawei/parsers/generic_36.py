@@ -9,7 +9,7 @@ from dawei.domain.models import (
     ArticleRecord,
     CandidateEvidence,
     CandidateOrigin,
-    ParsedRecord as SiteResult,
+    ParsedRecord,
     SiteConfig,
 )
 from dawei.parsers.common import (
@@ -34,10 +34,9 @@ from dawei.parsers.common import (
     valid_36_code_record,
 )
 
-
 DEFAULT_ISSUE_MIN = 126
 DEFAULT_ISSUE_MAX = 126
-STRICT_RECENT_CANDIDATE_LIMIT = 3
+STRICT_RECENT_CANDIDATE_LIMIT = 5
 
 
 def candidate_region(config: SiteConfig) -> str:
@@ -120,7 +119,7 @@ def common_document_boundary(line: str) -> bool:
     return "DAWEI_DOCUMENT_BOUNDARY" in line
 
 
-def result_raw_position(text_or_html: str, result: SiteResult, config: SiteConfig) -> int | None:
+def result_raw_position(text_or_html: str, result: ParsedRecord, config: SiteConfig) -> int | None:
     lines = html_to_lines(text_or_html)
     positions = [
         index
@@ -141,11 +140,11 @@ def result_raw_position(text_or_html: str, result: SiteResult, config: SiteConfi
 
 
 def attach_article_identity(
-    result: SiteResult,
+    result: ParsedRecord,
     article: ArticleRecord,
     document: str,
     config: SiteConfig,
-) -> SiteResult:
+) -> ParsedRecord:
     evidence = result.evidence
     if evidence is not None:
         origins = tuple(
@@ -207,8 +206,8 @@ def select_candidate_for_position(
     raise ScrapeError(f"未知候选区域配置: {config.region or config.position}")
 
 
-def parsed_record_from_candidate(config: SiteConfig, candidate: CandidateEvidence) -> SiteResult:
-    return SiteResult(
+def parsed_record_from_candidate(config: SiteConfig, candidate: CandidateEvidence) -> ParsedRecord:
+    return ParsedRecord(
         config.name,
         config.url,
         candidate.issue,
@@ -229,9 +228,13 @@ def unique_candidates(
 ) -> list[CandidateEvidence]:
     effective_config = config or SiteConfig("", "")
     require_candidate_evidence(candidates)
-    grouped: dict[tuple[int, tuple[str, ...]], list[CandidateEvidence]] = {}
+    _require_single_candidate_document(candidates)
+    grouped: dict[tuple[str, str, int, tuple[str, ...]], list[CandidateEvidence]] = {}
     for candidate in candidates:
-        grouped.setdefault((candidate.issue, candidate.numbers), []).append(candidate)
+        grouped.setdefault(
+            (candidate.document_id, candidate.document_url, candidate.issue, candidate.numbers),
+            [],
+        ).append(candidate)
     unique: list[CandidateEvidence] = []
     for values in grouped.values():
         representative = select_candidate_for_position(values, effective_config)
@@ -251,10 +254,60 @@ def latest_candidate_window(
     config: SiteConfig,
 ) -> list[CandidateEvidence]:
     require_candidate_evidence(candidates)
-    ordered = sorted(candidates, key=lambda item: item.page_index)
+    _require_single_candidate_document(candidates)
+    strict_window = _requires_strict_candidate_window(candidates)
+    ordered = sorted(unique_candidates(candidates, config), key=lambda item: item.page_index)
+    if not strict_window:
+        return ordered
     if candidate_region(config) == "top":
         return ordered[:STRICT_RECENT_CANDIDATE_LIMIT]
     return ordered[-STRICT_RECENT_CANDIDATE_LIMIT:]
+
+
+def _requires_strict_candidate_window(candidates: list[CandidateEvidence]) -> bool:
+    """Return whether the page needs the bounded direction window.
+
+    The count is per source document and is measured before duplicate display
+    rows are collapsed.  A repeated issue is also strict, even when the
+    repeated rows contain the same numbers; this keeps duplicate evidence from
+    silently widening the selection boundary.
+    """
+    document_counts: dict[str, int] = {}
+    issue_counts: dict[int, int] = {}
+    for candidate in candidates:
+        document_counts[candidate.document_id] = document_counts.get(candidate.document_id, 0) + 1
+        issue_counts[candidate.issue] = issue_counts.get(candidate.issue, 0) + 1
+    return any(count > 30 for count in document_counts.values()) or any(
+        count > 1 for count in issue_counts.values()
+    )
+
+
+def _require_single_candidate_document(candidates: list[CandidateEvidence]) -> None:
+    documents = _candidate_document_keys(candidates)
+    if len(documents) > 1:
+        raise ScrapeError("候选跨多个文档，无法唯一确定权威文档，禁止按收集顺序选择")
+
+
+def _candidate_document_keys(candidates: list[CandidateEvidence]) -> set[tuple[str, str]]:
+    return {(candidate.document_id, candidate.document_url) for candidate in candidates}
+
+
+def _deduplicate_exact_candidates(
+    candidates: list[CandidateEvidence],
+    config: SiteConfig,
+) -> list[CandidateEvidence]:
+    grouped: dict[tuple[str, ...], list[CandidateEvidence]] = {}
+    for candidate in candidates:
+        grouped.setdefault(candidate.numbers, []).append(candidate)
+    selected: list[CandidateEvidence] = []
+    for values in grouped.values():
+        if len(_candidate_document_keys(values)) > 1:
+            selected.append(
+                min(values, key=lambda candidate: (candidate.document_id, candidate.document_url))
+            )
+        else:
+            selected.append(select_candidate_for_position(values, config))
+    return selected
 
 
 def exact_issue_candidates_for_selection(
@@ -263,18 +316,24 @@ def exact_issue_candidates_for_selection(
     config: SiteConfig,
 ) -> list[CandidateEvidence]:
     assert_no_conflicting_exact_issue_candidates(candidates, fixed_issue, config)
-    candidates = unique_candidates(candidates, config)
+    if len(_candidate_document_keys(candidates)) > 1:
+        exact = [candidate for candidate in candidates if candidate.issue == fixed_issue]
+        if exact:
+            return _deduplicate_exact_candidates(exact, config)
+    strict_window = _requires_strict_candidate_window(candidates)
     window = latest_candidate_window(candidates, config)
     exact = [candidate for candidate in window if candidate.issue == fixed_issue]
     if exact:
         return exact
 
     window_issues = ", ".join(str(candidate.issue) for candidate in window) or "无"
-    raise ScrapeError(
-        f"指定{fixed_issue}期超出严格候选范围: 候选{len(candidates)}组，"
-        f"仅允许按{candidate_region(config)}方向最近{STRICT_RECENT_CANDIDATE_LIMIT}组内选择；"
-        f"窗口期数: {window_issues}"
-    )
+    if strict_window:
+        raise ScrapeError(
+            f"指定{fixed_issue}期超出严格候选范围: 候选{len(candidates)}组，"
+            f"仅允许按{candidate_region(config)}方向最近{STRICT_RECENT_CANDIDATE_LIMIT}组内选择；"
+            f"窗口期数: {window_issues}"
+        )
+    raise ScrapeError(f"未找到指定{fixed_issue}期；可用有效期数: {window_issues}")
 
 
 def select_latest_issue_candidate(
@@ -282,7 +341,7 @@ def select_latest_issue_candidate(
     config: SiteConfig,
 ) -> CandidateEvidence:
     all_candidates = list(candidates)
-    window = latest_candidate_window(unique_candidates(all_candidates, config), config)
+    window = latest_candidate_window(all_candidates, config)
     latest_issue = max(candidate.issue for candidate in window)
     assert_no_conflicting_exact_issue_candidates(all_candidates, latest_issue, config)
     same_issue = [candidate for candidate in window if candidate.issue == latest_issue]
@@ -456,7 +515,6 @@ def generic_candidates(
                     index,
                     config,
                     stop=line_range.stop,
-                    block_start=line_range.start,
                 )
             else:
                 numbers = collect_numbers_inline(lines[index]) or collect_numbers_after_in_section(
@@ -484,7 +542,7 @@ def generic_candidates(
     return candidates, invalid_candidates, seen_matching_issues
 
 
-def extract_generic_36(text_or_html: str, config: SiteConfig) -> SiteResult:
+def extract_generic_36(text_or_html: str, config: SiteConfig) -> ParsedRecord:
     candidates, invalid_candidates, seen_matching_issues = generic_candidates(
         text_or_html,
         config,

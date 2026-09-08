@@ -2,28 +2,36 @@
 
 from __future__ import annotations
 
+import re
+import time
 from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
-import re
-import time
 from urllib.parse import urlsplit
 
 from dawei.application.scrape_service import ScrapeService
-from dawei.domain.errors import CacheConflictError, CacheRollbackError, ScrapeError
-from dawei.domain.models import ParsedRecord, ScrapeRecord, SiteConfig, derive_site_id
+from dawei.domain.errors import (
+    CacheConflictError,
+    CacheError,
+    CacheRollbackError,
+    ScrapeError,
+    ValidationError,
+)
+from dawei.domain.models import ParsedRecord, ScrapeRecord, SiteConfig
 from dawei.domain.validation import validate_36_numbers, validate_candidate_evidence
 from dawei.infrastructure import http_client
 from dawei.infrastructure.cache_repository import CacheRepository, atomic_write_text
-from dawei.infrastructure.config_repository import ConfigRepository
-
+from dawei.infrastructure.config_repository import (
+    ConfigRepository,
+    config_fingerprint,
+    normalize_url_identity,
+)
 
 DEFAULT_OUTPUT_DIR = Path(
     r"C:\Users\Administrator\Desktop\每天工具\爬虫合集\大围杀号生肖数据统一归纳"
 )
-DEFAULT_BACKUP_PATH = Path(__file__).resolve().parents[2] / "近10期重复检测备份.json"
-CACHE_UPDATE_SUCCESS_PERCENT = 85
+DEFAULT_BACKUP_PATH = Path(__file__).resolve().parents[2] / "recent_10_cache.json"
 
 
 @dataclass(frozen=True)
@@ -39,6 +47,7 @@ class BatchOptions:
     recent_cache_path: Path = DEFAULT_BACKUP_PATH
     recent_periods: int = 10
     preserve_existing_failures: bool = False
+    append_success: bool = False
     merge_with: Path | None = None
     proxy_retries: int = 1
 
@@ -50,10 +59,11 @@ class BatchRunResult:
     timings: tuple[tuple[float, str, str], ...]
     total_sites: int
     cache_updated: bool = False
+    cache_error: str = ""
 
     @property
     def exit_code(self) -> int:
-        return 1 if self.failures else 0
+        return 1 if self.failures or self.cache_error else 0
 
 
 SiteScraper = Callable[..., ParsedRecord]
@@ -68,17 +78,6 @@ def default_error_output_path(issue: int) -> Path:
     return DEFAULT_OUTPUT_DIR / f"{issue}期-大围-失败.txt"
 
 
-def cache_update_allowed(success_count: int, total_sites: int) -> bool:
-    """Return whether the current run may update the recent cache.
-
-    The threshold is deliberately strict: exactly 85% is not enough.
-    Integer arithmetic keeps the boundary deterministic for any site count.
-    """
-    if total_sites < 0 or success_count < 0 or success_count > total_sites:
-        raise ValueError("success_count and total_sites must satisfy 0 <= success <= total")
-    return total_sites > 0 and success_count * 100 > total_sites * CACHE_UPDATE_SUCCESS_PERCENT
-
-
 def classify_failure(exc: BaseException) -> str:
     text = str(exc).lower()
     if "unexpected error" in text:
@@ -87,6 +86,8 @@ def classify_failure(exc: BaseException) -> str:
         return "DNS/线路失败"
     if "health check failed" in text:
         return "健康检测失败"
+    if "校验失败" in text:
+        return "校验失败"
     if "tls" in text or "ssl" in text or "handshake" in text:
         return "TLS失败"
     if "http " in text:
@@ -110,9 +111,12 @@ def classify_failure(exc: BaseException) -> str:
     return f"未分类失败/{exc.__class__.__name__}"
 
 
-def format_failure(site: SiteConfig, exc: BaseException) -> str:
+def format_failure(site: SiteConfig, exc: BaseException, fixed_issue: int) -> str:
     detail = " ".join(str(exc).split()) or f"{exc.__class__.__name__} 无详细异常消息"
-    return f"{site.name} {site.url} [{classify_failure(exc)}] {detail}"
+    return (
+        f"{site.name} {site.url} [{classify_failure(exc)}] "
+        f"方向:{site.direction}；指定期数:{fixed_issue}期；原因:{detail}"
+    )
 
 
 def output_line(result: ParsedRecord) -> str:
@@ -124,12 +128,35 @@ def write_results(results: Iterable[ParsedRecord], output_path: Path) -> None:
     atomic_write_text(output_path, "\n".join(lines) + ("\n" if lines else ""))
 
 
+def append_results(results: Iterable[ParsedRecord], output_path: Path) -> None:
+    lines = [output_line(result) for result in results]
+    if not lines:
+        return
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    size = output_path.stat().st_size if output_path.exists() else 0
+    separator = b""
+    if size:
+        with output_path.open("rb") as existing:
+            existing.seek(-1, 2)
+            if existing.read(1) not in {b"\n", b"\r"}:
+                separator = b"\n"
+    encoding = "utf-8" if size else "utf-8-sig"
+    with output_path.open("ab") as target:
+        target.write(separator + ("\n".join(lines) + "\n").encode(encoding))
+
+
 def write_failures(failures: Iterable[str], output_path: Path) -> None:
     lines = list(failures)
     if not lines:
         output_path.unlink(missing_ok=True)
         return
     atomic_write_text(output_path, "\n\n".join(lines) + "\n")
+
+
+def read_failure_lines(path: Path) -> list[str]:
+    if not path.exists():
+        return []
+    return [line.strip() for line in path.read_text(encoding="utf-8-sig").splitlines() if line.strip()]
 
 
 def read_issue_failures(issue: int, output_dir: Path) -> dict[tuple[str, str], str]:
@@ -187,19 +214,50 @@ def selected_sites(names: Iterable[str], sites: Iterable[SiteConfig]) -> tuple[S
     )
 
 
-def validate_result(result: ParsedRecord, fixed_issue: int) -> list[str]:
+def validate_result(
+    result: ParsedRecord,
+    fixed_issue: int,
+    expected_site: SiteConfig | None = None,
+) -> list[str]:
     errors: list[str] = []
+    if expected_site is not None:
+        if result.name != expected_site.name:
+            errors.append(
+                f"{expected_site.name} 返回站点身份错误: 结果名称为{result.name!r}"
+            )
+        if normalize_url_identity(result.url) != normalize_url_identity(expected_site.url):
+            errors.append(
+                f"{expected_site.name} 返回URL身份错误: 结果URL为{result.url!r}"
+            )
     if result.issue != fixed_issue:
         errors.append(f"{result.name} 抓错期数: 期望{fixed_issue}期，实际{result.issue}期")
     try:
         validate_36_numbers(result.numbers)
-    except Exception as exc:
+    except ValidationError as exc:
         errors.append(f"{result.name}: {exc}")
     try:
         validate_candidate_evidence(result)
-    except Exception as exc:
+    except ValidationError as exc:
         errors.append(f"{result.name}: {exc}")
     return errors
+
+
+def _validate_batch_options(options: BatchOptions) -> None:
+    checks = {
+        "fixed_issue": options.fixed_issue,
+        "timeout": options.timeout,
+        "workers": options.workers,
+        "proxy_retries": options.proxy_retries,
+        "recent_periods": options.recent_periods,
+    }
+    if any(
+        isinstance(value, bool) or not isinstance(value, int) or value <= 0
+        for value in checks.values()
+    ):
+        invalid = next(name for name, value in checks.items() if (
+            isinstance(value, bool) or not isinstance(value, int) or value <= 0
+        ))
+        raise ScrapeError(f"{invalid} must be a positive integer")
 
 
 class SingleIssueBatchService:
@@ -221,6 +279,7 @@ class SingleIssueBatchService:
         retry_failed: Path | None = None,
         proxy: str | None = None,
     ) -> BatchRunResult:
+        _validate_batch_options(options)
         sites = ConfigRepository(config_path).load()
         http_client.configure_proxy(proxy)
         names = [*only]
@@ -233,6 +292,7 @@ class SingleIssueBatchService:
             **{
                 **options.__dict__,
                 "preserve_existing_failures": bool(names),
+                "append_success": bool(names),
             }
         )
         return self.run(chosen, configured_options, all_sites=sites)
@@ -244,12 +304,20 @@ class SingleIssueBatchService:
         *,
         all_sites: Iterable[SiteConfig] | None = None,
     ) -> BatchRunResult:
+        _validate_batch_options(options)
         if options.merge_with is not None:
             raise ScrapeError(
                 "--merge-with 禁止用于正式成功数据；旧TXT缺少本次网页来源证据，只能人工对照"
             )
         site_list = tuple(sites)
+        if not site_list:
+            raise ScrapeError("no sites provided")
         all_site_list = tuple(all_sites or site_list)
+        site_keys = {(site.name, normalize_url_identity(site.url)) for site in site_list}
+        all_site_keys = {
+            (site.name, normalize_url_identity(site.url)) for site in all_site_list
+        }
+        subset_run = len(site_list) != len(all_site_list) or site_keys != all_site_keys
         scraper = self.site_scraper or self._default_scraper(options)
         workers = max(1, min(options.workers, len(site_list) or 1))
         total = len(site_list)
@@ -275,14 +343,20 @@ class SingleIssueBatchService:
                     failure = error if isinstance(error, ScrapeError) else RuntimeError(
                         f"unexpected error: {error}"
                     )
-                    failures.append(format_failure(site, failure))
+                    failures.append(format_failure(site, failure, options.fixed_issue))
                     timings.append((elapsed, site.name, "失败"))
                     failure_count += 1
                 else:
                     assert result is not None
-                    errors = validate_result(result, options.fixed_issue)
+                    errors = validate_result(result, options.fixed_issue, site)
                     if errors:
-                        failures.extend(f"校验失败 {error}" for error in errors)
+                        failures.append(
+                            format_failure(
+                                site,
+                                ScrapeError("校验失败：" + "；".join(errors)),
+                                options.fixed_issue,
+                            )
+                        )
                         timings.append((elapsed, site.name, "失败"))
                         failure_count += 1
                     else:
@@ -295,22 +369,47 @@ class SingleIssueBatchService:
                     f"失败 {failure_count} 用时 {time.perf_counter() - started:.1f}s] 当前: {site.name}"
                 )
         results = [results_by_index[index] for index in sorted(results_by_index)]
-        write_results(results, options.output_path)
-        write_failures(failures, options.error_output_path)
+        if options.append_success or subset_run:
+            append_results(results, options.output_path)
+        else:
+            write_results(results, options.output_path)
+        if options.preserve_existing_failures:
+            processed = {
+                (site.name, normalize_url_identity(site.url))
+                for site in site_list
+            }
+            retained = []
+            for line in read_failure_lines(options.error_output_path):
+                parts = line.split(maxsplit=2)
+                if len(parts) >= 2 and (
+                    parts[0], normalize_url_identity(parts[1])
+                ) in processed:
+                    continue
+                retained.append(line)
+            write_failures([*retained, *failures], options.error_output_path)
+        else:
+            write_failures(failures, options.error_output_path)
         cache_updated = False
-        if options.update_recent_cache and cache_update_allowed(success_count, total):
-            cache_updated = self._update_cache(results, failures, all_site_list, options)
-        elif options.update_recent_cache:
-            self.progress_sink(
-                f"缓存未更新：成功 {success_count}/{total}，成功率未超过"
-                f"{CACHE_UPDATE_SUCCESS_PERCENT}%"
-            )
+        cache_error = ""
+        if options.update_recent_cache:
+            try:
+                cache_updated = self._update_cache(
+                    results,
+                    failures,
+                    all_site_list,
+                    options,
+                    subset_run=subset_run,
+                )
+            except (CacheError, OSError, ScrapeError) as exc:
+                cache_error = "缓存更新未完成: " + (" ".join(str(exc).split()) or exc.__class__.__name__)
+                self.progress_sink(cache_error)
         return BatchRunResult(
             tuple(results),
             tuple(failures),
             tuple(timings),
             total,
             cache_updated=cache_updated,
+            cache_error=cache_error,
         )
 
     def _default_scraper(self, options: BatchOptions) -> SiteScraper:
@@ -319,7 +418,7 @@ class SingleIssueBatchService:
                 url,
                 timeout,
                 extra_headers,
-                proxy_retries=max(1, options.proxy_retries),
+                proxy_retries=options.proxy_retries,
             )
 
         def text_fetcher(url: str, timeout: int) -> str:
@@ -340,7 +439,7 @@ class SingleIssueBatchService:
                 http_client.health_check_url(
                     config.api_url or config.url,
                     timeout=timeout,
-                    proxy_retries=max(1, options.proxy_retries),
+                    proxy_retries=options.proxy_retries,
                 )
             return service.scrape(config, timeout=timeout, fixed_issue=fixed_issue)
 
@@ -360,7 +459,7 @@ class SingleIssueBatchService:
                 fixed_issue=options.fixed_issue,
             )
             return result, time.perf_counter() - started, None
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 - isolate one site from the batch
             return None, time.perf_counter() - started, exc
 
     @staticmethod
@@ -374,14 +473,24 @@ class SingleIssueBatchService:
         failures: Iterable[str],
         sites: Iterable[SiteConfig],
         options: BatchOptions,
+        *,
+        subset_run: bool = False,
     ) -> bool:
-        configured = {(site.name, site.url): site for site in sites}
+        site_list = tuple(sites)
+        configured = {
+            (site.name, normalize_url_identity(site.url)): site
+            for site in site_list
+        }
         records = []
         for result in results:
-            site = configured.get((result.name, result.url))
+            site = configured.get((result.name, normalize_url_identity(result.url)))
+            if site is None:
+                raise ScrapeError(
+                    f"缓存更新拒绝未知站点身份: {result.name} {result.url}"
+                )
             records.append(
                 ScrapeRecord(
-                    site_id=site.site_id if site else derive_site_id(result.name, result.url),
+                    site_id=site.site_id,
                     name=result.name,
                     url=result.url,
                     issue=result.issue,
@@ -404,19 +513,40 @@ class SingleIssueBatchService:
                             else None
                         )
                     ),
-                    parser_id=site.parser_id if site else "legacy",
+                    parser_id=site.parser_id,
                 )
             )
+        repository = CacheRepository(options.recent_cache_path)
+        if subset_run:
+            snapshot = repository.load()
+            if snapshot.period != options.fixed_issue:
+                raise ScrapeError(
+                    "子集运行禁止推进缓存：仅允许在缓存已有相同期数 "
+                    f"{options.fixed_issue} 期时修补，当前缓存期数为{snapshot.period!r}"
+                )
         try:
-            CacheRepository(options.recent_cache_path).update(
+            fingerprint = config_fingerprint(site_list)
+            expected_site_identities = {
+                site.site_id: (
+                    site.name,
+                    site.url,
+                    site.parser_id,
+                    site.record_id if site.source_type == "dynamic_article" else None,
+                )
+                for site in site_list
+            }
+            repository.update(
                 records,
                 failures,
                 fixed_issue=options.fixed_issue,
                 periods=options.recent_periods,
                 preserve_existing_failures=options.preserve_existing_failures,
+                config_fingerprint=fingerprint,
+                expected_site_identities=expected_site_identities,
+                allow_missing_fingerprint_binding=not subset_run,
             )
         except CacheRollbackError:
-            return False
+            raise ScrapeError("缓存更新未完成: 目标期数早于缓存最新期，拒绝回滚")
         except CacheConflictError as exc:
             raise ScrapeError(str(exc)) from exc
         return True

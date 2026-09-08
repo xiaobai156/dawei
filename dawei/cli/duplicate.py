@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
 import sys
+from pathlib import Path
 
 from dawei.application.duplicate_runner import DuplicateOptions, DuplicateRunner
 from dawei.application.duplicate_service import DuplicateMatch, SiteWindow
 from dawei.domain.errors import ScrapeError
-
+from dawei.infrastructure.cache_repository import atomic_write_text
 
 SCRIPT_DIR = Path(__file__).resolve().parents[2]
 DEFAULT_OUTPUT_DIR = Path(
@@ -64,8 +64,10 @@ def duplicate_report(
                     f"疑似组{index}",
                     f"- {match.left.name} {match.left.url}",
                     f"- {match.right.name} {match.right.url}",
-                    f"重复明细：{issue_range(match.issues)}，连续{match.consecutive_count}期，"
-                    "每期36码位置+数值完全一致",
+                    (
+                        f"重复明细：{issue_range(match.issues)}，连续{match.consecutive_count}期，"
+                        "每期36码位置+数值完全一致"
+                    ),
                 )
             )
             lines.extend(
@@ -77,8 +79,7 @@ def duplicate_report(
 
 
 def write_text(path: Path, text: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text, encoding="utf-8-sig")
+    atomic_write_text(path, text, encoding="utf-8-sig")
 
 
 def write_failures(path: Path, failures: tuple[str, ...]) -> None:
@@ -91,6 +92,11 @@ def write_failures(path: Path, failures: tuple[str, ...]) -> None:
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Detect duplicate sites from exact issue-aligned windows.")
     parser.add_argument("--period", type=int, default=None)
+    parser.add_argument(
+        "--prompt-period",
+        action="store_true",
+        help="在Python进程内安全读取期数；空输入表示自动识别最新期（供BAT入口使用）",
+    )
     parser.add_argument("--periods", type=int, default=10)
     parser.add_argument("-o", "--output", default=None)
     parser.add_argument("--error-output", default=None)
@@ -100,17 +106,36 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--duplicate-common", type=int, default=6)
     parser.add_argument("--only", nargs="*")
     parser.add_argument("--sites-config", default=str(SCRIPT_DIR / "sites_36.json"))
-    parser.add_argument("--backup-json", default=str(SCRIPT_DIR / "近10期重复检测备份.json"))
+    parser.add_argument("--backup-json", default=str(SCRIPT_DIR / "recent_10_cache.json"))
     parser.add_argument("--update-backup", action="store_true")
     parser.add_argument("--use-backup", action="store_true")
     parser.add_argument("--candidate-site", action="append")
     parser.add_argument("--proxy", default=None)
     parser.add_argument("--proxy-retries", type=int, default=1)
     args = parser.parse_args(argv)
-    if args.periods < 1 or args.min_common < 1:
-        parser.error("--periods and --min-common must be at least 1")
+    if args.prompt_period:
+        if args.period is not None:
+            parser.error("--prompt-period cannot be combined with --period")
+        try:
+            raw_period = input("Input issue number, press Enter for auto latest: ").strip()
+        except EOFError:
+            parser.error("period input is required or press Enter for auto latest")
+        if raw_period:
+            if not raw_period.isascii() or not raw_period.isdecimal():
+                parser.error("period must contain only decimal digits")
+            args.period = int(raw_period)
+    if args.period is not None and args.period <= 0:
+        parser.error("--period must be positive")
+    if args.periods < 1:
+        parser.error("--periods must be at least 1")
+    if args.timeout <= 0 or args.workers <= 0:
+        parser.error("--timeout and --workers must be positive")
+    if args.min_common < 1 or args.duplicate_common < 1:
+        parser.error("--min-common and --duplicate-common must be at least 1")
     if not args.min_common <= args.duplicate_common <= args.periods:
         parser.error("require --min-common <= --duplicate-common <= --periods")
+    if args.proxy_retries <= 0:
+        parser.error("--proxy-retries must be positive")
     if args.candidate_site and not args.use_backup:
         parser.error("新增候选站必须使用 --use-backup 读取近10期备份JSON，禁止实时全站抓取作为判重依据")
     return args
@@ -137,7 +162,7 @@ def main(
                 use_backup=args.use_backup,
                 update_backup=args.update_backup,
                 proxy=args.proxy,
-                proxy_retries=max(1, args.proxy_retries),
+                proxy_retries=args.proxy_retries,
             )
         )
     except ScrapeError as exc:
@@ -157,7 +182,10 @@ def main(
             args.duplicate_common,
         ),
     )
-    write_failures(errors, result.failures)
+    failures = list(result.failures)
+    if result.onboarding_error:
+        failures.append(f"新增站点验证失败: {result.onboarding_error}")
+    write_failures(errors, tuple(failures))
     for failure in result.failures:
         print(f"Error: {failure}", file=sys.stderr)
     if result.onboarding_error and not result.blocking_matches:

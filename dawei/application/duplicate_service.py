@@ -8,28 +8,16 @@ from dataclasses import dataclass, replace
 from pathlib import Path
 
 from dawei.application.scrape_service import (
-    decode_bb48kk_issue_candidates,
-    decode_tuku2135_issue_candidates,
-    fetch_paginated_article_document,
-    is_dynamic_article_site,
-    should_render_dynamic_fallback,
+    load_browser_source,
+    load_source,
+    should_render_html_fallback,
 )
 from dawei.domain.errors import CacheError, ScrapeError
-from dawei.domain.models import (
-    ArticleRecord,
-    CandidateEvidence,
-    ParsedRecord,
-    ScrapeRecord,
-    SiteConfig,
-)
-from dawei.infrastructure import browser_client, http_client, image_client, source_adapters
+from dawei.domain.models import CandidateEvidence, ParsedRecord, SiteConfig
+from dawei.infrastructure import browser_client, http_client
 from dawei.infrastructure.cache_repository import CacheRepository
-from dawei.parsers import DEFAULT_REGISTRY
-from dawei.parsers import dynamic_article
-from dawei.parsers import generic_36
-from dawei.parsers import image_36
+from dawei.parsers import DEFAULT_REGISTRY, dynamic_article, generic_36
 from dawei.parsers.registry import resolve_parser_id
-
 
 DEFAULT_DUPLICATE_COMMON = 6
 TextFetcher = Callable[[str, int], str]
@@ -45,6 +33,9 @@ class SiteWindow:
     latest_issue: int | None = None
     site_id: str = ""
     parser_id: str = ""
+    # Keep the untrimmed parser candidates for onboarding's direction gate.
+    # ``records`` remains the comparable recent window used by duplicate checks.
+    direction_candidates: tuple[CandidateEvidence, ...] = ()
 
     @property
     def key(self) -> tuple[tuple[str, ...], ...]:
@@ -91,76 +82,41 @@ def load_backup_snapshot(path: str | Path) -> BackupSnapshot:
         raise ScrapeError(f"读取备份JSON失败: {exc}") from exc
     if snapshot.period is None:
         raise ScrapeError("备份JSON没有有效期数")
-    windows = tuple(
-        SiteWindow(
-            site.name,
-            site.url,
-            snapshot.period,
-            snapshot.periods,
-            tuple(
-                ParsedRecord(
-                    record.name,
-                    record.url,
-                    record.issue,
-                    record.numbers,
-                    record_id=record.record_id,
-                    record_path=record.source_path,
-                    raw_position=record.raw_position,
-                )
-                for record in site.records
-            ),
-            latest_issue=snapshot.period,
-            site_id=site.site_id,
-            parser_id=site.records[0].parser_id if site.records else "",
+    windows: list[SiteWindow] = []
+    for site in snapshot.sites:
+        if not site.records:
+            raise ScrapeError(f"备份JSON站点没有有效记录: {site.name}")
+        records = tuple(
+            ParsedRecord(
+                record.name,
+                record.url,
+                record.issue,
+                record.numbers,
+                record_id=record.record_id,
+                record_path=record.source_path,
+                raw_position=record.raw_position,
+            )
+            for record in site.records
         )
-        for site in snapshot.sites
-    )
+        windows.append(
+            SiteWindow(
+                site.name,
+                site.url,
+                snapshot.period,
+                snapshot.periods,
+                records,
+                latest_issue=max(record.issue for record in records),
+                site_id=site.site_id,
+                parser_id=site.records[0].parser_id,
+            )
+        )
     return BackupSnapshot(
         snapshot.period,
         snapshot.periods,
-        windows,
+        tuple(windows),
         snapshot.failures,
         incomplete=snapshot.incomplete,
     )
-
-
-def load_backup_json(path: str | Path) -> list[SiteWindow]:
-    return list(load_backup_snapshot(path).sites)
-
-
-def write_backup_json(
-    results: Iterable[SiteWindow],
-    output_path: str | Path,
-    period: int,
-    periods: int,
-    failures: Iterable[str] = (),
-) -> None:
-    records: list[ScrapeRecord] = []
-    for window in results:
-        selected = select_recent_records(window.records, period, periods, 1)
-        for record in selected:
-            records.append(
-                ScrapeRecord(
-                    site_id=window.site_id,
-                    name=window.name,
-                    url=window.url,
-                    issue=record.issue,
-                    numbers=record.numbers,
-                    record_id=record.record_id,
-                    source_path=record.record_path,
-                    raw_position=record.raw_position,
-                    parser_id=window.parser_id or "generic_36",
-                )
-            )
-    try:
-        CacheRepository(output_path).replace_window(
-            records,
-            failures,
-            fixed_issue=period,
-            periods=periods,
-        )
-    except CacheError as exc:
-        raise ScrapeError(f"写入备份JSON失败: {exc}") from exc
 
 
 def detect_latest_period(results: Iterable[SiteWindow]) -> int:
@@ -172,7 +128,15 @@ def detect_latest_period(results: Iterable[SiteWindow]) -> int:
     if not issues:
         raise ScrapeError("无法自动识别最新期数：没有抓到任何可用记录")
     counts = Counter(issues)
-    return max(counts, key=lambda issue: (counts[issue], issue))
+    highest_count = max(counts.values())
+    winners = tuple(sorted(issue for issue, count in counts.items() if count == highest_count))
+    if len(winners) != 1:
+        raise ScrapeError(
+            "无法自动识别最新期数：最新期数并列（"
+            + ",".join(str(issue) for issue in winners)
+            + "）"
+        )
+    return winners[0]
 
 
 def select_recent_records(
@@ -184,7 +148,12 @@ def select_recent_records(
     if period == 9999:
         selected = list(records)
     else:
-        selected = [record for record in sorted(records, key=lambda item: item.issue, reverse=True) if record.issue <= period]
+        lower_bound = period - periods + 1
+        selected = [
+            record
+            for record in sorted(records, key=lambda item: item.issue, reverse=True)
+            if lower_bound <= record.issue <= period
+        ]
     if len(selected) < min_records:
         found = ",".join(str(record.issue) for record in selected) or "none"
         raise ScrapeError(
@@ -203,6 +172,7 @@ def with_period(result: SiteWindow, period: int, periods: int) -> SiteWindow:
         latest_issue=result.latest_issue,
         site_id=result.site_id,
         parser_id=result.parser_id,
+        direction_candidates=result.direction_candidates,
     )
 
 
@@ -246,92 +216,15 @@ def site_results_from_candidates(
     ]
 
 
-def collect_issue_records(text_or_html: str, config: SiteConfig) -> list[ParsedRecord]:
+def collect_issue_records(
+    text_or_html: str,
+    config: SiteConfig,
+) -> tuple[list[ParsedRecord], tuple[CandidateEvidence, ...]]:
     parser_id = resolve_parser_id(config)
     collector = DEFAULT_REGISTRY.candidate_collector(parser_id)
     candidates, _, _ = collector(text_or_html, config)
-    return site_results_from_candidates(candidates, config)
-
-
-def scrape_bb48kk_window(
-    config: SiteConfig,
-    period: int,
-    periods: int,
-    min_records: int,
-    timeout: int,
-) -> SiteWindow:
-    expanded_html = source_adapters.fetch_expanded_html(
-        config.url,
-        timeout,
-        http_client.fetch_text,
-    )
-    images = image_36.bb48kk_images_from(expanded_html)
-    if not images:
-        raise ScrapeError("no bb48kk image records found")
-    indexed = list(enumerate(images))
-    selected = sorted({image[0] for _, image in indexed if image[0] <= period}, reverse=True)
-    if len(selected) < min_records:
-        selected = sorted({image[0] for _, image in indexed}, reverse=True)
-    wanted = tuple(selected[:periods])
-    if len(wanted) < min_records:
-        found = ",".join(str(issue) for issue in wanted) or "none"
-        raise ScrapeError(f"only found {len(wanted)}/{min_records} comparable issues near {period}: {found}")
-    records: list[ParsedRecord] = []
-    for issue in wanted:
-        records.append(
-            decode_bb48kk_issue_candidates(
-                config,
-                [entry for entry in indexed if entry[1][0] == issue],
-                timeout,
-            )
-        )
-    return SiteWindow(
-        config.name,
-        config.url,
-        period,
-        periods,
-        tuple(records),
-        latest_issue=records[0].issue if records else None,
-        site_id=config.site_id,
-        parser_id=resolve_parser_id(config),
-    )
-
-
-def scrape_tuku2135_window(
-    config: SiteConfig,
-    period: int,
-    periods: int,
-    min_records: int,
-    timeout: int,
-) -> SiteWindow:
-    all_records = image_client.tuku2135_issue_records(config, timeout=timeout)
-    indexed = list(enumerate(all_records))
-    issues = sorted({record[0] for _, record in indexed if record[0] <= period}, reverse=True)
-    if len(issues) < min_records:
-        issues = sorted({record[0] for _, record in indexed}, reverse=True)
-    wanted = issues[:periods]
-    if len(wanted) < min_records:
-        found = ",".join(str(issue) for issue in wanted) or "none"
-        raise ScrapeError(f"only found {len(wanted)}/{min_records} comparable issues near {period}: {found}")
-    records: list[ParsedRecord] = []
-    for issue in wanted:
-        records.append(
-            decode_tuku2135_issue_candidates(
-                config,
-                [entry for entry in indexed if entry[1][0] == issue],
-                timeout,
-            )
-        )
-    return SiteWindow(
-        config.name,
-        config.url,
-        period,
-        periods,
-        tuple(records),
-        latest_issue=records[0].issue if records else None,
-        site_id=config.site_id,
-        parser_id=resolve_parser_id(config),
-    )
+    raw_candidates = tuple(candidates)
+    return site_results_from_candidates(raw_candidates, config), raw_candidates
 
 
 def scrape_site_window(
@@ -342,18 +235,15 @@ def scrape_site_window(
     timeout: int,
     text_fetcher: TextFetcher = http_client.fetch_text,
 ) -> SiteWindow:
-    if config.image_decoder == "bb48kk_fixed":
-        return scrape_bb48kk_window(config, period, periods, min_records, timeout)
-    if config.image_decoder == "tuku2135_ocr":
-        return scrape_tuku2135_window(config, period, periods, min_records, timeout)
     if resolve_parser_id(config) == "kunnan_magazine":
         if not config.api_url:
             raise ScrapeError("困难杂志缺少专属 API 地址")
+        all_records = dynamic_article.kunnan_magazine_records_from_payload(
+            text_fetcher(config.api_url, timeout),
+            config,
+        )
         records = select_recent_records(
-            dynamic_article.kunnan_magazine_records_from_payload(
-                text_fetcher(config.api_url, timeout),
-                config,
-            ),
+            all_records,
             period,
             periods,
             min_records,
@@ -364,67 +254,56 @@ def scrape_site_window(
             period,
             periods,
             records,
-            latest_issue=records[0].issue if records else None,
+            latest_issue=max((record.issue for record in records), default=None),
             site_id=config.site_id,
             parser_id=resolve_parser_id(config),
+            direction_candidates=tuple(
+                record.evidence for record in all_records if record.evidence is not None
+            ),
         )
 
-    expected_keywords = (config.name, *config.keywords, *config.section_keywords)
-    expected_issue = period if period != 9999 else None
-    article: ArticleRecord | None = None
-    source_parse_config = config
-    if config.source_type == "paginated_article_list":
-        document, source_url = fetch_paginated_article_document(
+    source = load_source(
+        config,
+        timeout,
+        text_fetcher=text_fetcher,
+        rendered_text_fetcher=browser_client.fetch_rendered_text,
+        rendered_article_fetcher=browser_client.fetch_rendered_article_record,
+    )
+    document = source.document
+    article = source.article
+    rendered = source.rendered
+    source_parse_config = replace(config, url=source.source_url)
+    direction_candidates: tuple[CandidateEvidence, ...] = ()
+
+    try:
+        if article is not None:
+            dynamic_article.validate_article_identity(article, source_parse_config)
+        results, direction_candidates = collect_issue_records(document, source_parse_config)
+        records = select_recent_records(results, period, periods, min_records)
+    except ScrapeError as exc:
+        if (
+            rendered
+            or config.api_url
+            or config.source_type == "paginated_article_list"
+            or not should_render_html_fallback(config, exc)
+        ):
+            raise
+        source = load_browser_source(
             config,
             timeout,
-            None,
-            text_fetcher,
+            rendered_text_fetcher=browser_client.fetch_rendered_text,
+            rendered_article_fetcher=browser_client.fetch_rendered_article_record,
         )
-        source_parse_config = replace(config, url=source_url)
-    elif config.api_url:
-        try:
-            payload = text_fetcher(config.api_url, timeout)
-            if is_dynamic_article_site(config):
-                article = source_adapters.article_record_from_payload(
-                    payload,
-                    config,
-                    source_path=config.api_url,
-                )
-                document = article.document
-            else:
-                document = source_adapters.api_payload_to_html(payload, allow_multiple=False)
-        except ScrapeError as exc:
-            if not should_render_dynamic_fallback(config, exc):
-                raise
-            article = browser_client.fetch_rendered_article_record(
-                config,
-                timeout=timeout,
-                expected_issue=expected_issue,
-                expected_keywords=expected_keywords,
-            )
-            document = article.document
-    elif config.render_policy == "always" or config.render_browser or is_dynamic_article_site(config):
-        if is_dynamic_article_site(config):
-            article = browser_client.fetch_rendered_article_record(
-                config,
-                timeout=timeout,
-                expected_issue=expected_issue,
-                expected_keywords=expected_keywords,
-            )
-            document = article.document
-        else:
-            document = browser_client.fetch_rendered_text(
-                config.url,
-                timeout=timeout,
-                expected_issue=expected_issue,
-                expected_keywords=expected_keywords,
-            )
-    else:
-        document = source_adapters.fetch_expanded_html(config.url, timeout, text_fetcher)
-
-    results = collect_issue_records(document, source_parse_config)
+        document = source.document
+        article = source.article
+        rendered = source.rendered
+        if article is not None:
+            dynamic_article.validate_article_identity(article, source_parse_config)
+        results, direction_candidates = collect_issue_records(document, source_parse_config)
+        records = select_recent_records(results, period, periods, min_records)
+    # For ordinary pages, collector order is the configured top/bottom direction.
+    # Do not let an out-of-position anomalous issue redefine this site's latest.
     latest_issue = results[0].issue if results else None
-    records = select_recent_records(results, period, periods, min_records)
     records = tuple(replace(record, url=config.url) for record in records)
     if article is not None:
         records = tuple(
@@ -440,6 +319,7 @@ def scrape_site_window(
         latest_issue=latest_issue,
         site_id=config.site_id,
         parser_id=resolve_parser_id(config),
+        direction_candidates=direction_candidates,
     )
 
 
@@ -466,14 +346,6 @@ def matching_consecutive_issues(
         else:
             current_run = []
     return tuple(best_run) if len(best_run) >= min_common else ()
-
-
-def are_duplicate(
-    left: SiteWindow,
-    right: SiteWindow,
-    duplicate_common: int = DEFAULT_DUPLICATE_COMMON,
-) -> bool:
-    return bool(matching_consecutive_issues(left, right, duplicate_common))
 
 
 def duplicate_groups_and_matches(
@@ -507,19 +379,3 @@ def duplicate_groups_and_matches(
     for index, result in enumerate(results):
         grouped.setdefault(find(index), []).append(result)
     return [members for members in grouped.values() if len(members) >= 2], matches
-
-
-def duplicate_groups(results: list[SiteWindow], min_common: int) -> list[list[SiteWindow]]:
-    groups, _ = duplicate_groups_and_matches(results, min_common, DEFAULT_DUPLICATE_COMMON)
-    return groups
-
-
-class DuplicateService:
-    def compare(
-        self,
-        windows: Iterable[SiteWindow],
-        *,
-        min_common: int = 3,
-        duplicate_common: int = DEFAULT_DUPLICATE_COMMON,
-    ) -> tuple[list[list[SiteWindow]], list[DuplicateMatch]]:
-        return duplicate_groups_and_matches(list(windows), min_common, duplicate_common)

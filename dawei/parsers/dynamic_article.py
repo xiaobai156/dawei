@@ -2,14 +2,43 @@
 
 from __future__ import annotations
 
-from dataclasses import replace
 import json
 import re
+from dataclasses import replace
 
 from dawei.domain.errors import ScrapeError
-from dawei.domain.models import ParsedRecord as SiteResult, SiteConfig
-from dawei.parsers.common import all_keywords_present
+from dawei.domain.models import ArticleRecord, SiteConfig
+from dawei.domain.models import ParsedRecord as SiteResult
+from dawei.parsers.common import ISSUE_RE, all_keywords_present
 from dawei.parsers.generic_36 import extract_generic_36
+
+
+def _any_identity_keyword_present(text: str, keywords: tuple[str, ...]) -> bool:
+    compact = re.sub(r"\s+", "", text)
+    return any(re.sub(r"\s+", "", keyword) in compact for keyword in keywords if keyword)
+
+
+def validate_article_identity(article: ArticleRecord, config: SiteConfig) -> None:
+    """Validate business identity after source extraction, before candidate parsing."""
+    if not article.author:
+        raise ScrapeError("API作者缺失")
+    if not article.title:
+        raise ScrapeError("API标题缺失")
+    if not ISSUE_RE.search(article.title) and not _any_identity_keyword_present(
+        article.title,
+        config.keywords,
+    ):
+        raise ScrapeError("API标题缺少期数或栏目关键词")
+    section_context = "\n".join(
+        part for part in (article.author, *article.section_names, article.title) if part
+    )
+    if not all_keywords_present(section_context, config.section_keywords):
+        raise ScrapeError("API栏目关键词不匹配")
+    if not all_keywords_present(
+        f"{article.title}\n{article.body}",
+        config.keywords,
+    ):
+        raise ScrapeError("API目标关键词不匹配")
 
 
 def kunnan_magazine_records_from_payload(
@@ -51,10 +80,19 @@ def kunnan_magazine_records_from_payload(
             raise ScrapeError(f"困难杂志存在重复文章ID: {record_id}")
         seen_ids.add(record_id)
 
-        try:
-            issue = int(record["draw"])
-        except (KeyError, TypeError, ValueError) as exc:
-            raise ScrapeError(f"困难杂志文章{record_id}缺少有效期号") from exc
+        raw_issue = record.get("draw")
+        if type(raw_issue) is int:
+            issue = raw_issue
+        elif (
+            type(raw_issue) is str
+            and raw_issue.isascii()
+            and raw_issue.isdecimal()
+        ):
+            issue = int(raw_issue)
+        else:
+            issue = 0
+        if issue <= 0:
+            raise ScrapeError(f"困难杂志文章{record_id}缺少有效期号")
         if issue in seen_issues:
             raise ScrapeError(f"困难杂志{issue}期存在多个目标文章记录")
 
@@ -114,9 +152,3 @@ def kunnan_magazine_records_from_payload(
     if not results:
         raise ScrapeError("困难杂志 API没有找到符合用户、彩种、栏目和期号的记录")
     return tuple(results)
-
-
-def kunnan_magazine_result_document(result: SiteResult, config: SiteConfig) -> str:
-    keywords = " ".join(config.keywords)
-    numbers = " ".join(result.numbers)
-    return f"{result.issue}期 {keywords}\n{numbers}"

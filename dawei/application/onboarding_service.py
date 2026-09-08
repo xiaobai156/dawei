@@ -2,17 +2,25 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
 import re
-from urllib.parse import parse_qs, urlsplit, urlunsplit
+import unicodedata
+from collections.abc import Iterable
+from urllib.parse import parse_qs, urlsplit
 
-from dawei.application.duplicate_service import BackupSnapshot, DuplicateMatch, SiteWindow
+from dawei.application.duplicate_service import (
+    BackupSnapshot,
+    DuplicateMatch,
+    SiteWindow,
+)
 from dawei.domain.errors import ScrapeError
 from dawei.domain.models import SiteConfig
 from dawei.domain.validation import validate_candidate_evidence, validate_site_config
+from dawei.infrastructure.config_repository import normalize_url_identity
 from dawei.parsers import generic_36
 from dawei.parsers.common import all_keywords_present, valid_36_code_record
 from dawei.parsers.registry import resolve_parser_id
+
+REQUIRED_ONBOARDING_PERIODS = 10
 
 
 def site_key(site: SiteWindow | SiteConfig) -> tuple[str, str]:
@@ -20,18 +28,13 @@ def site_key(site: SiteWindow | SiteConfig) -> tuple[str, str]:
 
 
 def normalized_name(value: str) -> str:
-    return value.strip().casefold()
+    return unicodedata.normalize("NFKC", value).strip().casefold()
 
 
 def normalized_url(value: str | None) -> str:
     if not value:
         return ""
-    text = value.strip()
-    parts = urlsplit(text)
-    if not parts.scheme and not parts.netloc:
-        return text.rstrip("/")
-    path = parts.path.rstrip("/")
-    return urlunsplit((parts.scheme.lower(), parts.netloc.lower(), path, parts.query, ""))
+    return normalize_url_identity(value)
 
 
 def site_identity(site: SiteWindow | SiteConfig) -> str:
@@ -63,8 +66,7 @@ def record_identities(site: SiteWindow | SiteConfig) -> tuple[str, ...]:
         values = (site.record_id,)
     else:
         values = tuple(record.record_id for record in site.records)
-    host = urlsplit(site.url).netloc.lower()
-    return tuple(f"{host}|{value}" for value in values if value)
+    return tuple(value.strip().casefold() for value in values if value and value.strip())
 
 
 def candidate_identity_conflicts(
@@ -133,6 +135,13 @@ def validate_candidate_window(
     *,
     config: SiteConfig,
 ) -> None:
+    if type(periods) is not int or periods != REQUIRED_ONBOARDING_PERIODS:
+        raise ScrapeError(
+            "候选新站校验必须使用正好10期窗口，"
+            f"当前请求{periods}期"
+        )
+    if type(backup_period) is not int or backup_period <= 0:
+        raise ScrapeError("候选新站缓存基准期数无效，拒绝校验")
     try:
         validate_site_config(config)
     except Exception as exc:
@@ -147,13 +156,22 @@ def validate_candidate_window(
         raise ScrapeError("候选新站必须显式配置已验证的专属解析器")
 
     window_start = backup_period - periods + 1
+    records_by_issue = window.by_issue
+    if len(window.records) != REQUIRED_ONBOARDING_PERIODS:
+        raise ScrapeError(
+            "候选新站必须提供正好10条窗口记录，"
+            f"实际{len(window.records)}条"
+        )
     records = {
-        record.issue: record
-        for record in window.records
-        if window_start <= record.issue <= backup_period
+        issue: record
+        for issue, record in records_by_issue.items()
+        if window_start <= issue <= backup_period
     }
-    if not records:
-        raise ScrapeError(f"候选新站未抓到缓存近{periods}期窗口内有效期数")
+    if len(records) != REQUIRED_ONBOARDING_PERIODS:
+        raise ScrapeError(
+            "候选新站验收窗口必须正好包含10个不同期数，"
+            f"实际{len(records)}期"
+        )
     try:
         expected_parser = resolve_parser_id(config)
         allowed_parsers = {
@@ -180,19 +198,25 @@ def validate_candidate_window(
                 raise ScrapeError(f"{record.issue}期证据未绑定专属数据关键词")
     except Exception as exc:
         raise ScrapeError(f"候选新站证据未通过: {exc}") from exc
-    evidence = [record.evidence for record in records.values() if record.evidence is not None]
-    direction_window = generic_36.latest_candidate_window(
-        generic_36.unique_candidates(evidence, config),
-        config,
-    )
     reference_issues = {backup_period, backup_period - 1}
-    if not ({candidate.issue for candidate in direction_window} & reference_issues):
-        actual = ", ".join(str(candidate.issue) for candidate in direction_window) or "无"
-        raise ScrapeError(
-            f"候选新站未在{generic_36.candidate_region(config)}方向最近3组命中"
-            f"缓存最新近2期（{backup_period}期/{backup_period - 1}期）；"
-            f"方向最近3组: {actual}"
-        )
+    is_collection = expected_parser == "kunnan_magazine" or config.source_type == "dynamic_collection"
+    if not is_collection:
+        evidence = list(window.direction_candidates)
+        if not evidence:
+            evidence = [record.evidence for record in records.values() if record.evidence is not None]
+        # Check every original candidate before applying the bounded direction
+        # window.  Otherwise a conflicting row outside the trimmed ten records
+        # could be hidden by the direction selection.
+        for issue in sorted({candidate.issue for candidate in evidence}):
+            generic_36.assert_no_conflicting_exact_issue_candidates(evidence, issue, config)
+        direction_window = generic_36.latest_candidate_window(evidence, config)
+        if not ({candidate.issue for candidate in direction_window} & reference_issues):
+            actual = ", ".join(str(candidate.issue) for candidate in direction_window) or "无"
+            raise ScrapeError(
+                f"候选新站未在{generic_36.candidate_region(config)}方向候选范围命中"
+                f"缓存最新近2期（{backup_period}期/{backup_period - 1}期）；"
+                f"方向候选期数: {actual}"
+            )
     if not (set(records) & reference_issues):
         raise ScrapeError(
             f"候选新站未抓到缓存最新近2期之一（{backup_period}期/{backup_period - 1}期）"
@@ -201,24 +225,6 @@ def validate_candidate_window(
     if invalid:
         issues = "、".join(f"{issue}期" for issue in sorted(invalid, reverse=True))
         raise ScrapeError(f"候选新站{issues}不是有效36码")
-    if config.onboarding_exception == "allow_insufficient_history":
-        expected_valid = set(config.onboarding_valid_issues)
-        actual_valid = set(records)
-        expected_window = set(range(window_start, backup_period + 1))
-        actual_missing = expected_window - actual_valid
-        if expected_valid != actual_valid:
-            raise ScrapeError(
-                "新增站特例记录的有效期与现场抓取不一致："
-                f"配置{sorted(expected_valid, reverse=True)}，现场{sorted(actual_valid, reverse=True)}"
-            )
-        if set(config.onboarding_missing_issues) != actual_missing:
-            raise ScrapeError(
-                "新增站特例记录的缺失期与现场窗口不一致："
-                f"配置{sorted(config.onboarding_missing_issues, reverse=True)}，"
-                f"现场{sorted(actual_missing, reverse=True)}"
-            )
-    elif len(records) < periods:
-        raise ScrapeError(f"候选新站近{periods}期有效数据不足：需要{periods}期，实际{len(records)}期")
 
 
 def matches_involving_sites(
@@ -246,8 +252,13 @@ class OnboardingService:
         candidate_sites = tuple(candidates)
         if not candidate_sites:
             raise ScrapeError("候选新站为空，拒收")
-        if any(site.onboarding_exception for site in candidate_sites) and len(candidate_sites) != 1:
-            raise ScrapeError("历史不足特例只能用于单个候选站")
+        if type(backup.periods) is not int or backup.periods != REQUIRED_ONBOARDING_PERIODS:
+            raise ScrapeError(
+                "新增站点必须基于正好10期完整缓存，"
+                f"当前缓存窗口为{backup.periods}期"
+            )
+        if type(backup.period) is not int or backup.period <= 0:
+            raise ScrapeError("新增站点缓存基准期数无效，拒绝新增")
         if backup.incomplete or backup.failures:
             raise ScrapeError("近10期重复检测缓存不完整，禁止新增站点")
         conflicts = candidate_identity_conflicts(candidate_sites, configured, backup.sites)
@@ -265,7 +276,7 @@ class OnboardingService:
             validate_candidate_window(
                 candidate_windows[0],
                 backup.period,
-                backup.periods,
+                REQUIRED_ONBOARDING_PERIODS,
                 config=candidate,
             )
         candidate_matches = tuple(matches_involving_sites(matches, candidate_sites))

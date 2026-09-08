@@ -1,37 +1,20 @@
-"""Document expansion and strict dynamic-record boundary adapters."""
+"""Raw source adapters and strict dynamic-record boundary adapters."""
 
 from __future__ import annotations
 
-import ast
 import base64
-from collections.abc import Callable, Iterable
 import json
 import re
+from collections.abc import Callable, Iterable
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit
 
 from dawei.domain.errors import ScrapeError
 from dawei.domain.models import ArticleRecord, RawAnchor, RawDocument, SiteConfig
 
-
-SCRIPT_URL_RE = re.compile(
-    r"(?P<url>https?://[^\"'<>]+/upload/script/[^\"'<>]+\.js|/upload/script/[^\"'<>]+\.js)",
-    re.IGNORECASE,
-)
-SCRIPT_SRC_RE = re.compile(r"<script\b[^>]*\bsrc=[\"'](?P<url>[^\"']+)[\"']", re.IGNORECASE)
-IFRAME_SRC_RE = re.compile(r"<iframe\b[^>]*\bsrc=[\"'](?P<url>[^\"']+)[\"']", re.IGNORECASE)
-BASE64_CHUNK_RE = re.compile(r"strdecode\(\"([^\"]+)\"\)")
-PAGE_DATA_RE = re.compile(r"__PAGE_DATA__\s*=\s*['\"]([^'\"]+)['\"]")
-DECRYPT_ARG_RE = re.compile(r"decrypt\([^,]+,\s*['\"]([^'\"]+)['\"]")
-DOCUMENT_WRITELN_RE = re.compile(
-    r"document\.writeln?\(\s*(?P<quote>[\"'])(?P<body>.*?)(?P=quote)\s*\)\s*;?"
-)
-ISSUE_RE = re.compile(r"(?<!\d)(\d{3})\s*期")
 ARTICLE_ID_FIELDS = ("id", "_id", "articleId", "article_id", "recordId", "record_id")
 ARTICLE_BODY_FIELDS = ("content", "html", "body", "articleContent", "article_content")
 ARTICLE_NESTED_FIELDS = ("data", "article", "record", "attributes")
-DOCUMENT_BOUNDARY = "DAWEI_DOCUMENT_BOUNDARY"
-MAX_EXPANDED_DOCUMENTS = 16
 MAX_PAGINATED_LIST_PAGES = 50
 
 
@@ -111,112 +94,6 @@ def fetch_paginated_list_documents(
     raise ScrapeError(f"分页文章列表超过{MAX_PAGINATED_LIST_PAGES}页，拒绝截断")
 
 
-def decode_base64_chunks(text: str) -> str:
-    chunks: list[str] = []
-    encoded_chunks = BASE64_CHUNK_RE.findall(text) + PAGE_DATA_RE.findall(text) + DECRYPT_ARG_RE.findall(text)
-    for encoded in encoded_chunks:
-        try:
-            data = base64.b64decode(encoded)
-        except ValueError:
-            continue
-        for charset in ("utf-8", "gb18030"):
-            try:
-                chunks.append(data.decode(charset))
-                break
-            except UnicodeDecodeError:
-                continue
-    return "\n".join(chunks)
-
-
-def decode_document_writeln_chunks(text: str) -> str:
-    chunks: list[str] = []
-    for match in DOCUMENT_WRITELN_RE.finditer(text):
-        body = match.group("body")
-        quote = match.group("quote")
-        try:
-            chunks.append(ast.literal_eval(quote + body + quote))
-        except (SyntaxError, ValueError):
-            chunks.append(body.replace(r"\/", "/").replace(r"\'", "'").replace(r'\"', '"'))
-    return "\n".join(chunks)
-
-
-def script_urls_from(html: str, page_url: str) -> list[str]:
-    urls: list[str] = []
-    seen: set[str] = set()
-    page_host = urlsplit(page_url).netloc
-    for match in SCRIPT_URL_RE.finditer(html):
-        url = urljoin(page_url, match.group("url"))
-        if url not in seen:
-            seen.add(url)
-            urls.append(url)
-    for match in SCRIPT_SRC_RE.finditer(html):
-        url = urljoin(page_url, match.group("url"))
-        split_url = urlsplit(url)
-        if split_url.netloc != page_host and "/upload/script/" not in split_url.path:
-            continue
-        if url not in seen:
-            seen.add(url)
-            urls.append(url)
-    return urls
-
-
-def iframe_urls_from(html: str, page_url: str) -> list[str]:
-    page_host = urlsplit(page_url).netloc.lower()
-    urls: list[str] = []
-    for match in IFRAME_SRC_RE.finditer(html):
-        raw_url = match.group("url").strip()
-        if "${" in raw_url or any(character in raw_url for character in "{}[]"):
-            continue
-        url = urljoin(page_url, raw_url)
-        if urlsplit(url).netloc.lower() == page_host and url not in urls:
-            urls.append(url)
-    return urls
-
-
-def expanded_document_parts(
-    html: str,
-    page_url: str,
-    timeout: int,
-    fetcher: Callable[[str, int], str],
-) -> list[str]:
-    parts = [html, decode_base64_chunks(html), decode_document_writeln_chunks(html)]
-    for script_url in script_urls_from(html, page_url):
-        try:
-            script_text = fetcher(script_url, timeout)
-        except (ScrapeError, UnicodeEncodeError, ValueError):
-            continue
-        parts.append(decode_base64_chunks(script_text))
-        parts.append(decode_document_writeln_chunks(script_text))
-    return [part for part in parts if part]
-
-
-def fetch_expanded_html(
-    url: str,
-    timeout: int,
-    fetcher: Callable[[str, int], str],
-) -> str:
-    queue = [url]
-    seen: set[str] = set()
-    documents: list[str] = []
-    while queue:
-        document_url = queue.pop(0)
-        if document_url in seen:
-            continue
-        if len(seen) >= MAX_EXPANDED_DOCUMENTS:
-            raise ScrapeError("页面包含过多iframe文档，拒绝截断解析")
-        seen.add(document_url)
-        html = fetcher(document_url, timeout)
-        documents.append(
-            "\n".join(expanded_document_parts(html, document_url, timeout, fetcher))
-        )
-        queue.extend(
-            iframe_url
-            for iframe_url in iframe_urls_from(html, document_url)
-            if iframe_url not in seen
-        )
-    return f"\n{DOCUMENT_BOUNDARY}\n".join(documents)
-
-
 def decode_possible_base64_text(value: str) -> str | None:
     text = value.strip()
     if not text or not re.fullmatch(r"[A-Za-z0-9+/=_-]+", text):
@@ -289,8 +166,9 @@ def article_body(record: dict[str, object], path: str = "$") -> tuple[str, str]:
     for field in ARTICLE_BODY_FIELDS:
         value = record.get(field)
         if value not in (None, ""):
-            text = str(value)
-            return decode_possible_base64_text(text) or text, f"{path}.{field}"
+            text = str(value).strip()
+            if text:
+                return decode_possible_base64_text(text) or text, f"{path}.{field}"
     for field in ARTICLE_NESTED_FIELDS:
         child = record.get(field)
         if isinstance(child, dict):
@@ -313,43 +191,22 @@ def article_section_names(record: dict[str, object]) -> tuple[str, ...]:
     return ()
 
 
-def _all_keywords_present(text: str, keywords: Iterable[str]) -> bool:
-    compact = re.sub(r"\s+", "", text)
-    return all(re.sub(r"\s+", "", keyword) in compact for keyword in keywords if keyword)
-
-
-def _any_keyword_present(text: str, keywords: Iterable[str]) -> bool:
-    compact = re.sub(r"\s+", "", text)
-    return any(re.sub(r"\s+", "", keyword) in compact for keyword in keywords if keyword)
-
-
 def article_record_from_mapping(
     record: dict[str, object],
     record_path: str,
-    config: SiteConfig,
 ) -> ArticleRecord:
     record_id = str(nested_record_value(record, ARTICLE_ID_FIELDS) or "").strip()
     author = str(nested_record_value(record, ("authorNickname", "author")) or "").strip()
-    if author != config.name:
-        raise ScrapeError(f"API作者不匹配: 预期{config.name}，实际{author or '空'}")
     raw_title = nested_record_value(record, ("title", "subject", "name"))
     title = decode_possible_base64_text(str(raw_title)) if raw_title else None
     title = title or str(raw_title or "").strip()
-    if not title:
-        raise ScrapeError("API标题缺失")
-    if not ISSUE_RE.search(title) and not _any_keyword_present(title, config.keywords):
-        raise ScrapeError("API标题缺少期数或栏目关键词")
     body, _ = article_body(record, record_path)
     if not body:
         raise ScrapeError("API目标记录正文缺失")
     sections = article_section_names(record)
-    document = "\n".join((title, *sections, body))
-    identity_text = "\n".join((title, body))
-    if not _all_keywords_present(identity_text, config.section_keywords):
-        raise ScrapeError("API栏目关键词不匹配")
-    if not _all_keywords_present(identity_text, config.keywords):
-        raise ScrapeError("API目标关键词不匹配")
-    return ArticleRecord(record_id, record_path, title, author, body, document)
+    document_parts = [part for part in (author, *sections, title, body) if part]
+    document = "\n".join(document_parts)
+    return ArticleRecord(record_id, record_path, title, author, body, document, sections)
 
 
 def article_record_from_payload(
@@ -380,7 +237,7 @@ def article_record_from_payload(
     if len(matches) > 1:
         raise ScrapeError(f"API存在多个同ID目标记录: {expected_id}")
     path, record = matches[0]
-    result = article_record_from_mapping(record, path, config)
+    result = article_record_from_mapping(record, path)
     if result.record_id != expected_id:
         raise ScrapeError(f"API记录边界ID不一致: 预期{expected_id}，实际{result.record_id}")
     if source_path:
@@ -391,6 +248,7 @@ def article_record_from_payload(
             result.author,
             result.body,
             result.document,
+            result.section_names,
         )
     return result
 

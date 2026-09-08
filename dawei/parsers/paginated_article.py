@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import re
+from dataclasses import dataclass
 
 from dawei.domain.errors import ScrapeError
 from dawei.domain.models import RawDocument, SiteConfig
@@ -24,7 +24,7 @@ def _compact(value: str) -> str:
 
 
 def _is_article_url(url: str) -> bool:
-    return bool(re.search(r"/article\.aspx(?:[?#]|$)", url, re.I))
+    return bool(re.search(r"/article\.aspx(?:[?#]|$)", url, re.IGNORECASE))
 
 
 def _all_navigation_keywords_present(title: str, config: SiteConfig) -> bool:

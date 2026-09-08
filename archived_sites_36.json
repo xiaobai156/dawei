@@ -1,13 +1,17 @@
-{
+﻿{
   "version": 1,
-  "archived_at": "2026-08-03T00:00:00+08:00",
-  "reason": "用户明确要求封存，不再抓取",
+  "archived_at": "2026-09-07T19:24:41+08:00",
+  "reason": "用户明确要求封存凤毛济美、形影不离、富豪神码，不再抓取",
   "sites": [
     {
       "name": "澳彩军师",
       "url": "https://czcvzk.4n5g7-o871g-hqmkwz.work:29422/article/admin/6a094ded291caff3edcb8a27?url=tsp",
-      "keywords": ["三十六码"],
-      "section_keywords": ["澳彩军师"],
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "澳彩军师"
+      ],
       "search_window": 260,
       "fixed_issue": null,
       "api_url": "https://czcvzk.4n5g7-o871g-hqmkwz.work:29422/api/proxy/admin-articles/6a094ded291caff3edcb8a27",
@@ -27,8 +31,12 @@
     {
       "name": "两广兄弟",
       "url": "https://dfgrufao.tz0ex-y6o7v-lazxsq.work:29400/article/admin/6a2ad3aa73ace54337a20979?url=lbw",
-      "keywords": ["三十六码"],
-      "section_keywords": ["两广兄弟"],
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "两广兄弟"
+      ],
       "search_window": 260,
       "fixed_issue": null,
       "api_url": "https://dfgrufao.tz0ex-y6o7v-lazxsq.work:29400/api/proxy/admin-articles/6a2ad3aa73ace54337a20979",
@@ -48,8 +56,12 @@
     {
       "name": "富国一方",
       "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=2700",
-      "keywords": ["三十六码"],
-      "section_keywords": ["富国一方"],
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "富国一方"
+      ],
       "search_window": 260,
       "fixed_issue": null,
       "api_url": null,
@@ -65,6 +77,1553 @@
       "parser_id": "three_rows",
       "record_id": null,
       "render_policy": "never"
+    },
+    {
+      "name": "日益精进",
+      "url": "https://slyaoiw577.772149.shop/bbs/topic.php?id=1035",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "日益精进"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_fc56dc8f74aee793184c",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "archive_tag": "站点消失"
+    },
+    {
+      "name": "反转六彩",
+      "url": "https://tk1.junxuncm.com/gsb/s010.html",
+      "keywords": [
+        "无错36码特围",
+        "36码特围"
+      ],
+      "section_keywords": [
+        "无错36码特围"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "top",
+      "render_browser": false,
+      "site_id": "site_ec9d0302b3ee02540ab3",
+      "source_type": "generic_html",
+      "parser_id": "generic_36",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "添枝增叶",
+      "url": "https://lxlwskb.nboxw-3t1ws-uyicfb.work:29444/article/admin/6a1447964346bc68aea4f107?url=scyd",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "添枝增叶"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://lxlwskb.nboxw-3t1ws-uyicfb.work:29444/api/proxy/manager-articles/6a1447964346bc68aea4f107",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_75bcf5e0c2ccb9d12ac4",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a1447964346bc68aea4f107",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "宿命轮回",
+      "url": "https://bbs28.880280.xyz/bbs/topic.php?id=18584",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "宿命轮回"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_459ac6873ffc35b3fb04",
+      "source_type": "bbs_topic",
+      "parser_id": "generic_36",
+      "record_id": null,
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "九宫彩神",
+      "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=2690",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "九宫彩神"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_422165aa01d1af5c77d5",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "三生桃花",
+      "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=2781",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "三生桃花",
+        "三十六码"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_d01ead003b28d0b40655",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "大仙神算",
+      "url": "https://x1rvueyk50.669332.shop/bbs/topic.php?id=2652",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "大仙神算"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_3010493454a4fbfa326e",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "四海晏然",
+      "url": "https://nlafoq9v.552149.shop/bbs/topic.php?id=1065",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "四海晏然"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_172ad17e51da4344ba82",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "财路家家",
+      "url": "https://x1rvueyk50.669332.shop/bbs/topic.php?id=2549",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "财路家家"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_7107f3680f4bbb58d04c",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "天天送财",
+      "url": "https://18118.73829.com/read.php?tid=957",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "天天送财"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_7fcdd3c9b21e560ad7d7",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "水煮青蛙",
+      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=2815",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "水煮青蛙"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_c09421b3b153187a7343",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "天马行空",
+      "url": "https://fymxwnyg.ttmzc-muvns-udlfln.work:29455/article/admin/6a2c2a179d979617a85f1551?url=lhbd",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "天马行空"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://fymxwnyg.ttmzc-muvns-udlfln.work:29455/api/proxy/manager-articles/6a2c2a179d979617a85f1551",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_555ae31e505543046438",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a2c2a179d979617a85f1551",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "人存政举",
+      "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=2994",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "人存政举"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_010b6020482636f90666",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": []
+    },
+    {
+      "name": "开彩大帝",
+      "url": "https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/article/manager/6a324d5cd2455bc872d9a630?url=jbx",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "开彩大帝"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/api/proxy/manager-articles/6a324d5cd2455bc872d9a630",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_518dfaa5671ca72bade5",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a324d5cd2455bc872d9a630",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：抓取失败，不再抓取"
+    },
+    {
+      "name": "绿叶成彩",
+      "url": "https://slyaoiw577.772149.shop/bbs/topic.php?id=1112",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "绿叶成彩"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_64d721e645ef3293b8f8",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：抓取失败，不再抓取"
+    },
+    {
+      "name": "蠢蠢欲动",
+      "url": "https://sheuzjss.tgpcj-9w0vl-mwyhly.work:29422/article/admin/6a10c43a30a2246c4fe15ab4?url=zfw",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "蠢蠢欲动"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://sheuzjss.tgpcj-9w0vl-mwyhly.work:29422/api/proxy/manager-articles/6a10c43a30a2246c4fe15ab4",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_ab6b8e647d02da2e0479",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a10c43a30a2246c4fe15ab4",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：230期抓取失败，不再抓取，不影响判重"
+    },
+    {
+      "name": "精准秘籍",
+      "url": "https://czcvzk.4n5g7-o871g-hqmkwz.work:29422/article/admin/6a09698c291caff3edcb8b6a?url=tsp",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "精准秘籍"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://czcvzk.4n5g7-o871g-hqmkwz.work:29422/api/proxy/manager-articles/6a09698c291caff3edcb8b6a",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_532afe056d489b50eca8",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a09698c291caff3edcb8b6a",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：230期抓取失败，不再抓取，不影响判重"
+    },
+    {
+      "name": "大千世界",
+      "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1150",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "大千世界"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_7568f292f22a80f36934",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：230期抓取失败，不再抓取，不影响判重"
+    },
+    {
+      "name": "慈善人士",
+      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=2835",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "慈善人士"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_6f4de43c7b31d9e5dece",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：230期抓取失败，不再抓取，不影响判重"
+    },
+    {
+      "name": "苦心钻研",
+      "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1148",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "苦心钻研"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_7ed3bd4c9a3d8774b251",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：231期抓取失败，不再抓取"
+    },
+    {
+      "name": "六合王",
+      "url": "https://aa.2135a.cc:1888/picart?title=%E5%85%AD%E5%90%88%E7%8E%8B36%E7%A0%81%E7%89%B9%E5%9B%B4&color=0&name=6hwtw.jpg&id=171",
+      "keywords": [
+        "36码特围"
+      ],
+      "section_keywords": [],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": "tuku2135_ocr",
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "none",
+      "region": null,
+      "render_browser": false,
+      "site_id": "site_a890f7ad000724880a84",
+      "source_type": "generic_html",
+      "parser_id": "image_tuku2135",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_insufficient_history",
+      "onboarding_valid_issues": [
+        228
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确移出自动抓取：改为手动OCR"
+    },
+    {
+      "name": "全网",
+      "url": "https://ykafylrj.aa70q-k7jc0-igfkrd.work:16677/topic/407766.html",
+      "keywords": [
+        "无错36码特围",
+        "36码特围"
+      ],
+      "section_keywords": [
+        "无错36码特围"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": "bb48kk_fixed",
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_4d0f9f990121e1249ed8",
+      "source_type": "generic_html",
+      "parser_id": "image_bb48kk",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_insufficient_history",
+      "onboarding_valid_issues": [
+        228
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确移出自动抓取：改为手动OCR"
+    },
+    {
+      "name": "上行下效",
+      "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=2804",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "上行下效"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_4771c39d105f1516f297",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：233期抓取失败，不再抓取"
+    },
+    {
+      "name": "干劲冲天",
+      "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3057",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "干劲冲天"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_0ba459755103f1b616b7",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：233期抓取失败，不再抓取"
+    },
+    {
+      "name": "江南才子",
+      "url": "https://hll.www39731a.com/read.php?tid=718",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "江南才子",
+        "三十六码"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_6192b4e7996e71e2db17",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：233期抓取失败，不再抓取"
+    },
+    {
+      "name": "彩友大师",
+      "url": "https://slyaoiw577.772149.shop/bbs/topic.php?id=1050",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "彩友大师"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_0704cf3c67f8818af32e",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：236期抓取失败，不再抓取"
+    },
+    {
+      "name": "微微一笑",
+      "url": "https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/article/manager/6a326ecf81c27af22e60bf3b?url=jbx",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "微微一笑"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/api/proxy/manager-articles/6a326ecf81c27af22e60bf3b",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_ba82d93f3ff5251c4293",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a326ecf81c27af22e60bf3b",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：236期抓取失败，不再抓取"
+    },
+    {
+      "name": "应接不暇",
+      "url": "https://vnxqseiu.ymm13-381iq-zcgmtu.xyz:29400/article/manager/6a081bc1e0d076537e1df8aa?url=jdb",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "应接不暇"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://vnxqseiu.ymm13-381iq-zcgmtu.xyz:29400/api/proxy/manager-articles/6a081bc1e0d076537e1df8aa",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_a8b55e82442bc5662943",
+      "source_type": "dynamic_article",
+      "parser_id": "three_rows",
+      "record_id": "6a081bc1e0d076537e1df8aa",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：236期抓取失败，不再抓取"
+    },
+    {
+      "name": "神鹰蝴蝶",
+      "url": "https://rmpsmal.hi84f-zpj90-mvqksp.xyz:29477/article/manager/6a81498cee4739fbe9eae281?url=jfh",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "神鹰蝴蝶"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://rmpsmal.hi84f-zpj90-mvqksp.xyz:29477/api/proxy/manager-articles/6a81498cee4739fbe9eae281",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_3728f74649eeff3d573b",
+      "source_type": "dynamic_article",
+      "parser_id": "three_rows",
+      "record_id": "6a81498cee4739fbe9eae281",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：236期抓取失败，不再抓取"
+    },
+    {
+      "name": "横财就手",
+      "url": "https://cahgjib.5blx9-z8506-ekiwxc.work:29488/article/admin/6a3ab9cd018539c611cbe30e?url=lqz",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "横财就手"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://cahgjib.5blx9-z8506-ekiwxc.work:29488/api/proxy/manager-articles/6a3ab9cd018539c611cbe30e",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_e19e384f86f846f52f37",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a3ab9cd018539c611cbe30e",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：236期抓取失败，不再抓取"
+    },
+    {
+      "name": "未来可期",
+      "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1177",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "未来可期"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_16b4645d4af0c85f1d05",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：238期抓取失败，不再抓取"
+    },
+    {
+      "name": "蒸蒸日上",
+      "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1188",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "蒸蒸日上"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_c386ddc77be7480ae38c",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        236
+      ],
+      "onboarding_missing_issues": [
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235
+      ],
+      "archive_tag": "用户明确封存：238期抓取失败，不再抓取"
+    },
+    {
+      "name": "熊出没",
+      "url": "https://sadoleu.rznla-fgwyr-nzqalp.xyz:16677/topic/459501.html",
+      "keywords": [
+        "内幕36码"
+      ],
+      "section_keywords": [
+        "熊出没",
+        "内幕36码"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "top",
+      "render_browser": false,
+      "site_id": "site_bbc883a68c2d804d076a",
+      "source_type": "topic_page",
+      "parser_id": "xiongchumo",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：239期抓取失败，不再抓取（熊出没）"
+    },
+    {
+      "name": "钱彩两得",
+      "url": "https://x1rvueyk50.669332.shop/bbs/topic.php?id=2757",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "钱彩两得"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_ad9f5e9a05c8331064c8",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：239期抓取失败，不再抓取（钱彩两得）"
+    },
+    {
+      "name": "涓涓细流",
+      "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3076",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "涓涓细流"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_3d5489f823052e78ae2c",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：240期抓取失败，不再抓取（涓涓细流）"
+    },
+    {
+      "name": "抚躬自问",
+      "url": "https://melbzai.www72186a.com/read.php?tid=507",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "抚躬自问"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_20451593904baa1d668e",
+      "source_type": "forum_thread",
+      "parser_id": "generic_36",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：241期抓取失败，不再抓取（抚躬自问）"
+    },
+    {
+      "name": "鲜果飘香",
+      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=2845",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "鲜果飘香"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_dbc8613e99f7aff6889c",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：241期抓取失败，不再抓取（鲜果飘香）"
+    },
+    {
+      "name": "感慨万千",
+      "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=2855",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "感慨万千"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_5cd6c53573b1147a8dae",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：241期抓取失败，不再抓取（感慨万千）"
+    },
+    {
+      "name": "非同小可",
+      "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1168",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "非同小可"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_41c9298ef7f729d3d1fc",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：242期抓取失败，不再抓取（非同小可）"
+    },
+    {
+      "name": "战无不胜",
+      "url": "https://utklnwvn.xt8d7-kd9kc-csprqr.work:29488/article/admin/6a32070fc9b8712c823a5fe8?url=qdz",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "战无不胜"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://utklnwvn.xt8d7-kd9kc-csprqr.work:29488/api/proxy/manager-articles/6a32070fc9b8712c823a5fe8",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_b4b394d92b42297a93bb",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a32070fc9b8712c823a5fe8",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：247期抓取失败，不再抓取（战无不胜）"
+    },
+    {
+      "name": "圆梦大仙",
+      "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=2915",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "圆梦大仙"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_6789d469b21b5510c9d8",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：247期抓取失败，不再抓取（圆梦大仙）"
+    },
+    {
+      "name": "论功行赏",
+      "url": "https://ofxhqgor.li0cj-4esgz-npswxa.xyz/view.php?id=523",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "论功行赏"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_42d92c07f8b0aea1d62c",
+      "source_type": "generic_html",
+      "parser_id": "generic_36",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：247期抓取失败，不再抓取（论功行赏）"
+    },
+    {
+      "name": "秘笈准彩",
+      "url": "https://yzpbdkow.6m1ba-7p7u4-ppolcy.work:29433/article/manager/6a525f975e6c7637a3f5423d?url=tdg",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "秘笈准彩"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://yzpbdkow.6m1ba-7p7u4-ppolcy.work:29433/api/proxy/manager-articles/6a525f975e6c7637a3f5423d",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_adbcfd325582e82221f9",
+      "source_type": "dynamic_article",
+      "parser_id": "three_rows",
+      "record_id": "6a525f975e6c7637a3f5423d",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：247期抓取失败，不再抓取（秘笈准彩）"
+    },
+    {
+      "name": "乘龙快婿",
+      "url": "https://szfzml.mfuw8-bnsfa-gdaxhk.xyz/view.php?id=679",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "乘龙快婿"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_97c01be71b10ee080287",
+      "source_type": "generic_html",
+      "parser_id": "generic_36",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        233,
+        234,
+        235
+      ],
+      "onboarding_missing_issues": [
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232
+      ],
+      "archive_tag": "用户明确封存：247期抓取失败，不再抓取（乘龙快婿）"
+    },
+    {
+      "name": "百年经典",
+      "url": "https://gqdbokpx.ji2oa-rdhxt-girktl.work:29411/article/lottery/6a6650c7b3f65fed7d62fccf?url=hj",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "百年经典"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://gqdbokpx.ji2oa-rdhxt-girktl.work:29411/api/proxy/manager-articles/6a6650c7b3f65fed7d62fccf",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_cf64753b42cfa146df2b",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a6650c7b3f65fed7d62fccf",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：247期抓取失败，不再抓取（百年经典）"
+    },
+    {
+      "name": "神算论坛",
+      "url": "https://slyaoiw577.772149.shop/bbs/topic.php?id=1165",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "神算论坛"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_3b0dffbcc87ac8333e96",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：248期抓取失败，不再抓取（神算论坛）"
+    },
+    {
+      "name": "玄机天书",
+      "url": "https://nwrkkmv.rx287-rkrai-jsjccc.xyz:29499/article/manager/6a640cc0b3f65fed7d62383d?url=ggz",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "玄机天书"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://nwrkkmv.rx287-rkrai-jsjccc.xyz:29499/api/proxy/manager-articles/6a640cc0b3f65fed7d62383d",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_e0306bddfdb525c98d9d",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a640cc0b3f65fed7d62383d",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        236
+      ],
+      "onboarding_missing_issues": [
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235
+      ],
+      "archive_tag": "用户明确封存：248期抓取失败，不再抓取（玄机天书）"
+    },
+    {
+      "name": "凤毛济美",
+      "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1234",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "凤毛济美"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_9603e27abedc4f2ad9d3",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "archive_tag": "用户明确封存：250期抓取失败，不再抓取（凤毛济美）"
+    },
+    {
+      "name": "形影不离",
+      "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1257",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "形影不离"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_e1c6f16a14f7cd3e9250",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：250期抓取失败，不再抓取（形影不离）"
+    },
+    {
+      "name": "富豪神码",
+      "url": "https://yzpbdkow.6m1ba-7p7u4-ppolcy.work:29433/article/lottery/6a52612a5e6c7637a3f5440e?url=tdg",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "富豪神码"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://yzpbdkow.6m1ba-7p7u4-ppolcy.work:29433/api/proxy/manager-articles/6a52612a5e6c7637a3f5440e",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_a41aa2e1a3f475ab902a",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a52612a5e6c7637a3f5440e",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：250期抓取失败，不再抓取（富豪神码）"
     }
-  ]
+  ],
+  "updated_at": "2026-09-07T19:24:41+08:00"
 }

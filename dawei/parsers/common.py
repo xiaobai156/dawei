@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Iterable
 from html.parser import HTMLParser
-import re
+from typing import ClassVar
 
 from dawei.domain.models import SiteConfig
-
 
 ISSUE_RE = re.compile(r"(?<!\d)(\d{3})\s*期")
 STANDALONE_ISSUE_RE = re.compile(r"^\s*第\s*(\d{3})\s*期\s*$")
@@ -24,7 +24,7 @@ DOCUMENT_BOUNDARY = "DAWEI_DOCUMENT_BOUNDARY"
 
 
 class VisibleTextParser(HTMLParser):
-    block_tags = {
+    block_tags: ClassVar[set[str]] = {
         "br",
         "p",
         "div",
@@ -190,13 +190,6 @@ def line_has_foreign_strict_36_marker(line: str, config: SiteConfig) -> bool:
     return bool(candidate_foreign_strict_36_markers(line, config))
 
 
-def has_strict_36_signal(text: str, config: SiteConfig) -> bool:
-    keywords = strict_36_keywords(config)
-    if keywords:
-        return keyword_present(text, keywords)
-    return bool(STRICT_36_SIGNAL_RE.search(text))
-
-
 def section_anchor_is_strict_enough(lines: list[str], index: int, config: SiteConfig) -> bool:
     line = lines[index]
     return all_keywords_present(line, config.section_keywords)
@@ -264,21 +257,6 @@ def document_range_for_index(lines: list[str], index: int) -> range:
     return range(start, stop)
 
 
-def section_boundary_at(
-    lines: list[str],
-    index: int,
-    config: SiteConfig,
-    *,
-    stop: int | None = None,
-) -> bool:
-    return explicit_section_boundary(lines[index], config) or plain_section_heading_boundary(
-        lines,
-        index,
-        config,
-        stop=stop,
-    )
-
-
 def section_stop_index(
     lines: list[str],
     start: int,
@@ -289,17 +267,31 @@ def section_stop_index(
 ) -> int:
     limit = min(len(lines), stop if stop is not None else len(lines))
     saw_issue = False
+    saw_target_issue = False
     for index in range(start + 1, limit):
         if explicit_section_boundary(lines[index], config):
             return index
-        if ISSUE_RE.search(lines[index]):
+        issue_match = ISSUE_RE.search(lines[index])
+        if issue_match:
             saw_issue = True
+            saw_target_issue = saw_target_issue or int(issue_match.group(1)) == config.fixed_issue
             continue
         if (
             include_plain_heading
             and saw_issue
             and plain_section_heading_boundary(lines, index, config, stop=limit)
         ):
+            decorative_separator = not re.search(
+                r"[0-9A-Za-z\u4e00-\u9fff]",
+                lines[index],
+            )
+            target_follows = config.fixed_issue is not None and any(
+                (match := ISSUE_RE.search(lines[position])) is not None
+                and int(match.group(1)) == config.fixed_issue
+                for position in range(index + 1, limit)
+            )
+            if decorative_separator and not saw_target_issue and target_follows:
+                continue
             return index
     return limit
 
@@ -375,30 +367,6 @@ def collect_numbers_inline(line: str) -> tuple[str, ...] | None:
     return None
 
 
-def collect_numbers_after(
-    lines: list[str],
-    start: int,
-    min_numbers_per_line: int = 2,
-) -> tuple[str, ...] | None:
-    numbers: list[str] = []
-    started = False
-    for index in range(start + 1, len(lines)):
-        if is_number_block_stop_line(lines[index]):
-            break
-        raw_tokens = raw_digit_tokens(lines[index])
-        if merged_digit_tokens(raw_tokens):
-            return None
-        current = line_numbers(lines[index])
-        if len(current) >= min_numbers_per_line:
-            started = True
-            numbers.extend(current)
-            if len(numbers) >= 36:
-                return tuple(numbers)
-        elif started:
-            break
-    return None
-
-
 def collect_numbers_after_in_section(
     lines: list[str],
     start: int,
@@ -454,29 +422,6 @@ def collect_numbers_after_for_diagnostics(
         if started and len(current) < min_numbers_per_line:
             break
     return tuple(numbers), tuple(raw_tokens[:80])
-
-
-def collect_non_zero_numbers_after(
-    lines: list[str],
-    start: int,
-    min_numbers_per_line: int = 1,
-) -> tuple[str, ...] | None:
-    numbers: list[str] = []
-    started = False
-    for index in range(start + 1, len(lines)):
-        if is_number_block_stop_line(lines[index]):
-            break
-        raw_tokens = raw_digit_tokens(lines[index])
-        if merged_digit_tokens(raw_tokens):
-            return None
-        current = [number for number in line_numbers_with_zero(lines[index]) if number != "00"]
-        if len(current) >= min_numbers_per_line:
-            started = True
-            numbers.extend(current)
-        elif started:
-            break
-    numbers_tuple = tuple(numbers)
-    return numbers_tuple if valid_36_code_record(numbers_tuple) else None
 
 
 def collect_non_zero_numbers_after_in_section(

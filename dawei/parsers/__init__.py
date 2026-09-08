@@ -21,10 +21,10 @@ from dawei.parsers.specials.dedicated import (
     yiyiba_candidates,
 )
 from dawei.parsers.specials.tabular import (
+    baoma_xuanji_candidates,
     extract_baoma_xuanji,
     extract_xiaoyuer,
     extract_zhuchiren_tab,
-    baoma_xuanji_candidates,
     xiaoyuer_candidates,
     zhuchiren_tab_candidates,
 )

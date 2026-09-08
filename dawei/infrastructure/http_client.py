@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import base64
 import gzip
-from http.client import IncompleteRead
 import json
 import shutil
 import socket
@@ -15,13 +14,13 @@ import time
 import warnings
 import zlib
 from collections.abc import Callable
+from http.client import IncompleteRead
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import ProxyHandler, Request, build_opener, install_opener, urlopen
 
 from dawei.domain.errors import ScrapeError
-
 
 DEFAULT_TIMEOUT = 20
 DEFAULT_NETWORK_ATTEMPTS = 3
@@ -32,6 +31,11 @@ USER_AGENT = (
     "AppleWebKit/537.36 (KHTML, like Gecko) "
     "Chrome/124.0.0.0 Safari/537.36"
 )
+
+
+def _require_positive(value: int, name: str) -> None:
+    if type(value) is not int or value <= 0:
+        raise ScrapeError(f"{name} must be positive")
 
 
 def decode_response_bytes(data: bytes, content_encoding: str) -> bytes:
@@ -133,6 +137,7 @@ def is_tls_error(exc: BaseException) -> bool:
 
 
 def open_url_with_retries(request: Request, timeout: int):
+    _require_positive(timeout, "timeout")
     if urlsplit(request.full_url).scheme != "https":
         return urlopen(request, timeout=timeout)
     errors: list[str] = []
@@ -166,6 +171,8 @@ def open_url_with_retries(request: Request, timeout: int):
 def configure_proxy(proxy: str | None) -> None:
     if proxy:
         install_opener(build_opener(ProxyHandler({"http": proxy, "https": proxy})))
+    else:
+        install_opener(build_opener())
 
 
 def is_retryable_health_http(code: int) -> bool:
@@ -184,7 +191,7 @@ def should_try_curl_fallback(exc: BaseException) -> bool:
 
 
 def is_benchmark_net_ip(ip: str) -> bool:
-    return ip.startswith("198.18.") or ip.startswith("198.19.")
+    return ip.startswith(("198.18.", "198.19."))
 
 
 def resolution_diagnostic(url: str) -> str:
@@ -207,8 +214,11 @@ def health_check_url(
     network_attempts: int = DEFAULT_NETWORK_ATTEMPTS,
     proxy_retries: int = DEFAULT_PROXY_RETRIES,
 ) -> None:
+    _require_positive(timeout, "timeout")
+    _require_positive(network_attempts, "network_attempts")
+    _require_positive(proxy_retries, "proxy_retries")
     opener = open_url or open_url_with_retries
-    attempts = max(1, network_attempts * max(1, proxy_retries))
+    attempts = network_attempts * proxy_retries
     last_error: ScrapeError | None = None
     for attempt in range(1, attempts + 1):
         request = Request(
@@ -251,6 +261,7 @@ def fetch_raw_with_curl(
     timeout: int = DEFAULT_TIMEOUT,
     extra_headers: dict[str, str] | None = None,
 ) -> tuple[bytes, str, str]:
+    _require_positive(timeout, "timeout")
     headers = {
         "User-Agent": USER_AGENT,
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -261,7 +272,7 @@ def fetch_raw_with_curl(
         headers.update(extra_headers)
     base = [
         _curl_executable(), "-L", "-f", "-sS", "--http1.1", "--connect-timeout",
-        str(min(max(1, timeout), 10)), "--max-time", str(max(1, timeout)),
+        str(min(timeout, 10)), "--max-time", str(timeout),
     ]
     for key, value in headers.items():
         base.extend(["-H", f"{key}: {value}"])
@@ -269,35 +280,16 @@ def fetch_raw_with_curl(
     for variant in _curl_variants():
         command = base[:1] + list(variant) + base[1:] + [url]
         try:
-            completed = subprocess.run(command, capture_output=True, timeout=timeout + 5)
+            completed = subprocess.run(
+                command,
+                capture_output=True,
+                timeout=timeout + 5,
+                check=False,
+            )
         except subprocess.TimeoutExpired as exc:
             raise ScrapeError("curl 连接失败: network timeout") from exc
         if completed.returncode == 0:
             return completed.stdout, "utf-8", ""
-        detail = (completed.stderr or completed.stdout).decode("utf-8", errors="replace").strip()
-        errors.append(f"curl exit {completed.returncode}: {detail or 'unknown error'}")
-        if completed.returncode != 2:
-            break
-    raise ScrapeError("curl 连接失败: RuntimeError: " + " | ".join(errors))
-
-
-def post_json_with_curl(url: str, data: bytes, timeout: int = DEFAULT_TIMEOUT) -> bytes:
-    base = [
-        _curl_executable(), "-L", "-f", "-sS", "--http1.1", "--connect-timeout",
-        str(min(max(1, timeout), 10)), "--max-time", str(max(1, timeout)), "-X", "POST",
-        "-H", f"User-Agent: {USER_AGENT}", "-H", "Accept: application/json, text/plain, */*",
-        "-H", "Accept-Language: zh-CN,zh;q=0.9", "-H", "Accept-Encoding: identity",
-        "-H", "Content-Type: application/json", "--data-binary", "@-",
-    ]
-    errors: list[str] = []
-    for variant in _curl_variants():
-        command = base[:1] + list(variant) + base[1:] + [url]
-        try:
-            completed = subprocess.run(command, input=data, capture_output=True, timeout=timeout + 5)
-        except subprocess.TimeoutExpired as exc:
-            raise ScrapeError("curl 连接失败: network timeout") from exc
-        if completed.returncode == 0:
-            return completed.stdout
         detail = (completed.stderr or completed.stdout).decode("utf-8", errors="replace").strip()
         errors.append(f"curl exit {completed.returncode}: {detail or 'unknown error'}")
         if completed.returncode != 2:
@@ -315,9 +307,12 @@ def fetch_raw(
     network_attempts: int = DEFAULT_NETWORK_ATTEMPTS,
     proxy_retries: int = DEFAULT_PROXY_RETRIES,
 ) -> tuple[bytes, str, str]:
+    _require_positive(timeout, "timeout")
+    _require_positive(network_attempts, "network_attempts")
+    _require_positive(proxy_retries, "proxy_retries")
     opener = open_url or open_url_with_retries
     curl = curl_fetcher or fetch_raw_with_curl
-    attempts = max(1, network_attempts * max(1, proxy_retries))
+    attempts = network_attempts * proxy_retries
     last_error: ScrapeError | None = None
     for attempt in range(1, attempts + 1):
         headers = {
@@ -370,6 +365,7 @@ def fetch_text_with_node(
     timeout: int = DEFAULT_TIMEOUT,
     extra_headers: dict[str, str] | None = None,
 ) -> str:
+    _require_positive(timeout, "timeout")
     node = shutil.which("node") or shutil.which("node.exe")
     if not node:
         raise ScrapeError("Node.js is required for this fetch fallback")
@@ -390,10 +386,11 @@ def fetch_text_with_node(
         ".catch(error=>{clearTimeout(timer);console.error(error.name+': '+error.message);process.exit(1);});"
     )
     completed = subprocess.run(
-        [node, "-e", script, url, json.dumps(headers, ensure_ascii=False), str(max(1, timeout) * 1000)],
+        [node, "-e", script, url, json.dumps(headers, ensure_ascii=False), str(timeout * 1000)],
         capture_output=True,
         text=True,
         timeout=timeout + 5,
+        check=False,
     )
     if completed.returncode:
         detail = (completed.stderr or completed.stdout).strip()
@@ -412,6 +409,7 @@ def fetch_text(
     raw_fetcher: Callable[..., tuple[bytes, str, str]] | None = None,
     node_fetcher: Callable[..., str] | None = None,
 ) -> str:
+    _require_positive(timeout, "timeout")
     raw = raw_fetcher or fetch_raw
     node = node_fetcher or fetch_text_with_node
     data, charset, content_encoding = raw(url, timeout, extra_headers=extra_headers)
@@ -461,82 +459,3 @@ class TextFetchCache:
             self.inflight.pop(key, None)
             owner.set()
             return stored
-
-
-def fetch_bytes(
-    url: str,
-    timeout: int = DEFAULT_TIMEOUT,
-    extra_headers: dict[str, str] | None = None,
-    *,
-    raw_fetcher: Callable[..., tuple[bytes, str, str]] | None = None,
-) -> bytes:
-    raw = raw_fetcher or fetch_raw
-    data, _, content_encoding = raw(url, timeout, extra_headers=extra_headers)
-    try:
-        return decode_response_bytes(data, content_encoding)
-    except (gzip.BadGzipFile, zlib.error) as exc:
-        raise ScrapeError("failed to decode compressed response") from exc
-
-
-def post_json(
-    url: str,
-    payload: dict[str, object],
-    timeout: int = DEFAULT_TIMEOUT,
-    *,
-    open_url: Callable[..., Any] | None = None,
-    curl_poster: Callable[..., bytes] | None = None,
-    network_attempts: int = DEFAULT_NETWORK_ATTEMPTS,
-    proxy_retries: int = DEFAULT_PROXY_RETRIES,
-) -> object:
-    opener = open_url or open_url_with_retries
-    curl = curl_poster or post_json_with_curl
-    data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-    attempts = max(1, network_attempts * max(1, proxy_retries))
-    body: bytes | None = None
-    last_error: ScrapeError | None = None
-    for attempt in range(1, attempts + 1):
-        request = Request(
-            url,
-            data=data,
-            headers={
-                "User-Agent": USER_AGENT,
-                "Accept": "application/json, text/plain, */*",
-                "Accept-Language": "zh-CN,zh;q=0.9",
-                "Accept-Encoding": "identity",
-                "Content-Type": "application/json",
-            },
-        )
-        try:
-            with opener(request, timeout=timeout) as response:
-                try:
-                    body = response.read()
-                except IncompleteRead as exc:
-                    raise ScrapeError(f"network incomplete read: {len(exc.partial)} bytes read") from exc
-                break
-        except HTTPError as exc:
-            last_error = ScrapeError(f"HTTP {exc.code}")
-            if not is_retryable_http_code(exc.code):
-                raise last_error from exc
-        except ScrapeError as exc:
-            last_error = exc
-        except URLError as exc:
-            last_error = ScrapeError(f"network error: {exc.reason}")
-        except TimeoutError:
-            last_error = ScrapeError("network timeout")
-        except OSError as exc:
-            last_error = ScrapeError(f"network error: {exc}")
-        if attempt < attempts:
-            time.sleep(0.4 * attempt)
-    if body is None:
-        if last_error is None:
-            raise ScrapeError("network error")
-        if not should_try_curl_fallback(last_error):
-            raise last_error
-        try:
-            body = curl(url, data, timeout=timeout)
-        except ScrapeError as curl_error:
-            raise ScrapeError(f"{last_error}; curl fallback failed: {curl_error}") from curl_error
-    try:
-        return json.loads(decode_response_bytes(body, ""))
-    except (json.JSONDecodeError, UnicodeDecodeError, gzip.BadGzipFile, zlib.error) as exc:
-        raise ScrapeError("failed to decode JSON response") from exc

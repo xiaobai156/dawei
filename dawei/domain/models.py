@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import hashlib
 import json
 import unicodedata
-
+from dataclasses import dataclass
 
 DEFAULT_KEYWORDS = (
     "爆稳36码",
@@ -25,7 +24,7 @@ def derive_site_id(name: str, url: str) -> str:
     """Create a deterministic identity only for one-time V1 migration."""
     normalized_name = unicodedata.normalize("NFKC", name).strip().casefold()
     normalized_url = unicodedata.normalize("NFKC", url).strip()
-    digest = hashlib.sha256(f"{normalized_name}\n{normalized_url}".encode("utf-8")).hexdigest()
+    digest = hashlib.sha256(f"{normalized_name}\n{normalized_url}".encode()).hexdigest()
     return f"site_{digest[:20]}"
 
 
@@ -171,6 +170,7 @@ class ArticleRecord:
     author: str
     body: str
     document: str
+    section_names: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -192,5 +192,5 @@ class CacheSnapshot:
     version: int = 2
 
     @classmethod
-    def empty(cls, periods: int = 10) -> "CacheSnapshot":
+    def empty(cls, periods: int = 10) -> CacheSnapshot:
         return cls(None, periods, "", False, (), ())

@@ -8,7 +8,12 @@ from pathlib import Path
 
 from dawei.application.scrape_service import ScrapeExecution, ScrapeService
 from dawei.domain.errors import ScrapeError
-from dawei.domain.models import CandidateEvidence, ParsedRecord, SiteConfig, derive_site_id
+from dawei.domain.models import (
+    CandidateEvidence,
+    ParsedRecord,
+    SiteConfig,
+    derive_site_id,
+)
 from dawei.infrastructure import http_client
 from dawei.infrastructure.config_repository import ConfigRepository
 from dawei.parsers import DEFAULT_REGISTRY, common, generic_36
@@ -416,7 +421,7 @@ def validate_case(
             timeout,
             text_cache.fetch,
         )
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - isolate injected/network failures per site
         reason = f"真实正文获取失败: {exc}"
         diagnostics = empty_diagnostics(case.config, reason)
         return ValidationReport(case, "获取失败", diagnostics, None, reason, False, reason)
@@ -431,7 +436,7 @@ def validate_case(
             health_check=False,
             text_fetcher=text_cache.fetch,
         )
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - isolate injected/network failures per site
         formal_error = str(exc) or f"{exc.__class__.__name__} 无详细异常消息"
     execution = ScrapeExecution(
         case.config,

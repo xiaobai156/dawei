@@ -5,7 +5,8 @@ from __future__ import annotations
 import re
 
 from dawei.domain.errors import ScrapeError
-from dawei.domain.models import CandidateEvidence, ParsedRecord as SiteResult, SiteConfig
+from dawei.domain.models import CandidateEvidence, SiteConfig
+from dawei.domain.models import ParsedRecord as SiteResult
 from dawei.parsers.common import (
     ISSUE_RE,
     all_keywords_present,
@@ -23,18 +24,13 @@ from dawei.parsers.common import (
 from dawei.parsers.generic_36 import (
     DEFAULT_ISSUE_MAX,
     DEFAULT_ISSUE_MIN,
-    best_invalid_candidate_reason,
     candidate_context,
     candidate_evidence,
     collect_candidate_numbers_for_diagnostics,
-    exact_issue_candidates_for_selection,
     extract_generic_36,
-    issue_in_range,
-    parsed_record_from_candidate,
-    select_candidate_for_position,
-    select_latest_issue_candidate,
     generic_candidates,
 )
+from dawei.parsers.registry import extract_from_candidates
 
 
 def meirenyu_effective_config(text_or_html: str, config: SiteConfig) -> SiteConfig:
@@ -126,42 +122,15 @@ def renjianrenai_candidates(
 
 
 def extract_renjianrenai(text_or_html: str, config: SiteConfig) -> SiteResult:
-    candidates, invalid_candidates, seen_matching_issues = renjianrenai_candidates(text_or_html, config)
-    if not candidates:
-        if config.fixed_issue is not None:
-            exact_invalid = [candidate for candidate in invalid_candidates if candidate[0] == config.fixed_issue]
-            if exact_invalid:
-                reason = best_invalid_candidate_reason(exact_invalid)
-                raise ScrapeError(f"{config.fixed_issue}期数据无效: {reason}")
-            if config.fixed_issue in seen_matching_issues:
-                raise ScrapeError(f"{config.fixed_issue}期没有找到完整36码数据")
-            if seen_matching_issues:
-                issues = ", ".join(str(issue) for issue in sorted(seen_matching_issues, reverse=True)[:8])
-                raise ScrapeError(f"未找到指定{config.fixed_issue}期；页面可命中的期数: {issues}")
-        if invalid_candidates:
-            issue, _, reason = max(invalid_candidates, key=lambda item: (item[0], item[1]))
-            raise ScrapeError(f"{issue}期数据无效: {reason}")
-        raise ScrapeError("人见人爱专属解析没有找到符合条件的数据")
-
-    if config.fixed_issue is not None:
-        exact = exact_issue_candidates_for_selection(candidates, config.fixed_issue, config)
-        if not exact:
-            seen_valid = sorted({candidate.issue for candidate in candidates}, reverse=True)
-            if seen_valid:
-                issues = ", ".join(str(issue) for issue in seen_valid[:8])
-                raise ScrapeError(f"未找到指定{config.fixed_issue}期；可用有效期数: {issues}")
-            raise ScrapeError(f"no latest 36-number record found for issue {config.fixed_issue}")
-        return parsed_record_from_candidate(config, select_candidate_for_position(exact, config))
-
-    candidates = [
-        candidate
-        for candidate in candidates
-        if issue_in_range(candidate.issue, DEFAULT_ISSUE_MIN, DEFAULT_ISSUE_MAX)
-    ]
-    if not candidates:
-        raise ScrapeError(f"no 36-number record found in issue range {DEFAULT_ISSUE_MIN}-{DEFAULT_ISSUE_MAX}")
-
-    return parsed_record_from_candidate(config, select_latest_issue_candidate(candidates, config))
+    return extract_from_candidates(
+        text_or_html,
+        config,
+        renjianrenai_candidates,
+        no_candidates_message="人见人爱专属解析没有找到符合条件的数据",
+        issue_range_error=(
+            f"no 36-number record found in issue range {DEFAULT_ISSUE_MIN}-{DEFAULT_ISSUE_MAX}"
+        ),
+    )
 
 
 def topic_content_3x12_candidates(
@@ -191,7 +160,7 @@ def topic_content_3x12_candidates(
                 run_stop = index
                 break
             previous_issue = issue
-    full_range = range(0, run_stop)
+    full_range = range(run_stop)
     for index, line in enumerate(lines[:run_stop]):
         issue_match = ISSUE_RE.search(line)
         if not issue_match or candidate_foreign_strict_36_markers(line, config):
@@ -243,45 +212,13 @@ def topic_content_3x12_candidates(
 
 
 def extract_topic_content_3x12(text_or_html: str, config: SiteConfig) -> SiteResult:
-    candidates, invalid_candidates, seen_matching_issues = topic_content_3x12_candidates(
+    return extract_from_candidates(
         text_or_html,
         config,
+        topic_content_3x12_candidates,
+        no_candidates_message="专属正文三行36码栏目没有找到符合条件的数据",
+        issue_range_error="no 36-number record found in issue range",
     )
-    if not candidates:
-        if config.fixed_issue is not None:
-            exact_invalid = [candidate for candidate in invalid_candidates if candidate[0] == config.fixed_issue]
-            if exact_invalid:
-                raise ScrapeError(
-                    f"{config.fixed_issue}期数据无效: {best_invalid_candidate_reason(exact_invalid)}"
-                )
-            if config.fixed_issue in seen_matching_issues:
-                raise ScrapeError(f"{config.fixed_issue}期没有找到完整36码数据")
-            if seen_matching_issues:
-                issues = ", ".join(str(issue) for issue in sorted(seen_matching_issues, reverse=True)[:8])
-                raise ScrapeError(f"未找到指定{config.fixed_issue}期；可用期数: {issues}")
-        if invalid_candidates:
-            issue, _, reason = max(invalid_candidates, key=lambda item: (item[0], item[1]))
-            raise ScrapeError(f"{issue}期数据无效: {reason}")
-        raise ScrapeError("专属正文三行36码栏目没有找到符合条件的数据")
-
-    if config.fixed_issue is not None:
-        exact = exact_issue_candidates_for_selection(candidates, config.fixed_issue, config)
-        if not exact:
-            seen_valid = sorted({candidate.issue for candidate in candidates}, reverse=True)
-            if seen_valid:
-                issues = ", ".join(str(issue) for issue in seen_valid[:8])
-                raise ScrapeError(f"未找到指定{config.fixed_issue}期；可用有效期数: {issues}")
-            raise ScrapeError(f"no latest 36-number record found for issue {config.fixed_issue}")
-        return parsed_record_from_candidate(config, select_candidate_for_position(exact, config))
-
-    candidates = [
-        candidate
-        for candidate in candidates
-        if issue_in_range(candidate.issue, DEFAULT_ISSUE_MIN, DEFAULT_ISSUE_MAX)
-    ]
-    if not candidates:
-        raise ScrapeError("no 36-number record found in issue range")
-    return parsed_record_from_candidate(config, select_latest_issue_candidate(candidates, config))
 
 
 def marker_after_issue_3x12_candidates(
@@ -365,45 +302,13 @@ def marker_after_issue_3x12_candidates(
 
 
 def extract_marker_after_issue_3x12(text_or_html: str, config: SiteConfig) -> SiteResult:
-    candidates, invalid_candidates, seen_matching_issues = marker_after_issue_3x12_candidates(
+    return extract_from_candidates(
         text_or_html,
         config,
+        marker_after_issue_3x12_candidates,
+        no_candidates_message="内幕快报专属36码栏目没有找到符合条件的数据",
+        issue_range_error="no 36-number record found in issue range",
     )
-    if not candidates:
-        if config.fixed_issue is not None:
-            exact_invalid = [candidate for candidate in invalid_candidates if candidate[0] == config.fixed_issue]
-            if exact_invalid:
-                raise ScrapeError(
-                    f"{config.fixed_issue}期数据无效: {best_invalid_candidate_reason(exact_invalid)}"
-                )
-            if config.fixed_issue in seen_matching_issues:
-                raise ScrapeError(f"{config.fixed_issue}期没有找到完整36码数据")
-            if seen_matching_issues:
-                issues = ", ".join(str(issue) for issue in sorted(seen_matching_issues, reverse=True)[:8])
-                raise ScrapeError(f"未找到指定{config.fixed_issue}期；可用期数: {issues}")
-        if invalid_candidates:
-            issue, _, reason = max(invalid_candidates, key=lambda item: (item[0], item[1]))
-            raise ScrapeError(f"{issue}期数据无效: {reason}")
-        raise ScrapeError("内幕快报专属36码栏目没有找到符合条件的数据")
-
-    if config.fixed_issue is not None:
-        exact = exact_issue_candidates_for_selection(candidates, config.fixed_issue, config)
-        if not exact:
-            seen_valid = sorted({candidate.issue for candidate in candidates}, reverse=True)
-            if seen_valid:
-                issues = ", ".join(str(issue) for issue in seen_valid[:8])
-                raise ScrapeError(f"未找到指定{config.fixed_issue}期；可用有效期数: {issues}")
-            raise ScrapeError(f"no latest 36-number record found for issue {config.fixed_issue}")
-        return parsed_record_from_candidate(config, select_candidate_for_position(exact, config))
-
-    candidates = [
-        candidate
-        for candidate in candidates
-        if issue_in_range(candidate.issue, DEFAULT_ISSUE_MIN, DEFAULT_ISSUE_MAX)
-    ]
-    if not candidates:
-        raise ScrapeError("no 36-number record found in issue range")
-    return parsed_record_from_candidate(config, select_latest_issue_candidate(candidates, config))
 
 
 def section_3x12_candidates(
@@ -487,45 +392,13 @@ def section_3x12_candidates(
 
 
 def extract_section_3x12(text_or_html: str, config: SiteConfig) -> SiteResult:
-    candidates, invalid_candidates, seen_matching_issues = section_3x12_candidates(
+    return extract_from_candidates(
         text_or_html,
         config,
+        section_3x12_candidates,
+        no_candidates_message="专属栏目三行36码没有找到符合条件的数据",
+        issue_range_error="no 36-number record found in issue range",
     )
-    if not candidates:
-        if config.fixed_issue is not None:
-            exact_invalid = [candidate for candidate in invalid_candidates if candidate[0] == config.fixed_issue]
-            if exact_invalid:
-                raise ScrapeError(
-                    f"{config.fixed_issue}期数据无效: {best_invalid_candidate_reason(exact_invalid)}"
-                )
-            if config.fixed_issue in seen_matching_issues:
-                raise ScrapeError(f"{config.fixed_issue}期没有找到完整36码数据")
-            if seen_matching_issues:
-                issues = ", ".join(str(issue) for issue in sorted(seen_matching_issues, reverse=True)[:8])
-                raise ScrapeError(f"未找到指定{config.fixed_issue}期；可用期数: {issues}")
-        if invalid_candidates:
-            issue, _, reason = max(invalid_candidates, key=lambda item: (item[0], item[1]))
-            raise ScrapeError(f"{issue}期数据无效: {reason}")
-        raise ScrapeError("专属栏目三行36码没有找到符合条件的数据")
-
-    if config.fixed_issue is not None:
-        exact = exact_issue_candidates_for_selection(candidates, config.fixed_issue, config)
-        if not exact:
-            seen_valid = sorted({candidate.issue for candidate in candidates}, reverse=True)
-            if seen_valid:
-                issues = ", ".join(str(issue) for issue in seen_valid[:8])
-                raise ScrapeError(f"未找到指定{config.fixed_issue}期；可用有效期数: {issues}")
-            raise ScrapeError(f"no latest 36-number record found for issue {config.fixed_issue}")
-        return parsed_record_from_candidate(config, select_candidate_for_position(exact, config))
-
-    candidates = [
-        candidate
-        for candidate in candidates
-        if issue_in_range(candidate.issue, DEFAULT_ISSUE_MIN, DEFAULT_ISSUE_MAX)
-    ]
-    if not candidates:
-        raise ScrapeError("no 36-number record found in issue range")
-    return parsed_record_from_candidate(config, select_latest_issue_candidate(candidates, config))
 
 
 def fengkuang_zhongma_candidates(
@@ -579,42 +452,15 @@ def fengkuang_zhongma_candidates(
 
 
 def extract_fengkuang_zhongma(text_or_html: str, config: SiteConfig) -> SiteResult:
-    candidates, invalid_candidates, seen_matching_issues = fengkuang_zhongma_candidates(text_or_html, config)
-    if not candidates:
-        if config.fixed_issue is not None:
-            exact_invalid = [candidate for candidate in invalid_candidates if candidate[0] == config.fixed_issue]
-            if exact_invalid:
-                reason = best_invalid_candidate_reason(exact_invalid)
-                raise ScrapeError(f"{config.fixed_issue}期数据无效: {reason}")
-            if config.fixed_issue in seen_matching_issues:
-                raise ScrapeError(f"{config.fixed_issue}期没有找到完整36码数据")
-            if seen_matching_issues:
-                issues = ", ".join(str(issue) for issue in sorted(seen_matching_issues, reverse=True)[:8])
-                raise ScrapeError(f"未找到指定{config.fixed_issue}期；页面可命中的期数: {issues}")
-        if invalid_candidates:
-            issue, _, reason = max(invalid_candidates, key=lambda item: (item[0], item[1]))
-            raise ScrapeError(f"{issue}期数据无效: {reason}")
-        raise ScrapeError("疯狂中码专属解析没有找到符合条件的数据")
-
-    if config.fixed_issue is not None:
-        exact = exact_issue_candidates_for_selection(candidates, config.fixed_issue, config)
-        if not exact:
-            seen_valid = sorted({candidate.issue for candidate in candidates}, reverse=True)
-            if seen_valid:
-                issues = ", ".join(str(issue) for issue in seen_valid[:8])
-                raise ScrapeError(f"未找到指定{config.fixed_issue}期；可用有效期数: {issues}")
-            raise ScrapeError(f"no latest 36-number record found for issue {config.fixed_issue}")
-        return parsed_record_from_candidate(config, select_candidate_for_position(exact, config))
-
-    candidates = [
-        candidate
-        for candidate in candidates
-        if issue_in_range(candidate.issue, DEFAULT_ISSUE_MIN, DEFAULT_ISSUE_MAX)
-    ]
-    if not candidates:
-        raise ScrapeError(f"no 36-number record found in issue range {DEFAULT_ISSUE_MIN}-{DEFAULT_ISSUE_MAX}")
-
-    return parsed_record_from_candidate(config, select_latest_issue_candidate(candidates, config))
+    return extract_from_candidates(
+        text_or_html,
+        config,
+        fengkuang_zhongma_candidates,
+        no_candidates_message="疯狂中码专属解析没有找到符合条件的数据",
+        issue_range_error=(
+            f"no 36-number record found in issue range {DEFAULT_ISSUE_MIN}-{DEFAULT_ISSUE_MAX}"
+        ),
+    )
 
 
 def yiyiba_candidates(
@@ -676,34 +522,11 @@ def yiyiba_candidates(
 
 
 def extract_yiyiba(text_or_html: str, config: SiteConfig) -> SiteResult:
-    candidates, invalid_candidates, seen_matching_issues = yiyiba_candidates(text_or_html, config)
-    if not candidates:
-        if config.fixed_issue is not None:
-            exact_invalid = [candidate for candidate in invalid_candidates if candidate[0] == config.fixed_issue]
-            if exact_invalid:
-                raise ScrapeError(
-                    f"{config.fixed_issue}期数据无效: {best_invalid_candidate_reason(exact_invalid)}"
-                )
-            if config.fixed_issue in seen_matching_issues:
-                raise ScrapeError(f"{config.fixed_issue}期没有找到完整36码数据")
-            if seen_matching_issues:
-                issues = ", ".join(str(issue) for issue in sorted(seen_matching_issues, reverse=True)[:8])
-                raise ScrapeError(f"未找到指定{config.fixed_issue}期；可用期数: {issues}")
-        raise ScrapeError("以已把专属精准36码栏目没有找到符合条件的数据")
-
-    if config.fixed_issue is not None:
-        exact = exact_issue_candidates_for_selection(candidates, config.fixed_issue, config)
-        if not exact:
-            seen_valid = sorted({candidate.issue for candidate in candidates}, reverse=True)
-            issues = ", ".join(str(issue) for issue in seen_valid[:8])
-            raise ScrapeError(f"未找到指定{config.fixed_issue}期；可用有效期数: {issues}")
-        return parsed_record_from_candidate(config, select_candidate_for_position(exact, config))
-
-    candidates = [
-        candidate
-        for candidate in candidates
-        if issue_in_range(candidate.issue, DEFAULT_ISSUE_MIN, DEFAULT_ISSUE_MAX)
-    ]
-    if not candidates:
-        raise ScrapeError("no 36-number record found in issue range")
-    return parsed_record_from_candidate(config, select_latest_issue_candidate(candidates, config))
+    return extract_from_candidates(
+        text_or_html,
+        config,
+        yiyiba_candidates,
+        no_candidates_message="以已把专属精准36码栏目没有找到符合条件的数据",
+        issue_range_error="no 36-number record found in issue range",
+        include_invalid_candidates=False,
+    )

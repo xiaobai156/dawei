@@ -3,6 +3,5 @@
 
 from dawei.cli.validate_failed import main
 
-
 if __name__ == "__main__":
     raise SystemExit(main())

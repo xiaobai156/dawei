@@ -3,6 +3,5 @@
 
 from dawei.cli.single_issue import main
 
-
 if __name__ == "__main__":
     raise SystemExit(main())
