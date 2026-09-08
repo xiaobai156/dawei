@@ -85,7 +85,7 @@ def main(argv: list[str] | None = None) -> int:
             Path(args.sites_config),
             options,
             only=args.only or (),
-            retry_failed=Path(args.retry_failed) if args.retry_failed else None,
+            retry_failed=Path(args.retry_failed) if args.retry_failed is not None else None,
             proxy=args.proxy,
         )
     except ScrapeError as exc:

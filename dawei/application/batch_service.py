@@ -166,6 +166,11 @@ def read_failure_lines(path: Path) -> list[str]:
     return path.read_text(encoding="utf-8-sig").splitlines()
 
 
+def failure_report_issue(path: Path) -> int | None:
+    match = re.match(r"^(\d+)期-大围-失败\.txt$", path.name)
+    return int(match.group(1)) if match else None
+
+
 def parse_failure_identity(line: str) -> tuple[str, str] | None:
     match = re.match(r"^(.*?)\s+(https?://\S+)(?:\s|$)", line)
     if not match:
@@ -316,10 +321,13 @@ class SingleIssueBatchService:
         http_client.configure_proxy(proxy)
         names = [*only]
         if retry_failed is not None:
-            if not read_failure_lines(retry_failed):
+            failure_lines = read_failure_lines(retry_failed)
+            if not any(line.strip() for line in failure_lines):
                 raise ScrapeError(f"失败报告为空，拒绝回退全站重抓: {retry_failed}")
             if retry_failed.resolve() != options.error_output_path.resolve():
                 raise ScrapeError("失败报告必须与当前期输出文件绑定")
+            if failure_report_issue(retry_failed) != options.fixed_issue:
+                raise ScrapeError("失败报告期数与当前指定期数不一致")
             failed_keys = set(failure_site_keys(retry_failed))
             if names:
                 selected_keys = {
@@ -371,6 +379,7 @@ class SingleIssueBatchService:
             (site.name, normalize_url_identity(site.url)) for site in all_site_list
         }
         subset_run = len(site_list) != len(all_site_list) or site_keys != all_site_keys
+        preserve_failures = options.preserve_existing_failures or subset_run
         scraper = self.site_scraper or self._default_scraper(options)
         workers = max(1, min(options.workers, len(site_list) or 1))
         total = len(site_list)
@@ -426,7 +435,7 @@ class SingleIssueBatchService:
             append_results(results, options.output_path)
         else:
             write_results(results, options.output_path)
-        if options.preserve_existing_failures:
+        if preserve_failures:
             processed = {
                 (site.name, normalize_url_identity(site.url))
                 for site in site_list
@@ -591,7 +600,7 @@ class SingleIssueBatchService:
                 failures,
                 fixed_issue=options.fixed_issue,
                 periods=options.recent_periods,
-                preserve_existing_failures=options.preserve_existing_failures,
+                preserve_existing_failures=preserve_failures,
                 config_fingerprint=fingerprint,
                 expected_site_identities=expected_site_identities,
                 allow_missing_fingerprint_binding=not subset_run,
