@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import threading
 import time
 from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -68,6 +69,14 @@ class BatchRunResult:
 
 SiteScraper = Callable[..., ParsedRecord]
 ProgressSink = Callable[[str], None]
+_OUTPUT_LOCKS: dict[Path, threading.Lock] = {}
+_OUTPUT_LOCKS_GUARD = threading.Lock()
+
+
+def output_lock(path: Path) -> threading.Lock:
+    key = path.resolve().casefold()
+    with _OUTPUT_LOCKS_GUARD:
+        return _OUTPUT_LOCKS.setdefault(Path(key), threading.Lock())
 
 
 def default_output_path(issue: int) -> Path:
@@ -132,17 +141,17 @@ def append_results(results: Iterable[ParsedRecord], output_path: Path) -> None:
     lines = [output_line(result) for result in results]
     if not lines:
         return
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    size = output_path.stat().st_size if output_path.exists() else 0
-    separator = b""
-    if size:
-        with output_path.open("rb") as existing:
-            existing.seek(-1, 2)
-            if existing.read(1) not in {b"\n", b"\r"}:
-                separator = b"\n"
-    encoding = "utf-8" if size else "utf-8-sig"
-    with output_path.open("ab") as target:
-        target.write(separator + ("\n".join(lines) + "\n").encode(encoding))
+    with output_lock(output_path):
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        existing_text = output_path.read_text(encoding="utf-8-sig") if output_path.exists() else ""
+        existing = set(existing_text.splitlines())
+        lines = [line for line in lines if line not in existing]
+        if not lines:
+            return
+        separator = "" if not existing_text or existing_text.endswith(("\n", "\r")) else "\n"
+        encoding = "utf-8" if output_path.exists() else "utf-8-sig"
+        with output_path.open("ab") as target:
+            target.write((separator + "\n".join(lines) + "\n").encode(encoding))
 
 
 def write_failures(failures: Iterable[str], output_path: Path) -> None:
@@ -150,23 +159,30 @@ def write_failures(failures: Iterable[str], output_path: Path) -> None:
     if not lines:
         output_path.unlink(missing_ok=True)
         return
-    atomic_write_text(output_path, "\n\n".join(lines) + "\n")
+    with output_lock(output_path):
+        atomic_write_text(output_path, "\n\n".join(lines) + "\n")
 
 
 def read_failure_lines(path: Path) -> list[str]:
     if not path.exists():
         return []
-    return [line.strip() for line in path.read_text(encoding="utf-8-sig").splitlines() if line.strip()]
+    return path.read_text(encoding="utf-8-sig").splitlines()
+
+
+def parse_failure_identity(line: str) -> tuple[str, str] | None:
+    match = re.match(r"^(.*?)\s+(https?://\S+)(?:\s|$)", line)
+    if not match:
+        return None
+    return match.group(1), normalize_url_identity(match.group(2))
 
 
 def failure_site_keys(path: Path) -> tuple[tuple[str, str], ...]:
     keys = []
     for line in read_failure_lines(path):
-        parts = line.split()
-        if len(parts) < 2:
+        identity = parse_failure_identity(line)
+        if identity is None:
             continue
-        name, url = parts[0], parts[1]
-        keys.append((name, normalize_url_identity(url)))
+        keys.append(identity)
     return tuple(dict.fromkeys(keys))
 
 
@@ -210,7 +226,12 @@ def failure_site_names(path: Path) -> list[str]:
         lines = path.read_text(encoding="utf-8-sig").splitlines()
     except OSError as exc:
         raise ScrapeError(f"failed to read failed-site file {path}: {exc}") from exc
-    return [line.split(maxsplit=1)[0] for line in lines if line.strip()]
+    names = []
+    for line in lines:
+        identity = parse_failure_identity(line)
+        if identity:
+            names.append(identity[0])
+    return names
 
 
 def selected_sites(names: Iterable[str], sites: Iterable[SiteConfig]) -> tuple[SiteConfig, ...]:
@@ -291,6 +312,9 @@ class SingleIssueBatchService:
         proxy: str | None = None,
     ) -> BatchRunResult:
         _validate_batch_options(options)
+        paths = {options.output_path.resolve().casefold(), options.error_output_path.resolve().casefold(), config_path.resolve().casefold(), options.recent_cache_path.resolve().casefold()}
+        if len(paths) != 4:
+            raise ScrapeError("成功TXT、失败TXT、配置和缓存路径不能重合")
         sites = ConfigRepository(config_path).load()
         http_client.configure_proxy(proxy)
         names = [*only]
@@ -412,10 +436,8 @@ class SingleIssueBatchService:
             }
             retained = []
             for line in read_failure_lines(options.error_output_path):
-                parts = line.split(maxsplit=2)
-                if len(parts) >= 2 and (
-                    parts[0], normalize_url_identity(parts[1])
-                ) in processed:
+                identity = parse_failure_identity(line)
+                if identity and identity in processed:
                     continue
                 retained.append(line)
             write_failures([*retained, *failures], options.error_output_path)
