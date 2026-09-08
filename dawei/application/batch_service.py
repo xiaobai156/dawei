@@ -447,13 +447,17 @@ class SingleIssueBatchService:
                 (site.name, normalize_url_identity(site.url))
                 for site in site_list
             }
-            retained = []
-            for line in read_failure_lines(options.error_output_path):
-                identity = parse_failure_identity(line)
-                if identity and identity in processed:
-                    continue
-                retained.append(line)
-            write_failures([*retained, *failures], options.error_output_path)
+            with output_lock(options.error_output_path):
+                retained = [
+                    line for line in read_failure_lines(options.error_output_path)
+                    if not (parse_failure_identity(line) in processed)
+                ]
+                lines = [*retained, *failures]
+                options.error_output_path.parent.mkdir(parents=True, exist_ok=True)
+                options.error_output_path.write_text(
+                    "\n".join(lines) + ("\n" if lines else ""),
+                    encoding="utf-8-sig",
+                )
         else:
             write_failures(failures, options.error_output_path)
         cache_updated = False

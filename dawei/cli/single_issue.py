@@ -56,6 +56,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         parser.error("--fixed-issue is required unless --prompt-issue is used")
     if args.fixed_issue <= 0:
         parser.error("--fixed-issue must be positive")
+    if args.retry_failed is not None and not args.retry_failed.strip():
+        parser.error("--retry-failed cannot be empty")
     if args.timeout <= 0:
         parser.error("--timeout must be positive")
     if args.workers <= 0:
