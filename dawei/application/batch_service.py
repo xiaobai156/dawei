@@ -141,7 +141,14 @@ def append_results(results: Iterable[ParsedRecord], output_path: Path) -> None:
     with output_lock(output_path):
         output_path.parent.mkdir(parents=True, exist_ok=True)
         existing_text = output_path.read_text(encoding="utf-8-sig") if output_path.exists() else ""
-        existing = set(existing_text.splitlines())
+        existing_lines = existing_text.splitlines()
+        existing = set(existing_lines)
+        incoming_names = {line.rsplit(" ", 1)[-1]: line for line in lines}
+        for old in existing_lines:
+            old_name = old.rsplit(" ", 1)[-1]
+            new = incoming_names.get(old_name)
+            if new is not None and new != old:
+                raise ScrapeError(f"成功TXT存在同站冲突结果: {old_name}")
         lines = [line for line in lines if line not in existing]
         if not lines:
             return
@@ -157,7 +164,7 @@ def write_failures(failures: Iterable[str], output_path: Path) -> None:
         output_path.unlink(missing_ok=True)
         return
     with output_lock(output_path):
-        atomic_write_text(output_path, "\n\n".join(lines) + "\n")
+        atomic_write_text(output_path, "\n".join(lines) + "\n")
 
 
 def read_failure_lines(path: Path) -> list[str]:
