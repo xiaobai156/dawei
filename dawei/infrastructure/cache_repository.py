@@ -526,6 +526,10 @@ class CacheRepository:
             identities: dict[str, tuple[str, str]] = {
                 site.site_id: (site.name, site.url) for site in existing.sites
             }
+            original_record_order = {
+                site.site_id: tuple(record.issue for record in site.records)
+                for site in existing.sites
+            }
             minimum_issue = fixed_issue - periods + 1
             now = datetime.now().astimezone().isoformat(timespec="seconds")
             for result in incoming:
@@ -561,11 +565,12 @@ class CacheRepository:
                 )
             cache_sites: list[CacheSite] = []
             for site_id, site_records in by_site.items():
-                retained = tuple(
-                    record
-                    for issue, record in sorted(site_records.items(), reverse=True)
-                    if minimum_issue <= issue <= fixed_issue
-                )[:periods]
+                if preserve_site_order and site_id in original_record_order:
+                    ordered = [site_records[issue] for issue in original_record_order[site_id] if issue in site_records]
+                    ordered.extend(record for issue, record in site_records.items() if issue not in original_record_order[site_id])
+                    retained = tuple(record for record in ordered if minimum_issue <= record.issue <= fixed_issue)[:periods]
+                else:
+                    retained = tuple(record for issue, record in sorted(site_records.items(), reverse=True) if minimum_issue <= issue <= fixed_issue)[:periods]
                 if not retained:
                     continue
                 name, url = identities[site_id]
