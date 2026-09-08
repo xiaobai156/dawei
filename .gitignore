@@ -1,0 +1,32 @@
+# Local Python/runtime artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+*.coverage.*
+
+# Local crawler data, reports, locks and generated output
+cache/
+audit/
+formal_output/
+onboarding_output/
+*.lock
+*.tmp
+recent_10_cache.json
+*期-大围-成功.txt
+*期-大围-失败.txt
+*期重复检测失败.txt
+多期-*-大围-全部失败汇总.txt
+
+# Local credentials and secret material
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.token
+*credentials*
+*secret*

@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+blocked=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '(^|/)(\.env($|\.)|cache/|audit/|__pycache__/|formal_output/|onboarding_output/)|(^|/)(.*\.(pem|key|p12|pfx|token|lock|tmp))$|(^|/)(.*(credentials|secret).*)$' || true)
+if [ -n "$blocked" ]; then
+  printf '%s\n' "拒绝提交敏感或临时文件:" "$blocked" >&2
+  exit 1
+fi
