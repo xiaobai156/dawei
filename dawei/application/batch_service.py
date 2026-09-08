@@ -159,6 +159,17 @@ def read_failure_lines(path: Path) -> list[str]:
     return [line.strip() for line in path.read_text(encoding="utf-8-sig").splitlines() if line.strip()]
 
 
+def failure_site_keys(path: Path) -> tuple[tuple[str, str], ...]:
+    keys = []
+    for line in read_failure_lines(path):
+        parts = line.split()
+        if len(parts) < 2:
+            continue
+        name, url = parts[0], parts[1]
+        keys.append((name, normalize_url_identity(url)))
+    return tuple(dict.fromkeys(keys))
+
+
 def read_issue_failures(issue: int, output_dir: Path) -> dict[tuple[str, str], str]:
     path = output_dir / f"{issue}期-大围-失败.txt"
     if not path.exists():
@@ -284,8 +295,29 @@ class SingleIssueBatchService:
         http_client.configure_proxy(proxy)
         names = [*only]
         if retry_failed is not None:
-            names.extend(failure_site_names(retry_failed))
+            if not read_failure_lines(retry_failed):
+                raise ScrapeError(f"失败报告为空，拒绝回退全站重抓: {retry_failed}")
+            if retry_failed.resolve() != options.error_output_path.resolve():
+                raise ScrapeError("失败报告必须与当前期输出文件绑定")
+            failed_keys = set(failure_site_keys(retry_failed))
+            if names:
+                selected_keys = {
+                    (site.name, normalize_url_identity(site.url))
+                    for site in sites
+                    if site.name in set(names)
+                }
+                failed_keys &= selected_keys
+                if not failed_keys:
+                    raise ScrapeError("--only 与失败报告没有交集，拒绝扩大重试范围")
+            names = [name for name, _ in failed_keys]
         chosen = selected_sites(names, sites)
+        if retry_failed is not None:
+            wanted = set(failure_site_keys(retry_failed))
+            chosen = tuple(
+                site for site in sites
+                if (site.name, normalize_url_identity(site.url)) in wanted
+                and (not only or site.name in set(only))
+            )
         if names and not chosen:
             raise ScrapeError("no matching sites selected")
         configured_options = BatchOptions(
