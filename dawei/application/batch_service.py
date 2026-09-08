@@ -600,7 +600,7 @@ class SingleIssueBatchService:
                 failures,
                 fixed_issue=options.fixed_issue,
                 periods=options.recent_periods,
-                preserve_existing_failures=preserve_failures,
+                preserve_existing_failures=options.preserve_existing_failures or subset_run,
                 config_fingerprint=fingerprint,
                 expected_site_identities=expected_site_identities,
                 allow_missing_fingerprint_binding=not subset_run,
