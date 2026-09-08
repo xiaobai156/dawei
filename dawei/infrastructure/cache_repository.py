@@ -485,6 +485,7 @@ class CacheRepository:
         config_fingerprint: str | None = None,
         expected_site_identities: Mapping[str, tuple[str, str, str, str | None]] | None = None,
         allow_missing_fingerprint_binding: bool = False,
+        preserve_site_order: bool = False,
     ) -> CacheSnapshot:
         fixed_issue = _positive_int(fixed_issue, "fixed_issue")
         periods = _positive_int(periods, "periods")
@@ -569,7 +570,8 @@ class CacheRepository:
                     continue
                 name, url = identities[site_id]
                 cache_sites.append(CacheSite(site_id, name, url, retained))
-            cache_sites.sort(key=lambda site: (site.name, site.url, site.site_id))
+            if not preserve_site_order:
+                cache_sites.sort(key=lambda site: (site.name, site.url, site.site_id))
             prior_failures = existing.failures if preserve_existing_failures else ()
             if preserve_existing_failures and (incoming or failure_values):
                 cleared_identities = [

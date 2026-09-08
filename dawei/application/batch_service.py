@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import re
-import threading
 import time
 from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -22,7 +21,7 @@ from dawei.domain.errors import (
 from dawei.domain.models import ParsedRecord, ScrapeRecord, SiteConfig
 from dawei.domain.validation import validate_36_numbers, validate_candidate_evidence
 from dawei.infrastructure import http_client
-from dawei.infrastructure.cache_repository import CacheRepository, atomic_write_text
+from dawei.infrastructure.cache_repository import CacheRepository, ProcessFileLock, atomic_write_text
 from dawei.infrastructure.config_repository import (
     ConfigRepository,
     config_fingerprint,
@@ -69,14 +68,8 @@ class BatchRunResult:
 
 SiteScraper = Callable[..., ParsedRecord]
 ProgressSink = Callable[[str], None]
-_OUTPUT_LOCKS: dict[Path, threading.Lock] = {}
-_OUTPUT_LOCKS_GUARD = threading.Lock()
-
-
-def output_lock(path: Path) -> threading.Lock:
-    key = path.resolve().as_posix().casefold()
-    with _OUTPUT_LOCKS_GUARD:
-        return _OUTPUT_LOCKS.setdefault(Path(key), threading.Lock())
+def output_lock(path: Path) -> ProcessFileLock:
+    return ProcessFileLock(path.with_name(f".{path.name}.lock"))
 
 
 def default_output_path(issue: int) -> Path:
@@ -598,6 +591,7 @@ class SingleIssueBatchService:
                 config_fingerprint=fingerprint,
                 expected_site_identities=expected_site_identities,
                 allow_missing_fingerprint_binding=not subset_run,
+                preserve_site_order=subset_run,
             )
         except CacheRollbackError:
             raise ScrapeError("缓存更新未完成: 目标期数早于缓存最新期，拒绝回滚")
