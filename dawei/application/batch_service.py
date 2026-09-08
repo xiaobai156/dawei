@@ -74,7 +74,7 @@ _OUTPUT_LOCKS_GUARD = threading.Lock()
 
 
 def output_lock(path: Path) -> threading.Lock:
-    key = path.resolve().casefold()
+    key = path.resolve().as_posix().casefold()
     with _OUTPUT_LOCKS_GUARD:
         return _OUTPUT_LOCKS.setdefault(Path(key), threading.Lock())
 
@@ -312,7 +312,7 @@ class SingleIssueBatchService:
         proxy: str | None = None,
     ) -> BatchRunResult:
         _validate_batch_options(options)
-        paths = {options.output_path.resolve().casefold(), options.error_output_path.resolve().casefold(), config_path.resolve().casefold(), options.recent_cache_path.resolve().casefold()}
+        paths = {p.resolve().as_posix().casefold() for p in (options.output_path, options.error_output_path, config_path, options.recent_cache_path)}
         if len(paths) != 4:
             raise ScrapeError("成功TXT、失败TXT、配置和缓存路径不能重合")
         sites = ConfigRepository(config_path).load()
