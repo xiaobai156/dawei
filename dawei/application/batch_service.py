@@ -21,7 +21,11 @@ from dawei.domain.errors import (
 from dawei.domain.models import ParsedRecord, ScrapeRecord, SiteConfig
 from dawei.domain.validation import validate_36_numbers, validate_candidate_evidence
 from dawei.infrastructure import http_client
-from dawei.infrastructure.cache_repository import CacheRepository, ProcessFileLock, atomic_write_text
+from dawei.infrastructure.cache_repository import (
+    CacheRepository,
+    ProcessFileLock,
+    atomic_write_text,
+)
 from dawei.infrastructure.config_repository import (
     ConfigRepository,
     config_fingerprint,
