@@ -23,6 +23,7 @@ from dawei.infrastructure import (
     image_client,
     source_adapters,
 )
+from dawei.infrastructure.timing import AuditTiming, timing_scope
 from dawei.parsers import DEFAULT_REGISTRY, dynamic_article, generic_36
 from dawei.parsers.generic_36 import attach_article_identity
 from dawei.parsers.image_36 import resolve_image_url
@@ -251,6 +252,7 @@ class ScrapeService:
         *,
         timeout: int = 20,
         fixed_issue: int | None = None,
+        timing: AuditTiming | None = None,
     ) -> ScrapeExecution:
         documents: list[str] = []
         rendered = False
@@ -305,11 +307,12 @@ class ScrapeService:
         )
         started = time.perf_counter()
         try:
-            result = traced_service.scrape(
-                config,
-                timeout=timeout,
-                fixed_issue=fixed_issue,
-            )
+            with timing_scope(timing):
+                result = traced_service.scrape(
+                    config,
+                    timeout=timeout,
+                    fixed_issue=fixed_issue,
+                )
             error = ""
         except ScrapeError as exc:
             result = None
@@ -320,6 +323,9 @@ class ScrapeService:
             for name in ("fetch", "parse", "browser", "total")
             if name in stage_times
         )
+        if timing is not None:
+            for name, seconds in stages:
+                timing.add(name, seconds)
         return ScrapeExecution(
             config,
             fixed_issue,

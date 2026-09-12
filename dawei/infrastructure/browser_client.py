@@ -5,12 +5,14 @@ from __future__ import annotations
 import atexit
 import queue
 import threading
+import time
 from collections.abc import Callable
 from dataclasses import dataclass
 from urllib.parse import urlsplit
 
 from dawei.domain.errors import ScrapeError
 from dawei.domain.models import ArticleRecord, SiteConfig
+from dawei.infrastructure.timing import AuditTiming, current_timing, scoped
 
 from .source_adapters import (
     article_detail_id,
@@ -187,18 +189,25 @@ class ReusableBrowserRenderer:
         url: str,
         timeout: int = DEFAULT_TIMEOUT,
         injected_state: BrowserRenderState | None = None,
+        timing: AuditTiming | None = None,
+        requested: float | None = None,
     ) -> str:
+        if timing is not None and requested is not None:
+            timing.add("browser.queue", time.perf_counter() - requested)
         state = self._state_for_call_on_owner(injected_state)
         page = state.context.new_page()
         try:
-            page.goto(url, wait_until="domcontentloaded", timeout=timeout * 1000)
+            with scoped(timing, "browser.nav"):
+                page.goto(url, wait_until="domcontentloaded", timeout=timeout * 1000)
             body = page.locator("body")
-            try:
-                page.wait_for_load_state("networkidle", timeout=5000)
-            except PlaywrightError:
-                pass
-            body.inner_text(timeout=timeout * 1000)
-            return page.content()
+            with scoped(timing, "browser.wait"):
+                try:
+                    page.wait_for_load_state("networkidle", timeout=5000)
+                except PlaywrightError:
+                    pass
+            with scoped(timing, "browser.read"):
+                body.inner_text(timeout=timeout * 1000)
+                return page.content()
         finally:
             _close_page_best_effort(page)
 
@@ -206,10 +215,12 @@ class ReusableBrowserRenderer:
         self,
         url: str,
         timeout: int = DEFAULT_TIMEOUT,
+        timing: AuditTiming | None = None,
     ) -> str:
         injected_state = getattr(self.local, "state", None)
+        requested = time.perf_counter()
         return self._run_on_owner(
-            lambda: self._fetch_on_owner(url, timeout, injected_state)
+            lambda: self._fetch_on_owner(url, timeout, injected_state, timing, requested)
         )
 
     def _fetch_article_on_owner(
@@ -217,7 +228,11 @@ class ReusableBrowserRenderer:
         config: SiteConfig,
         timeout: int = DEFAULT_TIMEOUT,
         injected_state: BrowserRenderState | None = None,
+        timing: AuditTiming | None = None,
+        requested: float | None = None,
     ) -> ArticleRecord:
+        if timing is not None and requested is not None:
+            timing.add("browser.queue", time.perf_counter() - requested)
         state = self._state_for_call_on_owner(injected_state)
         page = state.context.new_page()
         responses: list[object] = []
@@ -231,13 +246,16 @@ class ReusableBrowserRenderer:
 
         page.on("response", capture_response)
         try:
-            page.goto(config.url, wait_until="domcontentloaded", timeout=timeout * 1000)
+            with scoped(timing, "browser.nav"):
+                page.goto(config.url, wait_until="domcontentloaded", timeout=timeout * 1000)
             body = page.locator("body")
-            try:
-                page.wait_for_load_state("networkidle", timeout=5000)
-            except PlaywrightError:
-                pass
-            body.inner_text(timeout=timeout * 1000)
+            with scoped(timing, "browser.wait"):
+                try:
+                    page.wait_for_load_state("networkidle", timeout=5000)
+                except PlaywrightError:
+                    pass
+            with scoped(timing, "browser.read"):
+                body.inner_text(timeout=timeout * 1000)
 
             expected_id = article_detail_id(config)
             found: list[ArticleRecord] = []
@@ -283,10 +301,12 @@ class ReusableBrowserRenderer:
         self,
         config: SiteConfig,
         timeout: int = DEFAULT_TIMEOUT,
+        timing: AuditTiming | None = None,
     ) -> ArticleRecord:
         injected_state = getattr(self.local, "state", None)
+        requested = time.perf_counter()
         return self._run_on_owner(
-            lambda: self._fetch_article_on_owner(config, timeout, injected_state)
+            lambda: self._fetch_article_on_owner(config, timeout, injected_state, timing, requested)
         )
 
     def _close_on_owner(self) -> None:
@@ -410,7 +430,7 @@ class BrowserRendererPool:
         affinity_key: str | None = None,
     ) -> str:
         renderer = self._renderer_for(self._affinity_key(url, affinity_key))
-        return renderer.fetch(url, timeout=timeout)
+        return renderer.fetch(url, timeout=timeout, timing=current_timing())
 
     def fetch_article(
         self,
@@ -419,7 +439,7 @@ class BrowserRendererPool:
         affinity_key: str | None = None,
     ) -> ArticleRecord:
         renderer = self._renderer_for(self._affinity_key(config.url, affinity_key))
-        return renderer.fetch_article(config, timeout=timeout)
+        return renderer.fetch_article(config, timeout=timeout, timing=current_timing())
 
     def close_all(self) -> None:
         with self._lock:
@@ -470,7 +490,7 @@ def fetch_rendered_text(
         raise ScrapeError("browser rendering requires playwright") from exc
     try:
         renderer = _get_renderer(lambda: sync_playwright().start())
-        return renderer.fetch(url, timeout=timeout)
+        return renderer.fetch(url, timeout=timeout, timing=current_timing())
     except Exception as exc:
         raise ScrapeError(f"browser rendering failed: {exc}") from exc
 
@@ -485,7 +505,7 @@ def fetch_rendered_article_record(
         raise ScrapeError("browser rendering requires playwright") from exc
     try:
         renderer = _get_renderer(lambda: sync_playwright().start())
-        return renderer.fetch_article(config, timeout=timeout)
+        return renderer.fetch_article(config, timeout=timeout, timing=current_timing())
     except ScrapeError:
         raise
     except Exception as exc:

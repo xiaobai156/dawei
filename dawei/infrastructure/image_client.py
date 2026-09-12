@@ -8,6 +8,7 @@ from functools import lru_cache
 from pathlib import Path
 
 from dawei.domain.errors import ScrapeError
+from dawei.infrastructure.timing import measure
 
 _OCR_LOCK = threading.Lock()
 
@@ -26,7 +27,10 @@ def _engine():
 
 def ocr_image(image_bytes: bytes) -> dict:
     try:
-        with tempfile.TemporaryDirectory(prefix="dawei-ocr-") as directory:
+        with (
+            measure("ocr"),
+            tempfile.TemporaryDirectory(prefix="dawei-ocr-") as directory,
+        ):
             path = Path(directory) / "image.jpg"
             path.write_bytes(image_bytes)
             # One shared CPU engine; concurrent calls must not enter Paddle together.

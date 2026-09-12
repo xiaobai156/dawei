@@ -21,10 +21,23 @@ from urllib.parse import urlsplit
 from urllib.request import ProxyHandler, Request, build_opener, install_opener, urlopen
 
 from dawei.domain.errors import ScrapeError
+from dawei.infrastructure.timing import current_timing, measure
 
 DEFAULT_TIMEOUT = 20
 DEFAULT_NETWORK_ATTEMPTS = 3
 DEFAULT_PROXY_RETRIES = 1
+
+
+def _record_http_attempt() -> None:
+    recorder = current_timing()
+    if recorder is not None:
+        recorder.incr("http.attempts")
+
+
+def _record_http_bytes(count: int) -> None:
+    recorder = current_timing()
+    if recorder is not None:
+        recorder.incr("http.bytes", count)
 RETRYABLE_HTTP_CODES = {502, 503, 504, 520, 521, 522, 523, 524}
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -352,14 +365,19 @@ def fetch_raw(
         if extra_headers:
             headers.update(extra_headers)
         try:
-            with opener(Request(url, headers=headers), timeout=timeout) as response:
-                charset = response.headers.get_content_charset() or "utf-8"
-                content_encoding = response.headers.get("Content-Encoding", "")
-                try:
-                    data = response.read()
-                except IncompleteRead as exc:
-                    raise ScrapeError(f"network incomplete read: {len(exc.partial)} bytes read") from exc
-                return data, charset, content_encoding
+            with measure("http.attempt"):
+                _record_http_attempt()
+                with opener(Request(url, headers=headers), timeout=timeout) as response:
+                    charset = response.headers.get_content_charset() or "utf-8"
+                    content_encoding = response.headers.get("Content-Encoding", "")
+                    try:
+                        data = response.read()
+                    except IncompleteRead as exc:
+                        raise ScrapeError(
+                            f"network incomplete read: {len(exc.partial)} bytes read"
+                        ) from exc
+                    _record_http_bytes(len(data))
+                    return data, charset, content_encoding
         except HTTPError as exc:
             last_error = ScrapeError(f"HTTP {exc.code}")
             if not is_retryable_http_code(exc.code):
@@ -380,11 +398,16 @@ def fetch_raw(
         raise ScrapeError("network error")
     if should_try_curl_fallback(last_error):
         try:
-            return curl(url, timeout=timeout, extra_headers=extra_headers)
+            with measure("http.curl"):
+                data, charset, content_encoding = curl(
+                    url, timeout=timeout, extra_headers=extra_headers
+                )
         except ScrapeError as curl_error:
             diagnostic = resolution_diagnostic(url)
             suffix = f"; {diagnostic}" if diagnostic else ""
             raise ScrapeError(f"{last_error}; curl fallback failed: {curl_error}{suffix}") from curl_error
+        _record_http_bytes(len(data))
+        return data, charset, content_encoding
     raise last_error
 
 
@@ -484,36 +507,50 @@ def fetch_text(
     return text
 
 
+class _PendingFetch:
+    """Outcome of one in-flight attempt shared only by its concurrent callers."""
+
+    def __init__(self) -> None:
+        self.event = threading.Event()
+        self.value: str = ""
+        self.error: BaseException | None = None
+
+
 class TextFetchCache:
     def __init__(self, fetcher: Callable[[str, int], str] = fetch_text):
         self.fetcher = fetcher
         self.lock = threading.Lock()
         self.values: dict[tuple[str, int], str] = {}
-        self.inflight: dict[tuple[str, int], threading.Event] = {}
+        self.inflight: dict[tuple[str, int], _PendingFetch] = {}
 
     def fetch(self, url: str, timeout: int = DEFAULT_TIMEOUT) -> str:
         key = (url, timeout)
-        owner: threading.Event | None = None
-        while True:
-            with self.lock:
-                if key in self.values:
-                    return self.values[key]
-                event = self.inflight.get(key)
-                if event is None:
-                    owner = threading.Event()
-                    self.inflight[key] = owner
-                    break
-            event.wait()
-        assert owner is not None
+        with self.lock:
+            if key in self.values:
+                return self.values[key]
+            pending = self.inflight.get(key)
+            owner = pending is None
+            if owner:
+                pending = _PendingFetch()
+                self.inflight[key] = pending
+        assert pending is not None
+        if not owner:
+            pending.event.wait()
+            if pending.error is not None:
+                raise pending.error
+            return pending.value
         try:
             value = self.fetcher(url, timeout)
-        except Exception:
+        except BaseException as exc:
+            # Failures are shared with concurrent waiters but never cached.
             with self.lock:
                 self.inflight.pop(key, None)
-                owner.set()
+            pending.error = exc
+            pending.event.set()
             raise
         with self.lock:
             stored = self.values.setdefault(key, value)
             self.inflight.pop(key, None)
-            owner.set()
-            return stored
+        pending.value = stored
+        pending.event.set()
+        return stored

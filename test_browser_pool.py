@@ -31,10 +31,10 @@ class _StubRenderer:
         self.closed = 0
         type(self).instances.append(self)
 
-    def fetch(self, url: str, timeout: int = 1) -> str:
+    def fetch(self, url: str, timeout: int = 1, timing=None) -> str:
         return f"text:{url}"
 
-    def fetch_article(self, config: SiteConfig, timeout: int = 1) -> str:
+    def fetch_article(self, config: SiteConfig, timeout: int = 1, timing=None) -> str:
         return f"article:{config.url}"
 
     def close_all(self) -> None:
@@ -297,7 +297,7 @@ class BatchPoolLifecycleTests(unittest.TestCase):
         captured: dict[str, object] = {}
 
         class BlockingRenderer(_StubRenderer):
-            def fetch(self, url: str, timeout: int = 1) -> str:
+            def fetch(self, url: str, timeout: int = 1, timing=None) -> str:
                 started.set()
                 release.wait(5)
                 return "正文"

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 import threading
 import time
@@ -32,6 +33,7 @@ from dawei.infrastructure.config_repository import (
     config_fingerprint,
     normalize_url_identity,
 )
+from dawei.infrastructure.timing import AuditTiming
 
 DEFAULT_OUTPUT_DIR = Path(
     r"C:\Users\Administrator\Desktop\每天工具\爬虫合集\大围杀号生肖数据统一归纳"
@@ -56,6 +58,7 @@ class BatchOptions:
     merge_with: Path | None = None
     proxy_retries: int = 1
     browser_workers: int = 1
+    timing_json_path: Path | None = None
 
 
 @dataclass(frozen=True)
@@ -425,29 +428,60 @@ class SingleIssueBatchService:
         results_by_index: dict[int, ParsedRecord] = {}
         failures: list[str] = []
         timings: list[tuple[float, str, str]] = []
+        timings_by_index: dict[int, tuple[float, str, str]] = {}
         success_count = 0
         failure_count = 0
+        timing_enabled = options.timing_json_path is not None
+        timing_by_site: dict[tuple[str, str], AuditTiming] = {}
+        if timing_enabled:
+            for site in site_list:
+                timing_by_site[(site.name, normalize_url_identity(site.url))] = AuditTiming()
+        submit_times: dict[int, float] = {}
+        cache_updated = False
+        cache_error = ""
+        write_txt_seconds = 0.0
+        cache_seconds = 0.0
+        close_seconds = 0.0
+        results: list[ParsedRecord] = []
+        stage_timings: tuple[tuple[str, str, float], ...] = ()
         try:
             if using_default_scraper:
                 pool = browser_client.BrowserRendererPool(
                     options.browser_workers,
                     _playwright_starter,
                 )
-            scraper = self.site_scraper or self._default_scraper(options, pool)
+            if timing_enabled:
+                scraper = self.site_scraper or self._default_scraper(
+                    options, pool, timing_by_site
+                )
+            else:
+                scraper = self.site_scraper or self._default_scraper(options, pool)
             with ThreadPoolExecutor(max_workers=workers) as executor:
-                futures = {
-                    executor.submit(self._timed_scrape, scraper, site, options): (index, site)
-                    for index, site in enumerate(site_list)
-                }
+                futures = {}
+                for index, site in enumerate(site_list):
+                    submit_times[index] = time.perf_counter()
+                    futures[executor.submit(self._timed_scrape, scraper, site, options)] = (
+                        index,
+                        site,
+                    )
                 for completed, future in enumerate(as_completed(futures), start=1):
                     index, site = futures[future]
-                    result, elapsed, error = future.result()
+                    result, elapsed, error, site_started = future.result()
+                    if timing_enabled:
+                        recorder = timing_by_site[(site.name, normalize_url_identity(site.url))]
+                        recorder.add("queue", max(0.0, site_started - submit_times[index]))
+                        recorder.set("site_total", elapsed)
                     if error is not None:
                         failure = error if isinstance(error, ScrapeError) else RuntimeError(
                             f"unexpected error: {error}"
                         )
                         failures.append(format_failure(site, failure, options.fixed_issue))
                         timings.append((elapsed, site.name, "失败"))
+                        timings_by_index[index] = (elapsed, site.name, "失败")
+                        if timing_enabled:
+                            timing_by_site[(site.name, normalize_url_identity(site.url))].set(
+                                "status", "失败"
+                            )
                         failure_count += 1
                     else:
                         assert result is not None
@@ -461,65 +495,101 @@ class SingleIssueBatchService:
                                 )
                             )
                             timings.append((elapsed, site.name, "失败"))
+                            timings_by_index[index] = (elapsed, site.name, "失败")
+                            if timing_enabled:
+                                timing_by_site[
+                                    (site.name, normalize_url_identity(site.url))
+                                ].set("status", "失败")
                             failure_count += 1
                         else:
                             results_by_index[index] = result
                             timings.append((elapsed, site.name, "成功"))
+                            timings_by_index[index] = (elapsed, site.name, "成功")
+                            if timing_enabled:
+                                timing_by_site[
+                                    (site.name, normalize_url_identity(site.url))
+                                ].set("status", "成功")
                             success_count += 1
                     percent = int(completed * 100 / total) if total else 100
                     self.progress_sink(
                         f"[进度 {completed}/{total} {percent}% 成功 {success_count} "
                         f"失败 {failure_count} 用时 {time.perf_counter() - started:.1f}s] 当前: {site.name}"
                     )
+            results = [results_by_index[index] for index in sorted(results_by_index)]
+            write_started = time.perf_counter()
+            if options.append_success or subset_run:
+                append_results(results, options.output_path)
+            else:
+                write_results(results, options.output_path)
+            write_txt_seconds = time.perf_counter() - write_started
+            if preserve_failures:
+                processed = {
+                    (site.name, normalize_url_identity(site.url))
+                    for site in site_list
+                }
+                with output_lock(options.error_output_path):
+                    retained = [
+                        line for line in read_failure_lines(options.error_output_path)
+                        if not (parse_failure_identity(line) in processed)
+                    ]
+                    lines = [*retained, *failures]
+                    options.error_output_path.parent.mkdir(parents=True, exist_ok=True)
+                    options.error_output_path.write_text(
+                        "\n".join(lines) + ("\n" if lines else ""),
+                        encoding="utf-8-sig",
+                    )
+            else:
+                write_failures(failures, options.error_output_path)
+            if options.update_recent_cache:
+                cache_started = time.perf_counter()
+                try:
+                    cache_updated = self._update_cache(
+                        results,
+                        failures,
+                        all_site_list,
+                        options,
+                        subset_run=subset_run,
+                    )
+                except (CacheError, OSError, ScrapeError) as exc:
+                    cache_error = "缓存更新未完成: " + (
+                        " ".join(str(exc).split()) or exc.__class__.__name__
+                    )
+                    self.progress_sink(cache_error)
+                cache_seconds = time.perf_counter() - cache_started
         finally:
+            close_error: BaseException | None = None
             if pool is not None:
-                pool.close_all()
-        results = [results_by_index[index] for index in sorted(results_by_index)]
-        if options.append_success or subset_run:
-            append_results(results, options.output_path)
-        else:
-            write_results(results, options.output_path)
-        if preserve_failures:
-            processed = {
-                (site.name, normalize_url_identity(site.url))
-                for site in site_list
-            }
-            with output_lock(options.error_output_path):
-                retained = [
-                    line for line in read_failure_lines(options.error_output_path)
-                    if not (parse_failure_identity(line) in processed)
-                ]
-                lines = [*retained, *failures]
-                options.error_output_path.parent.mkdir(parents=True, exist_ok=True)
-                options.error_output_path.write_text(
-                    "\n".join(lines) + ("\n" if lines else ""),
-                    encoding="utf-8-sig",
+                close_started = time.perf_counter()
+                try:
+                    pool.close_all()
+                except BaseException as exc:  # noqa: BLE001 - report close failure after auditing
+                    close_error = exc
+                close_seconds = time.perf_counter() - close_started
+            with self._stage_lock:
+                stage_timings = tuple(
+                    (site.name, stage, seconds)
+                    for site in site_list
+                    for stage, seconds in self._stage_records.get(
+                        (site.name, normalize_url_identity(site.url)),
+                        (),
+                    )
                 )
-        else:
-            write_failures(failures, options.error_output_path)
-        cache_updated = False
-        cache_error = ""
-        if options.update_recent_cache:
-            try:
-                cache_updated = self._update_cache(
-                    results,
-                    failures,
-                    all_site_list,
+            if timing_enabled:
+                self._write_timing_report(
                     options,
-                    subset_run=subset_run,
+                    site_list,
+                    timing_by_site,
+                    timings_by_index,
+                    total,
+                    success_count,
+                    failure_count,
+                    time.perf_counter() - started,
+                    write_txt_seconds,
+                    cache_seconds,
+                    close_seconds,
                 )
-            except (CacheError, OSError, ScrapeError) as exc:
-                cache_error = "缓存更新未完成: " + (" ".join(str(exc).split()) or exc.__class__.__name__)
-                self.progress_sink(cache_error)
-        with self._stage_lock:
-            stage_timings = tuple(
-                (site.name, stage, seconds)
-                for site in site_list
-                for stage, seconds in self._stage_records.get(
-                    (site.name, normalize_url_identity(site.url)),
-                    (),
-                )
-            )
+            if close_error is not None:
+                raise close_error
         return BatchRunResult(
             tuple(results),
             tuple(failures),
@@ -530,10 +600,67 @@ class SingleIssueBatchService:
             stage_timings=stage_timings,
         )
 
+    @staticmethod
+    def _write_timing_report(
+        options: BatchOptions,
+        site_list: tuple[SiteConfig, ...],
+        timing_by_site: dict[tuple[str, str], AuditTiming],
+        timings_by_index: dict[int, tuple[float, str, str]],
+        total: int,
+        success_count: int,
+        failure_count: int,
+        batch_total: float,
+        write_txt_seconds: float,
+        cache_seconds: float,
+        close_seconds: float,
+    ) -> None:
+        assert options.timing_json_path is not None
+        sites_payload: list[dict[str, object]] = []
+        for index, site in enumerate(site_list):
+            recorder = timing_by_site.get((site.name, normalize_url_identity(site.url)))
+            snapshot = recorder.snapshot() if recorder is not None else {
+                "durations": {},
+                "counters": {},
+                "values": {},
+            }
+            elapsed, name, status = timings_by_index.get(index, (0.0, site.name, "未执行"))
+            queue_seconds = float(snapshot["durations"].get("queue", 0.0))
+            sites_payload.append(
+                {
+                    "name": name,
+                    "url": site.url,
+                    "status": str(snapshot["values"].get("status", status)),
+                    "queue_seconds": queue_seconds,
+                    "total_seconds": float(snapshot["values"].get("site_total", elapsed)),
+                    "durations": snapshot["durations"],
+                    "counters": snapshot["counters"],
+                    "values": snapshot["values"],
+                }
+            )
+        payload = {
+            "issue": options.fixed_issue,
+            "site_count": total,
+            "success_count": success_count,
+            "failure_count": failure_count,
+            "batch": {
+                "total_seconds": batch_total,
+                "write_txt_seconds": write_txt_seconds,
+                "cache_seconds": cache_seconds,
+                "close_seconds": close_seconds,
+            },
+            "sites": sites_payload,
+        }
+        options.timing_json_path.parent.mkdir(parents=True, exist_ok=True)
+        atomic_write_text(
+            options.timing_json_path,
+            json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        )
+
     def _default_scraper(
         self,
         options: BatchOptions,
         browser_pool: browser_client.BrowserRendererPool | None = None,
+        timing_by_site: dict[tuple[str, str], AuditTiming] | None = None,
     ) -> SiteScraper:
         def raw_fetcher(url: str, timeout: int, extra_headers=None):
             return http_client.fetch_raw(
@@ -575,10 +702,14 @@ class SingleIssueBatchService:
                     timeout=timeout,
                     proxy_retries=options.proxy_retries,
                 )
+            timing = None
+            if timing_by_site is not None:
+                timing = timing_by_site.get((config.name, normalize_url_identity(config.url)))
             execution = service.execute(
                 config,
                 timeout=timeout,
                 fixed_issue=fixed_issue,
+                timing=timing,
             )
             self._record_stages(config, execution.stages)
             if execution.error:
@@ -594,7 +725,7 @@ class SingleIssueBatchService:
         scraper: SiteScraper,
         site: SiteConfig,
         options: BatchOptions,
-    ) -> tuple[ParsedRecord | None, float, Exception | None]:
+    ) -> tuple[ParsedRecord | None, float, Exception | None, float]:
         started = time.perf_counter()
         try:
             result = scraper(
@@ -602,9 +733,9 @@ class SingleIssueBatchService:
                 timeout=options.timeout,
                 fixed_issue=options.fixed_issue,
             )
-            return result, time.perf_counter() - started, None
+            return result, time.perf_counter() - started, None, started
         except Exception as exc:  # noqa: BLE001 - isolate one site from the batch
-            return None, time.perf_counter() - started, exc
+            return None, time.perf_counter() - started, exc, started
 
     @staticmethod
     def _safe_name(value: str) -> str:
