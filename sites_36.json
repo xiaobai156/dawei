@@ -5635,5 +5635,30 @@
     "onboarding_exception": "allow_insufficient_history",
     "onboarding_valid_issues": [255],
     "onboarding_missing_issues": []
+  },
+  {
+    "name": "阳光明媚",
+    "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1278",
+    "keywords": ["三十六码"],
+    "section_keywords": ["阳光明媚"],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_aa4cf6927ef2db2cb942",
+    "source_type": "bbs_topic",
+    "parser_id": "yangguang_mingmei",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_insufficient_history",
+    "onboarding_valid_issues": [255],
+    "onboarding_missing_issues": []
   }
 ]

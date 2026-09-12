@@ -63,6 +63,43 @@ def extract_meirenyu(text_or_html: str, config: SiteConfig) -> SiteResult:
     )
 
 
+def yangguang_mingmei_candidates(
+    text_or_html: str,
+    config: SiteConfig,
+) -> tuple[list[CandidateEvidence], list[tuple[int, int, str]], set[int]]:
+    lines = html_to_lines(text_or_html)
+    candidates: list[CandidateEvidence] = []
+    invalid: list[tuple[int, int, str]] = []
+    seen: set[int] = set()
+    for index, line in enumerate(lines):
+        match = re.search(r"(?<!\d)(\d{3})期", line)
+        if not match or not all_keywords_present(line, (*config.section_keywords, *config.keywords)):
+            continue
+        issue = int(match.group(1))
+        seen.add(issue)
+        rows = tuple(lines[index + offset] for offset in range(1, 4) if index + offset < len(lines))
+        row_numbers = tuple(
+            token for row in rows for token in re.findall(r"\d{2}", row)
+            if 1 <= int(token) <= 49
+        )
+        if len(rows) != 3 or not valid_36_code_record(row_numbers):
+            invalid.append((issue, index, "阳光明媚点号三行36码无效"))
+            continue
+        candidates.append(candidate_evidence(
+            lines, index, issue, row_numbers, config,
+            range(index, index + 4), raw_number_lines=rows, anchor_line=line,
+        ))
+    return candidates, invalid, seen
+
+
+def extract_yangguang_mingmei(text_or_html: str, config: SiteConfig) -> SiteResult:
+    return extract_from_candidates(
+        text_or_html, config, yangguang_mingmei_candidates,
+        no_candidates_message="阳光明媚专属三十六码栏目没有找到符合条件的数据",
+        issue_range_error="no 36-number record found in issue range",
+    )
+
+
 def renjianrenai_candidates(
     text_or_html: str,
     config: SiteConfig,

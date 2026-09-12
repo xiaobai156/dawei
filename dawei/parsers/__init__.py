@@ -12,6 +12,7 @@ from dawei.parsers.specials.dedicated import (
     extract_renjianrenai,
     extract_section_3x12,
     extract_topic_content_3x12,
+    extract_yangguang_mingmei,
     extract_yiyiba,
     fengkuang_zhongma_candidates,
     marker_after_issue_3x12_candidates,
@@ -19,6 +20,7 @@ from dawei.parsers.specials.dedicated import (
     renjianrenai_candidates,
     section_3x12_candidates,
     topic_content_3x12_candidates,
+    yangguang_mingmei_candidates,
     yiyiba_candidates,
 )
 from dawei.parsers.specials.tabular import (
@@ -83,6 +85,7 @@ def build_default_registry() -> ParserRegistry:
         section_3x12_candidates,
     )
     registry.register("yiyiba", extract_yiyiba, yiyiba_candidates)
+    registry.register("yangguang_mingmei", extract_yangguang_mingmei, yangguang_mingmei_candidates)
     registry.register("kunnan_magazine", extract_generic_36)
     registry.register("image_tuku2135", extract_tuku2135)
     return registry
