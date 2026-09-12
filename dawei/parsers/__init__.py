@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dawei.parsers.generic_36 import extract_generic_36, generic_candidates
+from dawei.parsers.image_36 import extract_tuku2135
 from dawei.parsers.registry import ParserRegistry
 from dawei.parsers.specials.dedicated import (
     extract_fengkuang_zhongma,
@@ -83,6 +84,7 @@ def build_default_registry() -> ParserRegistry:
     )
     registry.register("yiyiba", extract_yiyiba, yiyiba_candidates)
     registry.register("kunnan_magazine", extract_generic_36)
+    registry.register("image_tuku2135", extract_tuku2135)
     return registry
 
 

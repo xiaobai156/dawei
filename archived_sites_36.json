@@ -665,36 +665,6 @@
       "archive_tag": "用户明确封存：231期抓取失败，不再抓取"
     },
     {
-      "name": "六合王",
-      "url": "https://aa.2135a.cc:1888/picart?title=%E5%85%AD%E5%90%88%E7%8E%8B36%E7%A0%81%E7%89%B9%E5%9B%B4&color=0&name=6hwtw.jpg&id=171",
-      "keywords": [
-        "36码特围"
-      ],
-      "section_keywords": [],
-      "search_window": 260,
-      "fixed_issue": null,
-      "api_url": null,
-      "min_numbers_per_line": 2,
-      "image_decoder": "tuku2135_ocr",
-      "numbers_before_issue": false,
-      "drop_zero_numbers": false,
-      "position": "none",
-      "region": null,
-      "render_browser": false,
-      "site_id": "site_a890f7ad000724880a84",
-      "source_type": "generic_html",
-      "parser_id": "image_tuku2135",
-      "record_id": null,
-      "render_policy": "never",
-      "navigation_keywords": [],
-      "onboarding_exception": "allow_insufficient_history",
-      "onboarding_valid_issues": [
-        228
-      ],
-      "onboarding_missing_issues": [],
-      "archive_tag": "用户明确移出自动抓取：改为手动OCR"
-    },
-    {
       "name": "全网",
       "url": "https://ykafylrj.aa70q-k7jc0-igfkrd.work:16677/topic/407766.html",
       "keywords": [

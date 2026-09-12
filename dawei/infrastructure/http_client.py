@@ -360,6 +360,38 @@ def fetch_raw(
     raise last_error
 
 
+def fetch_bytes(
+    url: str,
+    timeout: int = DEFAULT_TIMEOUT,
+    extra_headers: dict[str, str] | None = None,
+) -> bytes:
+    data, _, encoding = fetch_raw(url, timeout=timeout, extra_headers=extra_headers)
+    try:
+        return decode_response_bytes(data, encoding)
+    except (OSError, EOFError, zlib.error) as exc:
+        raise ScrapeError("failed to decode binary response") from exc
+
+
+def post_json(url: str, payload: dict[str, object], timeout: int = DEFAULT_TIMEOUT) -> object:
+    body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    request = Request(
+        url,
+        data=body,
+        headers={
+            "User-Agent": USER_AGENT,
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with open_url_with_retries(request, timeout=timeout) as response:
+            data = decode_response_bytes(response.read(), response.headers.get("Content-Encoding", ""))
+            return json.loads(decode_text(data, response.headers.get_content_charset()))
+    except (OSError, EOFError, ValueError, zlib.error) as exc:
+        raise ScrapeError(f"JSON request failed: {exc}") from exc
+
+
 def fetch_text_with_node(
     url: str,
     timeout: int = DEFAULT_TIMEOUT,

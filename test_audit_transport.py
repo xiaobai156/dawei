@@ -63,20 +63,21 @@ def _payload(body: str = "测试站 三十六码\n210期") -> str:
 
 
 class TransportBoundaryTests(unittest.TestCase):
-    def test_formal_config_has_no_active_image_or_ocr_dependency(self) -> None:
+    def test_only_authorized_liuhe_site_has_active_ocr(self) -> None:
         with open("sites_36.json", encoding="utf-8-sig") as handle:
             sites = json.load(handle)
 
         self.assertTrue(sites)
         self.assertEqual(
             [site["name"] for site in sites if site.get("image_decoder")],
-            [],
+            ["六合王"],
         )
-        self.assertFalse(
-            any(site.get("parser_id", "").startswith("image_") for site in sites)
+        self.assertEqual(
+            [site["name"] for site in sites if site.get("parser_id", "").startswith("image_")],
+            ["六合王"],
         )
         self.assertNotIn("image_bb48kk", DEFAULT_REGISTRY.parser_ids)
-        self.assertNotIn("image_tuku2135", DEFAULT_REGISTRY.parser_ids)
+        self.assertIn("image_tuku2135", DEFAULT_REGISTRY.parser_ids)
 
     def test_archived_config_keeps_historical_image_fields_readable(self) -> None:
         with open("archived_sites_36.json", encoding="utf-8-sig") as handle:

@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import re
 from collections.abc import Callable
 from dataclasses import dataclass, replace
+from urllib.parse import urljoin
 
 from dawei.domain.errors import ScrapeError, ValidationError
 from dawei.domain.models import (
@@ -16,10 +19,12 @@ from dawei.domain.validation import validate_candidate_evidence
 from dawei.infrastructure import (
     browser_client,
     http_client,
+    image_client,
     source_adapters,
 )
 from dawei.parsers import DEFAULT_REGISTRY, dynamic_article, generic_36
 from dawei.parsers.generic_36 import attach_article_identity
+from dawei.parsers.image_36 import resolve_image_url
 from dawei.parsers.paginated_article import resolve_paginated_article
 from dawei.parsers.registry import resolve_parser_id
 
@@ -153,6 +158,18 @@ def load_source(
     rendered_article_fetcher: RenderedArticleFetcher,
 ) -> SourceLoadResult:
     """Load raw source data; parsing and business validation stay with callers."""
+    if config.parser_id == "image_tuku2135":
+        parse_config = replace(config, fixed_issue=fixed_issue) if fixed_issue is not None else config
+        if parse_config.fixed_issue is None:
+            raise ScrapeError("六合王图片抓取必须指定期数，不扫描历史图片")
+        payload = http_client.post_json(urljoin(config.url, "/api/qishu"), {"type": "am"}, timeout)
+        image_url = resolve_image_url(payload, parse_config)
+        data = http_client.fetch_bytes(image_url, timeout=timeout, extra_headers={"Referer": config.url})
+        recognition = image_client.ocr_image(data)
+        document = json.dumps({
+            **recognition, "image_url": image_url, "image_sha256": hashlib.sha256(data).hexdigest(),
+        }, ensure_ascii=False)
+        return SourceLoadResult(document, None, config.url, False)
     if config.source_type == "paginated_article_list":
         document, source_url = fetch_paginated_article_document(
             config,
@@ -288,6 +305,8 @@ class ScrapeService:
 
     @staticmethod
     def _source_kind(config: SiteConfig, rendered: bool) -> str:
+        if config.parser_id == "image_tuku2135":
+            return "图片OCR"
         if rendered:
             return "浏览器结构化兜底" if is_dynamic_article_site(config) else "浏览器兜底"
         if config.source_type == "paginated_article_list":
@@ -334,6 +353,7 @@ class ScrapeService:
         except ScrapeError as exc:
             if (
                 not rendered
+                and parser_id != "image_tuku2135"
                 and not config.api_url
                 and config.source_type != "paginated_article_list"
                 and should_render_html_fallback(config, exc)
@@ -439,6 +459,8 @@ class ScrapeService:
 
     @staticmethod
     def _evidence_source_method(config: SiteConfig, rendered: bool) -> str:
+        if config.parser_id == "image_tuku2135":
+            return "image_ocr"
         if rendered:
             return "browser_rendered"
         if config.api_url:

@@ -6,6 +6,7 @@
 
 - 每站每期必须是 `01`—`49` 内恰好36个互不重复号码，保留网页原始顺序。
 - `region` 是唯一方向字段，只能为 `top`/`bottom`；`position=tail` 仅兼容读取。
+- 六合王为用户授权图片例外：`image_tuku2135`、`position=none`、省略 `region`，不分上下左右；复用 PaddleOCR CPU，只取指定期图片，图内标题、期号及四行九码须完整验证。全网仍封存，不恢复其他OCR站点。
 - `section_keywords`、`keywords` 必须在同一栏目和目标期上下文命中；不得跨栏目、跨文章、跨来源拼接。
 - 三行数据只能使用 `three_rows` 或对应专属解析器；专属解析失败不得回退 `generic_36`。
 - 动态文章的标题、作者、正文、36码、`record_id`、`record_path` 必须来自同一接口对象。
