@@ -5660,5 +5660,30 @@
     "onboarding_exception": "allow_insufficient_history",
     "onboarding_valid_issues": [255],
     "onboarding_missing_issues": []
+  },
+  {
+    "name": "新澳门神算子",
+    "url": "https://aa.636995m.com:1888/",
+    "keywords": ["澳门神算原创围特"],
+    "section_keywords": ["澳门神算原创围特"],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "top",
+    "region": "top",
+    "render_browser": false,
+    "site_id": "site_c2dd45a5fb2080994708",
+    "source_type": "generic_html",
+    "parser_id": "generic_36",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_insufficient_history",
+    "onboarding_valid_issues": [256, 254, 253, 252, 251, 250, 249, 248, 247],
+    "onboarding_missing_issues": [255]
   }
 ]
