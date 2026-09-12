@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import time
 from collections.abc import Callable
 from dataclasses import dataclass, replace
 from urllib.parse import urljoin
@@ -45,6 +46,7 @@ class ScrapeExecution:
     source_kind: str
     rendered: bool
     error: str = ""
+    stages: tuple[tuple[str, float], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -252,48 +254,72 @@ class ScrapeService:
     ) -> ScrapeExecution:
         documents: list[str] = []
         rendered = False
+        stage_times: dict[str, float] = {}
+
+        def add_stage(name: str, started: float) -> None:
+            stage_times[name] = stage_times.get(name, 0.0) + (time.perf_counter() - started)
+
+        def timed_text_fetcher(*args, **kwargs) -> str:
+            started = time.perf_counter()
+            try:
+                return self.text_fetcher(*args, **kwargs)
+            finally:
+                add_stage("fetch", started)
 
         def traced_parser(document: str, site: SiteConfig) -> ParsedRecord:
             documents.append(document)
-            return self.parser(document, site)
+            started = time.perf_counter()
+            try:
+                return self.parser(document, site)
+            finally:
+                add_stage("parse", started)
 
         def traced_rendered_text(*args, **kwargs) -> str:
             nonlocal rendered
             rendered = True
-            document = self.rendered_text_fetcher(*args, **kwargs)
+            started = time.perf_counter()
+            try:
+                document = self.rendered_text_fetcher(*args, **kwargs)
+            finally:
+                add_stage("browser", started)
             documents.append(document)
             return document
 
         def traced_rendered_article(*args, **kwargs) -> ArticleRecord:
             nonlocal rendered
             rendered = True
-            article = self.rendered_article_fetcher(*args, **kwargs)
+            started = time.perf_counter()
+            try:
+                article = self.rendered_article_fetcher(*args, **kwargs)
+            finally:
+                add_stage("browser", started)
             documents.append(article.document)
             return article
 
         traced_service = ScrapeService(
-            text_fetcher=self.text_fetcher,
+            text_fetcher=timed_text_fetcher,
             parser=traced_parser,
             rendered_text_fetcher=traced_rendered_text,
             rendered_article_fetcher=traced_rendered_article,
             failure_sink=self.failure_sink,
         )
+        started = time.perf_counter()
         try:
             result = traced_service.scrape(
                 config,
                 timeout=timeout,
                 fixed_issue=fixed_issue,
             )
+            error = ""
         except ScrapeError as exc:
-            return ScrapeExecution(
-                config,
-                fixed_issue,
-                None,
-                documents[-1] if documents else "",
-                self._source_kind(config, rendered),
-                rendered,
-                str(exc) or f"{exc.__class__.__name__} 无详细异常消息",
-            )
+            result = None
+            error = str(exc) or f"{exc.__class__.__name__} 无详细异常消息"
+        add_stage("total", started)
+        stages = tuple(
+            (name, stage_times[name])
+            for name in ("fetch", "parse", "browser", "total")
+            if name in stage_times
+        )
         return ScrapeExecution(
             config,
             fixed_issue,
@@ -301,6 +327,8 @@ class ScrapeService:
             documents[-1] if documents else "",
             self._source_kind(config, rendered),
             rendered,
+            error,
+            stages,
         )
 
     @staticmethod

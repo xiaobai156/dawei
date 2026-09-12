@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from bisect import bisect_left, bisect_right
 from dataclasses import replace
 
 from dawei.domain.errors import ScrapeError
@@ -117,6 +118,32 @@ def candidate_context(
 
 def common_document_boundary(line: str) -> bool:
     return "DAWEI_DOCUMENT_BOUNDARY" in line
+
+
+def document_boundary_positions(lines: list[str]) -> tuple[int, ...]:
+    """Collect boundary line indexes once so range lookups need no rescans."""
+    return tuple(
+        index for index, line in enumerate(lines) if common_document_boundary(line)
+    )
+
+
+def document_range_from_boundaries(
+    lines: list[str],
+    index: int,
+    boundaries: tuple[int, ...],
+) -> range:
+    """Bisect equivalent of common.document_range_for_index using cached boundaries.
+
+    Boundary lines themselves are excluded, matching the linear scan where the
+    backward search starts at ``index - 1`` and the forward search at ``index + 1``.
+    """
+    if not 0 <= index < len(lines):
+        raise ValueError(f"document index out of range: {index}")
+    preceding = bisect_left(boundaries, index)
+    start = boundaries[preceding - 1] + 1 if preceding else 0
+    following = bisect_right(boundaries, index)
+    stop = boundaries[following] if following < len(boundaries) else len(lines)
+    return range(start, stop)
 
 
 def result_raw_position(text_or_html: str, result: ParsedRecord, config: SiteConfig) -> int | None:
@@ -417,8 +444,16 @@ def candidate_evidence(
     *,
     raw_number_lines: tuple[str, ...] | None = None,
     anchor_line: str | None = None,
+    boundary_positions: tuple[int, ...] | None = None,
 ) -> CandidateEvidence:
-    document_range = document_range_for_index(lines, index)
+    if boundary_positions is None:
+        document_range = document_range_for_index(lines, index)
+        document_number = sum(
+            1 for position in range(index) if common_document_boundary(lines[position])
+        )
+    else:
+        document_range = document_range_from_boundaries(lines, index, boundary_positions)
+        document_number = bisect_left(boundary_positions, index)
     if line_range.start < document_range.start or line_range.start >= document_range.stop:
         raise ScrapeError("栏目锚点与候选期数跨文档，拒绝写成功")
     block_start = max(line_range.start, document_range.start)
@@ -426,9 +461,6 @@ def candidate_evidence(
     if not block_start <= index < block_end:
         raise ScrapeError("候选期数超出同文档区块边界，拒绝写成功")
     line_range = range(block_start, block_end)
-    document_number = sum(
-        1 for position in range(index) if common_document_boundary(lines[position])
-    )
     document_id = f"document-{document_number}"
     actual_anchor_line = (
         anchor_line
@@ -480,6 +512,7 @@ def generic_candidates(
     config: SiteConfig,
 ) -> tuple[list[CandidateEvidence], list[tuple[int, int, str]], set[int]]:
     lines = html_to_lines(text_or_html)
+    boundary_positions = document_boundary_positions(lines)
     candidates: list[CandidateEvidence] = []
     invalid_candidates: list[tuple[int, int, str]] = []
     seen_matching_issues: set[int] = set()
@@ -538,7 +571,17 @@ def generic_candidates(
                     )
                 )
                 continue
-            candidates.append(candidate_evidence(lines, index, issue, numbers, config, line_range))
+            candidates.append(
+                candidate_evidence(
+                    lines,
+                    index,
+                    issue,
+                    numbers,
+                    config,
+                    line_range,
+                    boundary_positions=boundary_positions,
+                )
+            )
     return candidates, invalid_candidates, seen_matching_issues
 
 

@@ -38,9 +38,12 @@ def _require_positive(value: int, name: str) -> None:
         raise ScrapeError(f"{name} must be positive")
 
 
+DECOMPRESS_ERRORS = (gzip.BadGzipFile, EOFError, zlib.error, OSError)
+
+
 def decode_response_bytes(data: bytes, content_encoding: str) -> bytes:
     encoding = content_encoding.lower().strip()
-    if encoding == "gzip" or data.startswith(b"\x1f\x8b"):
+    if encoding in {"gzip", "x-gzip"} or data.startswith(b"\x1f\x8b"):
         return gzip.decompress(data)
     if encoding == "deflate":
         try:
@@ -48,6 +51,31 @@ def decode_response_bytes(data: bytes, content_encoding: str) -> bytes:
         except zlib.error:
             return zlib.decompress(data, -zlib.MAX_WBITS)
     return data
+
+
+def _fetch_decoded(
+    url: str,
+    timeout: int,
+    extra_headers: dict[str, str] | None,
+    raw_fetcher: Callable[..., tuple[bytes, str, str]],
+) -> tuple[bytes, str]:
+    """Fetch and decompress, retrying once with identity on bad compression.
+
+    A declared compression encoding that fails to decode is never returned as
+    raw bytes; the single identity re-request keeps data correctness intact.
+    """
+    data, charset, content_encoding = raw_fetcher(url, timeout, extra_headers=extra_headers)
+    try:
+        return decode_response_bytes(data, content_encoding), charset
+    except DECOMPRESS_ERRORS:
+        identity_headers = dict(extra_headers or {})
+        identity_headers["Accept-Encoding"] = "identity"
+        data, charset, content_encoding = raw_fetcher(
+            url,
+            timeout,
+            extra_headers=identity_headers,
+        )
+        return decode_response_bytes(data, content_encoding), charset
 
 
 def sniff_charset(data: bytes) -> str | None:
@@ -319,7 +347,7 @@ def fetch_raw(
             "User-Agent": USER_AGENT,
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "Accept-Language": "zh-CN,zh;q=0.9",
-            "Accept-Encoding": "identity",
+            "Accept-Encoding": "gzip, deflate",
         }
         if extra_headers:
             headers.update(extra_headers)
@@ -365,10 +393,9 @@ def fetch_bytes(
     timeout: int = DEFAULT_TIMEOUT,
     extra_headers: dict[str, str] | None = None,
 ) -> bytes:
-    data, _, encoding = fetch_raw(url, timeout=timeout, extra_headers=extra_headers)
     try:
-        return decode_response_bytes(data, encoding)
-    except (OSError, EOFError, zlib.error) as exc:
+        return _fetch_decoded(url, timeout, extra_headers, fetch_raw)[0]
+    except DECOMPRESS_ERRORS as exc:
         raise ScrapeError("failed to decode binary response") from exc
 
 
@@ -444,10 +471,9 @@ def fetch_text(
     _require_positive(timeout, "timeout")
     raw = raw_fetcher or fetch_raw
     node = node_fetcher or fetch_text_with_node
-    data, charset, content_encoding = raw(url, timeout, extra_headers=extra_headers)
     try:
-        data = decode_response_bytes(data, content_encoding)
-    except (gzip.BadGzipFile, zlib.error) as exc:
+        data, charset = _fetch_decoded(url, timeout, extra_headers, raw)
+    except DECOMPRESS_ERRORS as exc:
         raise ScrapeError("failed to decode compressed response") from exc
     text = decode_text(data, sniff_charset(data) or charset)
     if text.strip() in {'"abcabc"', "abcabc"}:

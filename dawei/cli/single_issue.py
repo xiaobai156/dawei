@@ -97,6 +97,16 @@ def main(argv: list[str] | None = None) -> int:
         print("\n慢站耗时统计（前10名）:")
         for index, (elapsed, name, status) in enumerate(sorted(result.timings, reverse=True)[:10], 1):
             print(f"{index}. {name} {status} {elapsed:.1f}秒")
+    if result.stage_timings:
+        stage_by_site: dict[str, list[tuple[str, float]]] = {}
+        for name, stage, seconds in result.stage_timings:
+            stage_by_site.setdefault(name, []).append((stage, seconds))
+        print("\n阶段耗时统计（慢站前10名）:")
+        for index, (_, name, status) in enumerate(sorted(result.timings, reverse=True)[:10], 1):
+            stages = " ".join(
+                f"{stage}={seconds:.1f}s" for stage, seconds in stage_by_site.get(name, ())
+            )
+            print(f"{index}. {name} {status} {stages}".rstrip())
     for failure in result.failures:
         print(f"Error: {failure}", file=sys.stderr)
     if result.cache_error:

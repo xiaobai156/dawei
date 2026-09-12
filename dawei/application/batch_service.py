@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import threading
 import time
 from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -64,6 +65,7 @@ class BatchRunResult:
     total_sites: int
     cache_updated: bool = False
     cache_error: str = ""
+    stage_timings: tuple[tuple[str, str, float], ...] = ()
 
     @property
     def exit_code(self) -> int:
@@ -310,6 +312,19 @@ class SingleIssueBatchService:
     ) -> None:
         self.site_scraper = site_scraper
         self.progress_sink = progress_sink or print
+        self._stage_lock = threading.Lock()
+        self._stage_records: dict[tuple[str, str], tuple[tuple[str, float], ...]] = {}
+
+    def _record_stages(
+        self,
+        config: SiteConfig,
+        stages: tuple[tuple[str, float], ...],
+    ) -> None:
+        if not stages:
+            return
+        key = (config.name, normalize_url_identity(config.url))
+        with self._stage_lock:
+            self._stage_records[key] = stages
 
     def run_configured(
         self,
@@ -377,6 +392,8 @@ class SingleIssueBatchService:
             raise ScrapeError(
                 "--merge-with 禁止用于正式成功数据；旧TXT缺少本次网页来源证据，只能人工对照"
             )
+        with self._stage_lock:
+            self._stage_records.clear()
         site_list = tuple(sites)
         if not site_list:
             raise ScrapeError("no sites provided")
@@ -474,6 +491,15 @@ class SingleIssueBatchService:
             except (CacheError, OSError, ScrapeError) as exc:
                 cache_error = "缓存更新未完成: " + (" ".join(str(exc).split()) or exc.__class__.__name__)
                 self.progress_sink(cache_error)
+        with self._stage_lock:
+            stage_timings = tuple(
+                (site.name, stage, seconds)
+                for site in site_list
+                for stage, seconds in self._stage_records.get(
+                    (site.name, normalize_url_identity(site.url)),
+                    (),
+                )
+            )
         return BatchRunResult(
             tuple(results),
             tuple(failures),
@@ -481,6 +507,7 @@ class SingleIssueBatchService:
             total,
             cache_updated=cache_updated,
             cache_error=cache_error,
+            stage_timings=stage_timings,
         )
 
     def _default_scraper(self, options: BatchOptions) -> SiteScraper:
@@ -512,7 +539,17 @@ class SingleIssueBatchService:
                     timeout=timeout,
                     proxy_retries=options.proxy_retries,
                 )
-            return service.scrape(config, timeout=timeout, fixed_issue=fixed_issue)
+            execution = service.execute(
+                config,
+                timeout=timeout,
+                fixed_issue=fixed_issue,
+            )
+            self._record_stages(config, execution.stages)
+            if execution.error:
+                raise ScrapeError(execution.error)
+            if execution.result is None:
+                raise ScrapeError("抓取未返回结果")
+            return execution.result
 
         return scrape
 
