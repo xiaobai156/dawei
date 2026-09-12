@@ -7,6 +7,7 @@ import queue
 import threading
 from collections.abc import Callable
 from dataclasses import dataclass
+from urllib.parse import urlsplit
 
 from dawei.domain.errors import ScrapeError
 from dawei.domain.models import ArticleRecord, SiteConfig
@@ -341,6 +342,101 @@ class ReusableBrowserRenderer:
             self._close_done.wait()
             if owner is not None and owner is not threading.current_thread():
                 owner.join()
+
+
+def normalize_origin(url: str | None) -> str | None:
+    """Normalize a URL to a ``scheme://hostname:effective-port`` affinity key.
+
+    Userinfo (username/password) is ignored.  An omitted port is equivalent to
+    the scheme default (https 443 / http 80), so explicit defaults and omitted
+    defaults map to the same key.
+    """
+    if not url:
+        return None
+    parts = urlsplit(url)
+    scheme = (parts.scheme or "").lower()
+    host = (parts.hostname or "").lower()
+    if not scheme or not host:
+        return None
+    try:
+        port = parts.port
+    except ValueError:
+        port = None
+    if port is None:
+        port = {"http": 80, "https": 443}.get(scheme)
+    return f"{scheme}://{host}:{port}" if port is not None else f"{scheme}://{host}"
+
+
+class BrowserRendererPool:
+    """Independent batch-scoped pool of owner-thread renderers.
+
+    The pool never touches the legacy global renderer singleton used by
+    ``fetch_rendered_text`` / ``fetch_rendered_article_record``.  Same-origin
+    affinity is derived from :func:`normalize_origin` unless an explicit
+    ``affinity_key`` is supplied; no further grouping is guessed.
+    """
+
+    def __init__(self, size: int, playwright_starter: Callable[[], object]):
+        if type(size) is not int or size not in (1, 2):
+            raise ScrapeError("browser workers must be 1 or 2")
+        self.size = size
+        self.playwright_starter = playwright_starter
+        self._lock = threading.Lock()
+        self._renderers: list[ReusableBrowserRenderer] = []
+        self._origin_index: dict[str, int] = {}
+        self._closed = False
+
+    def _affinity_key(self, url: str, affinity_key: str | None) -> str:
+        if affinity_key is not None:
+            return affinity_key
+        return normalize_origin(url) or ""
+
+    def _renderer_for(self, key: str) -> ReusableBrowserRenderer:
+        with self._lock:
+            if self._closed:
+                raise ScrapeError("browser renderer pool is closed")
+            index = self._origin_index.get(key)
+            if index is None:
+                index = len(self._origin_index) % self.size
+                self._origin_index[key] = index
+            while len(self._renderers) <= index:
+                self._renderers.append(ReusableBrowserRenderer(self.playwright_starter))
+            return self._renderers[index]
+
+    def fetch(
+        self,
+        url: str,
+        timeout: int = DEFAULT_TIMEOUT,
+        affinity_key: str | None = None,
+    ) -> str:
+        renderer = self._renderer_for(self._affinity_key(url, affinity_key))
+        return renderer.fetch(url, timeout=timeout)
+
+    def fetch_article(
+        self,
+        config: SiteConfig,
+        timeout: int = DEFAULT_TIMEOUT,
+        affinity_key: str | None = None,
+    ) -> ArticleRecord:
+        renderer = self._renderer_for(self._affinity_key(config.url, affinity_key))
+        return renderer.fetch_article(config, timeout=timeout)
+
+    def close_all(self) -> None:
+        with self._lock:
+            if self._closed:
+                return
+            self._closed = True
+            renderers = list(self._renderers)
+            self._renderers = []
+            self._origin_index = {}
+        errors: list[str] = []
+        for renderer in renderers:
+            try:
+                renderer.close_all()
+            except BaseException as exc:  # noqa: BLE001 - report every close failure
+                errors.append(str(exc) or exc.__class__.__name__)
+        if errors:
+            raise ScrapeError("browser renderer pool close failed: " + "; ".join(errors))
 
 
 _BROWSER_RENDERER: ReusableBrowserRenderer | None = None

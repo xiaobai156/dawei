@@ -21,7 +21,7 @@ from dawei.domain.errors import (
 )
 from dawei.domain.models import ParsedRecord, ScrapeRecord, SiteConfig
 from dawei.domain.validation import validate_36_numbers, validate_candidate_evidence
-from dawei.infrastructure import http_client
+from dawei.infrastructure import browser_client, http_client
 from dawei.infrastructure.cache_repository import (
     CacheRepository,
     ProcessFileLock,
@@ -55,6 +55,7 @@ class BatchOptions:
     append_success: bool = False
     merge_with: Path | None = None
     proxy_retries: int = 1
+    browser_workers: int = 1
 
 
 @dataclass(frozen=True)
@@ -301,6 +302,14 @@ def _validate_batch_options(options: BatchOptions) -> None:
             isinstance(value, bool) or not isinstance(value, int) or value <= 0
         ))
         raise ScrapeError(f"{invalid} must be a positive integer")
+    if type(options.browser_workers) is not int or options.browser_workers not in (1, 2):
+        raise ScrapeError("browser_workers must be 1 or 2")
+
+
+def _playwright_starter() -> object:
+    from playwright.sync_api import sync_playwright
+
+    return sync_playwright().start()
 
 
 class SingleIssueBatchService:
@@ -404,7 +413,8 @@ class SingleIssueBatchService:
         }
         subset_run = len(site_list) != len(all_site_list) or site_keys != all_site_keys
         preserve_failures = options.preserve_existing_failures or subset_run
-        scraper = self.site_scraper or self._default_scraper(options)
+        using_default_scraper = self.site_scraper is None
+        pool: browser_client.BrowserRendererPool | None = None
         workers = max(1, min(options.workers, len(site_list) or 1))
         total = len(site_list)
         self.progress_sink(
@@ -417,43 +427,53 @@ class SingleIssueBatchService:
         timings: list[tuple[float, str, str]] = []
         success_count = 0
         failure_count = 0
-        with ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = {
-                executor.submit(self._timed_scrape, scraper, site, options): (index, site)
-                for index, site in enumerate(site_list)
-            }
-            for completed, future in enumerate(as_completed(futures), start=1):
-                index, site = futures[future]
-                result, elapsed, error = future.result()
-                if error is not None:
-                    failure = error if isinstance(error, ScrapeError) else RuntimeError(
-                        f"unexpected error: {error}"
-                    )
-                    failures.append(format_failure(site, failure, options.fixed_issue))
-                    timings.append((elapsed, site.name, "失败"))
-                    failure_count += 1
-                else:
-                    assert result is not None
-                    errors = validate_result(result, options.fixed_issue, site)
-                    if errors:
-                        failures.append(
-                            format_failure(
-                                site,
-                                ScrapeError("校验失败：" + "；".join(errors)),
-                                options.fixed_issue,
-                            )
+        try:
+            if using_default_scraper:
+                pool = browser_client.BrowserRendererPool(
+                    options.browser_workers,
+                    _playwright_starter,
+                )
+            scraper = self.site_scraper or self._default_scraper(options, pool)
+            with ThreadPoolExecutor(max_workers=workers) as executor:
+                futures = {
+                    executor.submit(self._timed_scrape, scraper, site, options): (index, site)
+                    for index, site in enumerate(site_list)
+                }
+                for completed, future in enumerate(as_completed(futures), start=1):
+                    index, site = futures[future]
+                    result, elapsed, error = future.result()
+                    if error is not None:
+                        failure = error if isinstance(error, ScrapeError) else RuntimeError(
+                            f"unexpected error: {error}"
                         )
+                        failures.append(format_failure(site, failure, options.fixed_issue))
                         timings.append((elapsed, site.name, "失败"))
                         failure_count += 1
                     else:
-                        results_by_index[index] = result
-                        timings.append((elapsed, site.name, "成功"))
-                        success_count += 1
-                percent = int(completed * 100 / total) if total else 100
-                self.progress_sink(
-                    f"[进度 {completed}/{total} {percent}% 成功 {success_count} "
-                    f"失败 {failure_count} 用时 {time.perf_counter() - started:.1f}s] 当前: {site.name}"
-                )
+                        assert result is not None
+                        errors = validate_result(result, options.fixed_issue, site)
+                        if errors:
+                            failures.append(
+                                format_failure(
+                                    site,
+                                    ScrapeError("校验失败：" + "；".join(errors)),
+                                    options.fixed_issue,
+                                )
+                            )
+                            timings.append((elapsed, site.name, "失败"))
+                            failure_count += 1
+                        else:
+                            results_by_index[index] = result
+                            timings.append((elapsed, site.name, "成功"))
+                            success_count += 1
+                    percent = int(completed * 100 / total) if total else 100
+                    self.progress_sink(
+                        f"[进度 {completed}/{total} {percent}% 成功 {success_count} "
+                        f"失败 {failure_count} 用时 {time.perf_counter() - started:.1f}s] 当前: {site.name}"
+                    )
+        finally:
+            if pool is not None:
+                pool.close_all()
         results = [results_by_index[index] for index in sorted(results_by_index)]
         if options.append_success or subset_run:
             append_results(results, options.output_path)
@@ -510,7 +530,11 @@ class SingleIssueBatchService:
             stage_timings=stage_timings,
         )
 
-    def _default_scraper(self, options: BatchOptions) -> SiteScraper:
+    def _default_scraper(
+        self,
+        options: BatchOptions,
+        browser_pool: browser_client.BrowserRendererPool | None = None,
+    ) -> SiteScraper:
         def raw_fetcher(url: str, timeout: int, extra_headers=None):
             return http_client.fetch_raw(
                 url,
@@ -530,7 +554,19 @@ class SingleIssueBatchService:
             path = options.cache_dir / str(options.fixed_issue) / f"{self._safe_name(config.name)}.html"
             atomic_write_text(path, document)
 
-        service = ScrapeService(text_fetcher=cache.fetch, failure_sink=failure_sink)
+        rendered_kwargs: dict[str, object] = {}
+        if browser_pool is not None:
+            rendered_kwargs = {
+                "rendered_text_fetcher": lambda url, timeout: browser_pool.fetch(url, timeout),
+                "rendered_article_fetcher": lambda config, timeout: browser_pool.fetch_article(
+                    config, timeout
+                ),
+            }
+        service = ScrapeService(
+            text_fetcher=cache.fetch,
+            failure_sink=failure_sink,
+            **rendered_kwargs,
+        )
 
         def scrape(config: SiteConfig, *, timeout: int, fixed_issue: int | None):
             if options.health_check:

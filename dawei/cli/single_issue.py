@@ -40,6 +40,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--merge-with", default=None)
     parser.add_argument("--validation-output", default=None)
     parser.add_argument("--proxy-retries", type=int, default=1)
+    parser.add_argument(
+        "--browser-workers",
+        type=int,
+        choices=(1, 2),
+        default=1,
+        help="浏览器渲染 owner 实例数，只允许 1 或 2",
+    )
     parser.add_argument("--no-update-recent-cache", action="store_true")
     args = parser.parse_args(argv)
     if args.prompt_issue:
@@ -81,6 +88,7 @@ def main(argv: list[str] | None = None) -> int:
         recent_cache_path=DEFAULT_BACKUP_PATH,
         merge_with=Path(args.merge_with) if args.merge_with else None,
         proxy_retries=args.proxy_retries,
+        browser_workers=args.browser_workers,
     )
     try:
         result = SingleIssueBatchService().run_configured(
