@@ -24,7 +24,13 @@ def _compact(value: str) -> str:
 
 
 def _is_article_url(url: str) -> bool:
-    return bool(re.search(r"/article\.aspx(?:[?#]|$)", url, re.IGNORECASE))
+    return bool(
+        re.search(
+            r"/article\.aspx(?:[?#]|$)|/article/dxzt/aid/[^/?#]+\.html(?:[?#]|$)",
+            url,
+            re.IGNORECASE,
+        )
+    )
 
 
 def _all_navigation_keywords_present(title: str, config: SiteConfig) -> bool:

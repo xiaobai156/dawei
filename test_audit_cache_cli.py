@@ -1465,6 +1465,13 @@ class DuplicateAndConfigTests(unittest.TestCase):
                 DuplicateRunner._validate_backup_identity(
                     backup, (replace(site, site_id="other"),), cache_path
                 )
+
+            DuplicateRunner._validate_backup_identity(
+                backup,
+                (site, replace(site, name="新增站", site_id="new-site")),
+                cache_path,
+                allow_incomplete_backup=True,
+            )
     def test_backup_site_latest_issue_comes_from_records(self) -> None:
         payload = {
             "version": 2,

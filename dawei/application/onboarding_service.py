@@ -27,6 +27,14 @@ def site_key(site: SiteWindow | SiteConfig) -> tuple[str, str]:
     return site.name, site.url
 
 
+def allows_incomplete_backup(candidates: Iterable[SiteConfig]) -> bool:
+    candidate_sites = tuple(candidates)
+    return bool(candidate_sites) and all(
+        site.onboarding_exception == "allow_incomplete_backup"
+        for site in candidate_sites
+    )
+
+
 def normalized_name(value: str) -> str:
     return unicodedata.normalize("NFKC", value).strip().casefold()
 
@@ -259,7 +267,9 @@ class OnboardingService:
             )
         if type(backup.period) is not int or backup.period <= 0:
             raise ScrapeError("新增站点缓存基准期数无效，拒绝新增")
-        if backup.incomplete or backup.failures:
+        if (backup.incomplete or backup.failures) and not allows_incomplete_backup(
+            candidate_sites
+        ):
             raise ScrapeError("近10期重复检测缓存不完整，禁止新增站点")
         conflicts = candidate_identity_conflicts(candidate_sites, configured, backup.sites)
         if conflicts:

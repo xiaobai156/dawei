@@ -25,6 +25,7 @@ from dawei.domain.errors import ScrapeError
 from dawei.domain.models import ArticleRecord, ParsedRecord, SiteConfig
 from dawei.infrastructure import browser_client, http_client, source_adapters
 from dawei.parsers import DEFAULT_REGISTRY, dynamic_article
+from dawei.parsers.paginated_article import resolve_paginated_article
 
 NUMBERS = tuple(f"{value:02d}" for value in range(1, 37))
 BROWSER_DOCUMENT = "210期 三十六码\n测试站\n测试站 三十六码\n" + " ".join(NUMBERS)
@@ -662,6 +663,31 @@ class TransportBoundaryTests(unittest.TestCase):
             source_adapters.decode_possible_base64_text(encoded.replace("+", "-").replace("/", "_")),
             "中文 <b>内容</b>",
         )
+
+    def test_paginated_resolver_accepts_static_article_link(self) -> None:
+        config = SiteConfig(
+            name="抓抓码",
+            url="https://example.test/",
+            keywords=("36码特围",),
+            section_keywords=("无错36码特围",),
+            region="top",
+            site_id="site-grabgrub",
+            source_type="paginated_article_list",
+            parser_id="generic_36",
+            navigation_keywords=("36码特围",),
+        )
+        documents = source_adapters.fetch_paginated_list_documents(
+            config.url,
+            1,
+            lambda _url, _timeout: (
+                '<a href="/Article/dxzt/aid/s010.html">高手贴 256期【36码特围】</a>'
+            ),
+        )
+
+        target = resolve_paginated_article(documents, config, fixed_issue=256)
+
+        self.assertEqual(target.issue, 256)
+        self.assertEqual(target.url, "https://example.test/Article/dxzt/aid/s010.html")
 
     def test_source_adapters_record_and_payload_edges(self) -> None:
         config = _config()

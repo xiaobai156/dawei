@@ -5685,5 +5685,34 @@
     "onboarding_exception": "allow_insufficient_history",
     "onboarding_valid_issues": [256, 254, 253, 252, 251, 250, 249, 248, 247],
     "onboarding_missing_issues": [255]
+  },
+  {
+    "name": "抓抓码",
+    "url": "https://mm.yc7877.com:1888/",
+    "keywords": [
+      "36码特围"
+    ],
+    "section_keywords": [
+      "无错36码特围"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "top",
+    "region": "top",
+    "render_browser": false,
+    "site_id": "site_b076fa75de0145593e2a",
+    "source_type": "paginated_article_list",
+    "parser_id": "generic_36",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [
+      "36码特围"
+    ],
+    "onboarding_exception": "allow_incomplete_backup"
   }
 ]

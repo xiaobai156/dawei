@@ -251,10 +251,7 @@ class DuplicateRunner:
         disallowed_exceptions = [
             site.name
             for site in candidates
-            if site.onboarding_exception in {
-                "allow_insufficient_history",
-                "allow_incomplete_backup",
-            }
+            if site.onboarding_exception == "allow_insufficient_history"
         ]
         if disallowed_exceptions:
             raise ScrapeError(
@@ -268,7 +265,14 @@ class DuplicateRunner:
             else None
         )
         if backup is not None:
-            self._validate_backup_identity(backup, configured, options.backup_path)
+            self._validate_backup_identity(
+                backup,
+                configured,
+                options.backup_path,
+                allow_incomplete_backup=onboarding_service.allows_incomplete_backup(
+                    candidates
+                ),
+            )
         backup_windows = list(backup.sites) if backup else []
         period = options.period if options.period is not None else (
             backup.period if backup else 9999
@@ -284,7 +288,11 @@ class DuplicateRunner:
             if conflicts:
                 failures.extend(conflicts)
                 return self._empty_result(period, failures, auto_period)
-        if backup and (backup.incomplete or backup.failures):
+        if (
+            backup
+            and (backup.incomplete or backup.failures)
+            and not onboarding_service.allows_incomplete_backup(candidates)
+        ):
             failures.append(
                 "近10期重复检测缓存不完整，禁止新增站点"
                 if candidates
@@ -392,6 +400,8 @@ class DuplicateRunner:
         backup: duplicate_service.BackupSnapshot,
         configured: tuple[SiteConfig, ...],
         backup_path: Path,
+        *,
+        allow_incomplete_backup: bool = False,
     ) -> None:
         """Reject a cache that cannot be proven to match current config."""
         if type(backup.periods) is not int or backup.periods != 10:
@@ -402,20 +412,26 @@ class DuplicateRunner:
         repository = CacheRepository(backup_path)
         stored_fingerprint = repository.load_config_fingerprint()
         expected_fingerprint = config_fingerprint(configured)
-        if stored_fingerprint is None:
+        if stored_fingerprint is None and not allow_incomplete_backup:
             raise ScrapeError(
                 f"缓存 {backup_path} 缺少配置指纹，无法证明与当前站点配置一致；请授权重建缓存"
             )
-        if stored_fingerprint != expected_fingerprint:
+        if (
+            stored_fingerprint is not None
+            and stored_fingerprint != expected_fingerprint
+            and not allow_incomplete_backup
+        ):
             raise ScrapeError("近10期缓存配置指纹与当前正式配置不一致，判重已拒绝")
         by_id = {site.site_id: site for site in configured}
         if len(by_id) != len(configured):
             raise ScrapeError("当前正式配置存在重复site_id，判重已拒绝")
-        if len(backup.sites) != len(configured):
+        if len(backup.sites) != len(configured) and not allow_incomplete_backup:
             raise ScrapeError("近10期缓存站点数量与当前正式配置不一致，判重已拒绝")
         for cached in backup.sites:
             site = by_id.get(cached.site_id)
             if site is None:
+                if allow_incomplete_backup:
+                    continue
                 raise ScrapeError(f"缓存包含配置外站点: {cached.name}")
             if cached.name != site.name or normalize_url_identity(cached.url) != normalize_url_identity(site.url):
                 raise ScrapeError(f"缓存站点身份与配置不一致: {cached.name}")

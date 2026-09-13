@@ -12,6 +12,7 @@ from dawei.application.duplicate_runner import DuplicateOptions, DuplicateRunner
 from dawei.application.duplicate_service import BackupSnapshot, SiteWindow
 from dawei.application.onboarding_service import (
     OnboardingService,
+    allows_incomplete_backup,
     candidate_identity_conflicts,
     matches_involving_sites,
     normalized_url,
@@ -1201,7 +1202,7 @@ class CandidateOnboardingRulesTests(unittest.TestCase):
 
         self.assertTrue(any("record_id" in conflict for conflict in conflicts))
 
-    def test_incomplete_backup_exception_never_allows_candidate(self) -> None:
+    def test_incomplete_backup_exception_skips_cache_gate(self) -> None:
         config = _config(exception="allow_incomplete_backup")
         backup = BackupSnapshot(
             period=225,
@@ -1210,7 +1211,7 @@ class CandidateOnboardingRulesTests(unittest.TestCase):
             failures=("其他站失败",),
             incomplete=True,
         )
-        with self.assertRaisesRegex(ScrapeError, "缓存不完整"):
+        with self.assertRaisesRegex(ScrapeError, "唯一对应一个真实抓取窗口"):
             OnboardingService().validate(
                 candidates=(config,),
                 configured=(),
@@ -1218,6 +1219,13 @@ class CandidateOnboardingRulesTests(unittest.TestCase):
                 windows=(),
                 matches=(),
             )
+
+    def test_incomplete_backup_exception_is_explicitly_scoped(self) -> None:
+        self.assertTrue(
+            allows_incomplete_backup((_config(exception="allow_incomplete_backup"),))
+        )
+        self.assertFalse(allows_incomplete_backup((_config(),)))
+        self.assertFalse(allows_incomplete_backup(()))
 
     def test_insufficient_history_exception_never_bypasses_ten_period_gate(self) -> None:
         config = _config(exception="allow_insufficient_history")
