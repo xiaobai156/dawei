@@ -925,7 +925,7 @@ class BatchOutputAndCacheTests(unittest.TestCase):
             with self.subTest(field=field), self.assertRaises(ScrapeError):
                 service.run((site,), replace(base, **{field: 0}))
 
-    def test_subset_run_cannot_advance_missing_or_old_cache(self) -> None:
+    def test_subset_run_uses_manual_issue_as_cache_baseline(self) -> None:
         sites = (
             SiteConfig("站A", "https://a.test", site_id="a", region="top", parser_id="generic_36"),
             SiteConfig("站B", "https://b.test", site_id="b", region="top", parser_id="generic_36"),
@@ -976,10 +976,13 @@ class BatchOutputAndCacheTests(unittest.TestCase):
                     ),
                     only=("站A",),
                 )
-                self.assertFalse(result.cache_updated)
-                self.assertIn("子集运行", result.cache_error)
-                self.assertEqual(result.exit_code, 1)
+                self.assertTrue(result.cache_updated)
+                self.assertEqual(result.cache_error, "")
+                self.assertEqual(result.exit_code, 0)
                 self.assertTrue((root / "success.txt").exists())
+                snapshot = CacheRepository(cache_path).load()
+                self.assertEqual(snapshot.period, 236)
+                self.assertEqual(snapshot.sites[0].name, "站A")
 
     def test_same_period_subset_run_repairs_only_selected_failures(self) -> None:
         sites = (

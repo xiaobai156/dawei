@@ -16,7 +16,6 @@ from dawei.application.scrape_service import ScrapeService
 from dawei.domain.errors import (
     CacheConflictError,
     CacheError,
-    CacheRollbackError,
     ScrapeError,
     ValidationError,
 )
@@ -792,24 +791,8 @@ class SingleIssueBatchService:
                 )
             )
         repository = CacheRepository(options.recent_cache_path)
-        if subset_run:
-            snapshot = repository.load()
-            if snapshot.period != options.fixed_issue:
-                raise ScrapeError(
-                    "子集运行禁止推进缓存：仅允许在缓存已有相同期数 "
-                    f"{options.fixed_issue} 期时修补，当前缓存期数为{snapshot.period!r}"
-                )
         try:
             fingerprint = config_fingerprint(site_list)
-            expected_site_identities = {
-                site.site_id: (
-                    site.name,
-                    site.url,
-                    site.parser_id,
-                    site.record_id if site.source_type == "dynamic_article" else None,
-                )
-                for site in site_list
-            }
             repository.update(
                 records,
                 failures,
@@ -817,12 +800,10 @@ class SingleIssueBatchService:
                 periods=options.recent_periods,
                 preserve_existing_failures=options.preserve_existing_failures or subset_run,
                 config_fingerprint=fingerprint,
-                expected_site_identities=expected_site_identities,
-                allow_missing_fingerprint_binding=not subset_run,
+                allow_missing_fingerprint_binding=True,
                 preserve_site_order=subset_run,
+                allow_cache_rebase=True,
             )
-        except CacheRollbackError:
-            raise ScrapeError("缓存更新未完成: 目标期数早于缓存最新期，拒绝回滚")
         except CacheConflictError as exc:
             raise ScrapeError(str(exc)) from exc
         return True

@@ -261,7 +261,6 @@ def _validate_existing_config_identity(
             raise CacheConflictError(
                 f"cache dynamic record_id does not match configuration: {site.name}"
             )
-
     expected_pairs = tuple((name, url) for name, url, _, _ in expected.values())
     for failure in snapshot.failures:
         identity = _failure_identity(failure)
@@ -486,6 +485,7 @@ class CacheRepository:
         expected_site_identities: Mapping[str, tuple[str, str, str, str | None]] | None = None,
         allow_missing_fingerprint_binding: bool = False,
         preserve_site_order: bool = False,
+        allow_cache_rebase: bool = False,
     ) -> CacheSnapshot:
         fixed_issue = _positive_int(fixed_issue, "fixed_issue")
         periods = _positive_int(periods, "periods")
@@ -498,13 +498,13 @@ class CacheRepository:
         with ProcessFileLock(self.lock_path, timeout=self.lock_timeout):
             existing = self._load_unlocked()
             stored_fingerprint = self._config_fingerprint
-            if stored_fingerprint and config_fingerprint and stored_fingerprint != config_fingerprint:
+            if not allow_cache_rebase and stored_fingerprint and config_fingerprint and stored_fingerprint != config_fingerprint:
                 raise CacheConflictError(
                     "cache configuration fingerprint differs from the requested configuration"
                 )
-            if expected_site_identities is not None:
+            if not allow_cache_rebase and expected_site_identities is not None:
                 _validate_existing_config_identity(existing, expected_site_identities)
-            if config_fingerprint and not stored_fingerprint and (
+            if not allow_cache_rebase and config_fingerprint and not stored_fingerprint and (
                 existing.sites or existing.failures
             ):
                 if not allow_missing_fingerprint_binding:
@@ -515,7 +515,7 @@ class CacheRepository:
                     raise CacheConflictError(
                         "cache lacks a configuration fingerprint; identity proof is required"
                     )
-            if existing.period is not None and fixed_issue < existing.period:
+            if not allow_cache_rebase and existing.period is not None and fixed_issue < existing.period:
                 raise CacheRollbackError(
                     f"refusing cache rollback from {existing.period} to {fixed_issue}"
                 )
