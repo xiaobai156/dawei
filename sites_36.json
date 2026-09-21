@@ -5802,5 +5802,45 @@
     "record_id": "6a9586f1ee4739fbe9f0a175",
     "render_policy": "fallback",
     "onboarding_exception": "allow_incomplete_backup"
+  },
+  {
+    "name": "白姐最准",
+    "url": "https://66642.net/play_detail.php?lottery=MACAU&id=4&issue=2026265",
+    "keywords": [
+      "白姐最准"
+    ],
+    "section_keywords": [
+      "高手36码"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "top",
+    "region": "top",
+    "render_browser": false,
+    "site_id": "site_9ef73aeb9f2c8f876e05",
+    "source_type": "generic_html",
+    "parser_id": "baijie_zuizhun",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_insufficient_history",
+    "onboarding_valid_issues": [
+      265,
+      264,
+      263,
+      262,
+      261,
+      259,
+      257,
+      256
+    ],
+    "onboarding_missing_issues": [
+      260,
+      258
+    ]
   }
-]
