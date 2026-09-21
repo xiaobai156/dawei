@@ -100,6 +100,63 @@ def extract_yangguang_mingmei(text_or_html: str, config: SiteConfig) -> SiteResu
     )
 
 
+def baijie_zuizhun_candidates(
+    text_or_html: str,
+    config: SiteConfig,
+) -> tuple[list[CandidateEvidence], list[tuple[int, int, str]], set[int]]:
+    """Collect 白姐最准's inline 高手36码 records from one HTML document."""
+    lines = html_to_lines(text_or_html)
+    candidates: list[CandidateEvidence] = []
+    invalid: list[tuple[int, int, str]] = []
+    seen: set[int] = set()
+    marker = "【高手36码】"
+    for index, line in enumerate(lines):
+        issue_match = re.search(r"(?<!\d)第\s*(\d{3})\s*期", line)
+        if not issue_match or marker not in line:
+            continue
+        if not all_keywords_present(line, (*config.keywords, *config.section_keywords)):
+            continue
+        issue = int(issue_match.group(1))
+        seen.add(issue)
+        payload = line.split(marker, 1)[1]
+        payload = re.split(r"开[：:]|開[：:]", payload, maxsplit=1)[0]
+        numbers = tuple(line_numbers(payload))
+        raw_number_lines = (line,)
+        if len(numbers) != 36 and index + 1 < len(lines):
+            next_line = lines[index + 1]
+            if not ISSUE_RE.search(next_line):
+                next_numbers = tuple(line_numbers(next_line))
+                if len(next_numbers) == 36:
+                    numbers = next_numbers
+                    raw_number_lines = (line, next_line)
+        if not valid_36_code_record(numbers):
+            invalid.append((issue, index, "白姐最准高手36码行不是完整36码"))
+            continue
+        candidates.append(
+            candidate_evidence(
+                lines,
+                index,
+                issue,
+                numbers,
+                config,
+                range(index, index + 1),
+                raw_number_lines=raw_number_lines,
+                anchor_line=line,
+            )
+        )
+    return candidates, invalid, seen
+
+
+def extract_baijie_zuizhun(text_or_html: str, config: SiteConfig) -> SiteResult:
+    return extract_from_candidates(
+        text_or_html,
+        config,
+        baijie_zuizhun_candidates,
+        no_candidates_message="白姐最准高手36码栏目没有找到符合条件的数据",
+        issue_range_error="no 36-number record found for issue range",
+    )
+
+
 def renjianrenai_candidates(
     text_or_html: str,
     config: SiteConfig,
