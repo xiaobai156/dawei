@@ -1593,7 +1593,37 @@
       ],
       "onboarding_missing_issues": [],
       "archive_tag": "用户明确封存：250期抓取失败，不再抓取（富豪神码）"
+    },
+    {
+      "name": "星辰水乡",
+      "url": "https://xkbbs-6u7uytj-ytrfg-6ujrytfgn-6jrytfgn.lol/xkbbs/read.php?tid=126000",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "星辰水乡"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_3c306e14833a33d40939",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：265期页面无效/无权限，不再抓取（星辰水乡）"
     }
   ],
-  "updated_at": "2026-09-07T19:24:41+08:00"
+  "updated_at": "2026-09-22T18:33:09+08:00"
 }
