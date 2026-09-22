@@ -5843,4 +5843,45 @@
       260,
       258
     ]
+  },
+  {
+    "name": "一盏明灯",
+    "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=72444",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "一盏明灯"
+    ],
+    "search_window": 520,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_9197cef1b9d0fc40591c",
+    "source_type": "bbs_topic",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [
+      265,
+      264,
+      263,
+      262,
+      261,
+      260,
+      259,
+      258,
+      257,
+      256
+    ],
+    "onboarding_missing_issues": []
   }
+]
