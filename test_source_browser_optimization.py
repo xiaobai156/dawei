@@ -100,6 +100,58 @@ def _api_payload(body: str = "测试站 三十六码") -> str:
 
 
 class SourceBrowserOptimizationTests(unittest.TestCase):
+    def test_browser_first_retry_uses_browser_before_http(self) -> None:
+        config = SiteConfig(
+            name="测试站",
+            url="https://example.test/topic",
+            keywords=("三十六码",),
+            section_keywords=("测试站",),
+            region="top",
+            site_id="site-test",
+            source_type="bbs_topic",
+            parser_id="generic_36",
+            render_policy="never",
+        )
+        browser = mock.Mock(return_value="测试站 236期 三十六码\n" + " ".join(NUMBERS))
+        http = mock.Mock(side_effect=AssertionError("retry must try browser first"))
+
+        result = ScrapeService(
+            text_fetcher=http,
+            rendered_text_fetcher=browser,
+            browser_first=True,
+        ).scrape(config, fixed_issue=236)
+
+        self.assertEqual(result.issue, 236)
+        self.assertEqual(result.numbers, NUMBERS)
+        browser.assert_called_once_with(config.url, timeout=20)
+        http.assert_not_called()
+
+    def test_browser_first_retry_falls_back_to_http_when_browser_load_fails(self) -> None:
+        config = SiteConfig(
+            name="测试站",
+            url="https://example.test/topic",
+            keywords=("三十六码",),
+            section_keywords=("测试站",),
+            region="top",
+            site_id="site-test",
+            source_type="bbs_topic",
+            parser_id="generic_36",
+            render_policy="never",
+        )
+        browser = mock.Mock(side_effect=ScrapeError("browser rendering failed"))
+        http = mock.Mock(return_value="测试站 236期 三十六码\n" + " ".join(NUMBERS))
+
+        result = ScrapeService(
+            text_fetcher=http,
+            rendered_text_fetcher=browser,
+            browser_first=True,
+        ).scrape(config, fixed_issue=236)
+
+        self.assertEqual(result.issue, 236)
+        self.assertEqual(result.numbers, NUMBERS)
+        browser.assert_called_once_with(config.url, timeout=20)
+        http.assert_called_once_with(config.url, 20)
+
     def test_plain_http_shell_uses_browser_after_target_parse_fails(self) -> None:
         config = SiteConfig(
             name="测试站",

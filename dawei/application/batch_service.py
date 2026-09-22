@@ -58,6 +58,7 @@ class BatchOptions:
     proxy_retries: int = 1
     browser_workers: int = 1
     timing_json_path: Path | None = None
+    browser_first: bool = False
 
 
 @dataclass(frozen=True)
@@ -387,6 +388,7 @@ class SingleIssueBatchService:
                 **options.__dict__,
                 "preserve_existing_failures": bool(names),
                 "append_success": bool(names),
+                "browser_first": options.browser_first or retry_failed is not None,
             }
         )
         return self.run(chosen, configured_options, all_sites=sites)
@@ -691,6 +693,7 @@ class SingleIssueBatchService:
         service = ScrapeService(
             text_fetcher=cache.fetch,
             failure_sink=failure_sink,
+            browser_first=options.browser_first,
             **rendered_kwargs,
         )
 

@@ -36,6 +36,7 @@ RenderedTextFetcher = Callable[..., str]
 RenderedArticleFetcher = Callable[..., ArticleRecord]
 FailureSink = Callable[[SiteConfig, str], None]
 HTML_BROWSER_FALLBACK_SOURCE_TYPES = frozenset({"generic_html", "topic_page"})
+BROWSER_FIRST_EXCLUDED_SOURCE_TYPES = frozenset({"paginated_article_list", "script_bundle"})
 
 
 @dataclass(frozen=True)
@@ -113,6 +114,13 @@ def should_render_html_fallback(config: SiteConfig, exc: BaseException) -> bool:
             "no valid",
             "no record",
         )
+    )
+
+
+def supports_browser_first(config: SiteConfig) -> bool:
+    return (
+        config.parser_id != "image_tuku2135"
+        and config.source_type not in BROWSER_FIRST_EXCLUDED_SOURCE_TYPES
     )
 
 
@@ -237,6 +245,7 @@ class ScrapeService:
         rendered_text_fetcher: RenderedTextFetcher | None = None,
         rendered_article_fetcher: RenderedArticleFetcher | None = None,
         failure_sink: FailureSink | None = None,
+        browser_first: bool = False,
     ) -> None:
         self.text_fetcher = text_fetcher or http_client.fetch_text
         self.parser = parser or default_parser
@@ -245,6 +254,7 @@ class ScrapeService:
             rendered_article_fetcher or browser_client.fetch_rendered_article_record
         )
         self.failure_sink = failure_sink or (lambda config, document: None)
+        self.browser_first = browser_first
 
     def execute(
         self,
@@ -304,6 +314,7 @@ class ScrapeService:
             rendered_text_fetcher=traced_rendered_text,
             rendered_article_fetcher=traced_rendered_article,
             failure_sink=self.failure_sink,
+            browser_first=self.browser_first,
         )
         started = time.perf_counter()
         try:
@@ -361,14 +372,26 @@ class ScrapeService:
         if parser_id == "kunnan_magazine":
             return self._scrape_collection(config, timeout, fixed_issue)
 
-        source = load_source(
-            config,
-            timeout,
-            fixed_issue=fixed_issue,
-            text_fetcher=self.text_fetcher,
-            rendered_text_fetcher=self.rendered_text_fetcher,
-            rendered_article_fetcher=self.rendered_article_fetcher,
-        )
+        source: SourceLoadResult | None = None
+        if self.browser_first and supports_browser_first(config):
+            try:
+                source = load_browser_source(
+                    config,
+                    timeout,
+                    rendered_text_fetcher=self.rendered_text_fetcher,
+                    rendered_article_fetcher=self.rendered_article_fetcher,
+                )
+            except ScrapeError:
+                source = None
+        if source is None:
+            source = load_source(
+                config,
+                timeout,
+                fixed_issue=fixed_issue,
+                text_fetcher=self.text_fetcher,
+                rendered_text_fetcher=self.rendered_text_fetcher,
+                rendered_article_fetcher=self.rendered_article_fetcher,
+            )
         document = source.document
         article = source.article
         rendered = source.rendered

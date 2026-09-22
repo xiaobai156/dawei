@@ -1140,6 +1140,37 @@ class BatchOutputAndCacheTests(unittest.TestCase):
             self.assertNotIn("old", snapshot.failures[0])
             self.assertIn("retry failed", snapshot.failures[0])
 
+    def test_retry_failed_mode_prefers_browser_for_selected_sites(self) -> None:
+        site = SiteConfig(
+            "测试站",
+            "https://example.test/topic",
+            site_id="site-1",
+            region="top",
+            parser_id="generic_36",
+            source_type="bbs_topic",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config_path = root / "sites.json"
+            ConfigRepository(config_path).save((site,))
+            failure_path = root / "236期-大围-失败.txt"
+            failure_path.write_text(
+                "测试站 https://example.test/topic [DNS/线路失败] old\n",
+                encoding="utf-8-sig",
+            )
+            options = BatchOptions(
+                fixed_issue=236,
+                output_path=root / "236期-大围-成功.txt",
+                error_output_path=failure_path,
+                update_recent_cache=False,
+            )
+            service = SingleIssueBatchService(progress_sink=lambda _: None)
+            with patch.object(service, "run", return_value=object()) as run:
+                service.run_configured(config_path, options, retry_failed=failure_path)
+
+            configured_options = run.call_args.args[1]
+            self.assertTrue(configured_options.browser_first)
+
     def test_failed_subset_retry_clears_failure_without_cached_site_record(self) -> None:
         site = SiteConfig(
             "测试站",
