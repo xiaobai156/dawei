@@ -3103,7 +3103,7 @@
     "region": "bottom",
     "render_browser": false,
     "site_id": "site_a9a72d5f05202dac3772",
-    "source_type": "generic_html",
+    "source_type": "script_document",
     "parser_id": "generic_36",
     "record_id": null,
     "render_policy": "never",

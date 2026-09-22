@@ -35,6 +35,7 @@ ALLOWED_SOURCE_TYPES = frozenset(
         "dynamic_article",
         "dynamic_collection",
         "paginated_article_list",
+        "script_document",
     }
 )
 

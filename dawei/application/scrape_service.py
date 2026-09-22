@@ -36,7 +36,7 @@ RenderedTextFetcher = Callable[..., str]
 RenderedArticleFetcher = Callable[..., ArticleRecord]
 FailureSink = Callable[[SiteConfig, str], None]
 HTML_BROWSER_FALLBACK_SOURCE_TYPES = frozenset({"generic_html", "topic_page"})
-BROWSER_FIRST_EXCLUDED_SOURCE_TYPES = frozenset({"paginated_article_list", "script_bundle"})
+BROWSER_FIRST_EXCLUDED_SOURCE_TYPES = frozenset({"paginated_article_list", "script_bundle", "script_document"})
 
 
 @dataclass(frozen=True)
@@ -186,6 +186,14 @@ def load_source(
             config,
             timeout,
             fixed_issue,
+            text_fetcher,
+        )
+        return SourceLoadResult(document, None, source_url, False)
+
+    if config.source_type == "script_document":
+        document, source_url = source_adapters.fetch_baicaitong_document(
+            config,
+            timeout,
             text_fetcher,
         )
         return SourceLoadResult(document, None, source_url, False)
@@ -356,6 +364,8 @@ class ScrapeService:
             return "浏览器结构化兜底" if is_dynamic_article_site(config) else "浏览器兜底"
         if config.source_type == "paginated_article_list":
             return "分页文章专属解析"
+        if config.source_type == "script_document":
+            return "同站脚本来源"
         if config.api_url:
             return "专属API"
         return "HTTP页面正文"
@@ -524,4 +534,6 @@ class ScrapeService:
             return "structured_api"
         if config.source_type == "paginated_article_list":
             return "paginated_article"
+        if config.source_type == "script_document":
+            return "script_document"
         return "http_html"

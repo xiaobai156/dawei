@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ast
 import base64
 import json
 import re
@@ -16,6 +17,10 @@ ARTICLE_ID_FIELDS = ("id", "_id", "articleId", "article_id", "recordId", "record
 ARTICLE_BODY_FIELDS = ("content", "html", "body", "articleContent", "article_content")
 ARTICLE_NESTED_FIELDS = ("data", "article", "record", "attributes")
 MAX_PAGINATED_LIST_PAGES = 50
+BAICAITONG_WRITELN_RE = re.compile(
+    r"document\.writeln\((\"(?:\\.|[^\"\\])*\")\)\s*;",
+    re.IGNORECASE,
+)
 
 
 class _AnchorCollector(HTMLParser):
@@ -92,6 +97,43 @@ def fetch_paginated_list_documents(
             return tuple(documents)
         current = distinct_next[0]
     raise ScrapeError(f"分页文章列表超过{MAX_PAGINATED_LIST_PAGES}页，拒绝截断")
+
+
+def decode_baicaitong_script(script: str) -> str:
+    """Decode only literal document.writeln calls; never execute page JavaScript."""
+    matches = list(BAICAITONG_WRITELN_RE.finditer(script))
+    if not matches:
+        raise ScrapeError("澳门百彩通脚本没有静态document.writeln数据")
+    cursor = 0
+    parts: list[str] = []
+    for match in matches:
+        gap = re.sub(r"<!--.*?-->", "", script[cursor:match.start()], flags=re.DOTALL)
+        if gap.lstrip("\ufeff").strip():
+            raise ScrapeError("澳门百彩通脚本含未解析的动态代码")
+        try:
+            parts.append(ast.literal_eval(match.group(1)))
+        except (SyntaxError, ValueError) as exc:
+            raise ScrapeError("澳门百彩通脚本字符串解码失败") from exc
+        cursor = match.end()
+    if script[cursor:].strip():
+        raise ScrapeError("澳门百彩通脚本含未解析的尾部代码")
+    document = "".join(parts)
+    if "36码" not in document or not re.search(r"第\s*\d+\s*期", document):
+        raise ScrapeError("澳门百彩通脚本缺少36码期数数据")
+    return document
+
+
+def fetch_baicaitong_document(
+    config: SiteConfig,
+    timeout: int,
+    fetcher: Callable[[str, int], str],
+) -> tuple[str, str]:
+    """Read the observed same-site data script, bypassing the ad-heavy shell."""
+    page = urlsplit(config.url)
+    if page.scheme.casefold() not in {"http", "https"} or not page.netloc:
+        raise ScrapeError("澳门百彩通配置URL无效")
+    script_url = urljoin(config.url, "/amsslm.aspx?&ContentType=js?v=0")
+    return decode_baicaitong_script(fetcher(script_url, timeout)), script_url
 
 
 def decode_possible_base64_text(value: str) -> str | None:
