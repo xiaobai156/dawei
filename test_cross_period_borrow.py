@@ -181,3 +181,63 @@ class RawIssueLineValidationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TitleLineShadowingTests(unittest.TestCase):
+    """标题行先命中期号、正文在后面时，必须继续向后找到真实号码。
+
+    站点版式：开头一行「299期：【站名】●【三十六码】标题」只是标题，
+    后面紧跟作者/浏览量/旧期数据；真正的本期三行号码在页面末尾，
+    期号行写作「299期:三十六码开:00准」。
+    旧实现在标题行取号码失败后直接记无效并跳过，导致整站解析失败。
+    """
+
+    HTML = (
+        "<div>"
+        "<p>299期：【六合特供】●【三十六码】高手研究</p>"
+        "<p>作者：六合特供 浏览量：40404</p>"
+        "<p>265期:三十六码开:马49准</p>"
+        "<p>【01.02.03.04.05.06.08.09.10.11.13.14】</p>"
+        "<p>【15.16.17.19.20.21.22.24.26.27.28.29】</p>"
+        "<p>【30.31.32.33.36.38.41.42.43.44.45.49】</p>"
+        "<p>299期:三十六码开:00准</p>"
+        "<p>【01.02.03.06.07.08.09.10.11.12.13.14】</p>"
+        "<p>【15.16.17.20.21.22.23.24.26.27.28.29】</p>"
+        "<p>【31.33.34.35.36.38.40.41.42.45.46.48】</p>"
+        "</div>"
+    )
+
+    def _config(self):
+        from dataclasses import replace
+
+        from dawei.infrastructure.config_repository import ConfigRepository
+
+        cfg = ConfigRepository(ROOT / "sites_36.json").load()
+        tpl = next(site for site in cfg if site.name == "奇迹再现")
+        return replace(
+            tpl,
+            name="六合特供",
+            section_keywords=("三十六码",),
+            keywords=("三十六码",),
+            fixed_issue=299,
+        )
+
+    def test_numbers_found_after_title_line(self) -> None:
+        from dawei.parsers.three_rows import onboarded_manager_article_candidates
+
+        candidates, _invalid, _seen = onboarded_manager_article_candidates(
+            self.HTML, self._config()
+        )
+        issues = [candidate.issue for candidate in candidates]
+        self.assertIn(299, issues, "标题行不应挡住页面末尾的真实 299 期号码")
+
+    def test_real_numbers_not_title_section(self) -> None:
+        from dawei.parsers.three_rows import onboarded_manager_article_candidates
+
+        candidates, _invalid, _seen = onboarded_manager_article_candidates(
+            self.HTML, self._config()
+        )
+        target = next(c for c in candidates if c.issue == 299)
+        self.assertEqual(36, len(target.numbers))
+        self.assertEqual("01", target.numbers[0], "必须取页面末尾正文的号码，而不是标题附近")
+        self.assertEqual("48", target.numbers[-1])

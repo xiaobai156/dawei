@@ -303,6 +303,11 @@ def onboarded_manager_article_candidates(
     candidates: list[CandidateEvidence] = []
     invalid_candidates: list[tuple[int, int, str]] = []
     seen_matching_issues: set[int] = set()
+    # 同一期号可能先以“标题行”形式出现（如「299期：【站名】●【三十六码】标题」），
+    # 其后紧跟作者/浏览量等非号码行，真正的号码在页面更后面。因此取号失败时
+    # 不立即判无效，而是暂存并继续向后找同一期号的其它出现；扫完仍无合法号码
+    # 才回填无效记录。
+    pending_invalid: dict[int, tuple[int, int, str]] = {}
     for index, line in enumerate(lines):
         match = ISSUE_RE.search(line)
         if not match:
@@ -327,6 +332,11 @@ def onboarded_manager_article_candidates(
                     anchor_line=line,
                 )
             )
+            pending_invalid.pop(issue, None)
+            continue
+        if issue in pending_invalid or any(
+            candidate.issue == issue for candidate in candidates
+        ):
             continue
         stop = min(len(lines), index + 4)
         diagnostic_numbers = tuple(
@@ -339,9 +349,12 @@ def onboarded_manager_article_candidates(
             for row in lines[index + 1 : stop]
             for token in raw_digit_tokens(row)
         )
-        invalid_candidates.append(
-            (issue, index, invalid_36_code_diagnostic_reason(diagnostic_numbers, raw_tokens))
+        pending_invalid[issue] = (
+            issue,
+            index,
+            invalid_36_code_diagnostic_reason(diagnostic_numbers, raw_tokens),
         )
+    invalid_candidates.extend(pending_invalid.values())
     return candidates, invalid_candidates, seen_matching_issues
 
 
