@@ -190,6 +190,16 @@ def load_source(
         )
         return SourceLoadResult(document, None, source_url, False)
 
+    if config.source_type == "script_bundle":
+        # 该来源的整页正文压在配套脚本包里，由抓取层两步取回并解包；
+        # 解析器只在这份解包后的文档上工作，不联网。
+        document = source_adapters.fetch_script_bundle_document(
+            config,
+            timeout,
+            text_fetcher,
+        )
+        return SourceLoadResult(document, None, config.url, False)
+
     if config.source_type == "script_document":
         document, source_url = source_adapters.fetch_baicaitong_document(
             config,
@@ -364,6 +374,8 @@ class ScrapeService:
             return "浏览器结构化兜底" if is_dynamic_article_site(config) else "浏览器兜底"
         if config.source_type == "paginated_article_list":
             return "分页文章专属解析"
+        if config.source_type == "script_bundle":
+            return "脚本包来源"
         if config.source_type == "script_document":
             return "同站脚本来源"
         if config.api_url:
@@ -534,6 +546,8 @@ class ScrapeService:
             return "structured_api"
         if config.source_type == "paginated_article_list":
             return "paginated_article"
+        if config.source_type == "script_bundle":
+            return "script_bundle"
         if config.source_type == "script_document":
             return "script_document"
         return "http_html"

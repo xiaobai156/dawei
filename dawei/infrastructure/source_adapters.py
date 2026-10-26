@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import ast
 import base64
+import binascii
 import json
 import re
+import zlib
 from collections.abc import Callable, Iterable
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit
@@ -17,6 +19,13 @@ ARTICLE_ID_FIELDS = ("id", "_id", "articleId", "article_id", "recordId", "record
 ARTICLE_BODY_FIELDS = ("content", "html", "body", "articleContent", "article_content")
 ARTICLE_NESTED_FIELDS = ("data", "article", "record", "attributes")
 MAX_PAGINATED_LIST_PAGES = 50
+# 该 CMS 把整页正文压进配套脚本包。资源域名会轮换（已实测 api.kxusu.com →
+# api.ladrvh.com），因此按"路径形态 + 与页面资源同源"识别，不绑定具体域名。
+SCRIPT_TAG_SRC_RE = re.compile(r'<script[^>]+src="([^"]+)"', re.IGNORECASE)
+SCRIPT_BUNDLE_PATH_RE = re.compile(r"^/js-\d+-\d+$")
+SCRIPT_ASSET_PATH_MARKER = "/assets/js/"
+SCRIPT_BUNDLE_PAYLOAD_RE = re.compile(r"var __jGr = '(.*)';", re.DOTALL)
+SCRIPT_BUNDLE_SEGMENT_FIELD = "_v54gOM"
 BAICAITONG_WRITELN_RE = re.compile(
     r"document\.writeln\((\"(?:\\.|[^\"\\])*\")\)\s*;",
     re.IGNORECASE,
@@ -97,6 +106,81 @@ def fetch_paginated_list_documents(
             return tuple(documents)
         current = distinct_next[0]
     raise ScrapeError(f"分页文章列表超过{MAX_PAGINATED_LIST_PAGES}页，拒绝截断")
+
+
+def extract_script_bundle_url(shell: str) -> str:
+    """从 JS 壳页面取出唯一的脚本包地址。
+
+    该 CMS 会轮换资源域名，所以不写死域名：脚本包按路径形态
+    ``/js-<站点号>-<文章号>`` 识别，并要求全页恰好一个候选、必须是 https、
+    且与页面其它 ``/assets/js/`` 脚本同源。任一条不满足即失败。
+    """
+    candidates: list[str] = []
+    asset_hosts: set[str] = set()
+    for raw in SCRIPT_TAG_SRC_RE.findall(shell):
+        url = raw.strip()
+        parts = urlsplit(url)
+        if not parts.scheme or not parts.netloc:
+            continue
+        if SCRIPT_ASSET_PATH_MARKER in parts.path:
+            asset_hosts.add(parts.netloc.casefold())
+        if SCRIPT_BUNDLE_PATH_RE.match(parts.path.rstrip("/")):
+            candidates.append(url)
+    unique = list(dict.fromkeys(candidates))
+    if len(unique) != 1:
+        raise ScrapeError(f"脚本包地址不唯一或缺失: {len(unique)} 个")
+    target = urlsplit(unique[0])
+    if target.scheme.casefold() != "https":
+        raise ScrapeError(f"脚本包地址必须是 https: {unique[0]}")
+    if asset_hosts and target.netloc.casefold() not in asset_hosts:
+        raise ScrapeError(f"脚本包地址与页面资源域不同源: {target.netloc}")
+    return unique[0]
+
+
+def decode_script_bundle(bundle: str) -> str:
+    """解包：__jGr 载荷 → _v54gOM 各段 base64 + raw deflate → HTML 片段。
+
+    任何一段解不开都直接失败，绝不静默丢段——残缺正文会导致选错期或漏号。
+    """
+    payload_match = SCRIPT_BUNDLE_PAYLOAD_RE.search(bundle)
+    if payload_match is None:
+        raise ScrapeError("脚本包缺少 __jGr 载荷")
+    try:
+        payload = json.loads(payload_match.group(1))
+    except json.JSONDecodeError as exc:
+        raise ScrapeError(f"脚本包 __jGr 载荷不是合法 JSON: {exc}") from exc
+    if not isinstance(payload, dict):
+        raise ScrapeError("脚本包 __jGr 载荷不是对象")
+    segments = payload.get(SCRIPT_BUNDLE_SEGMENT_FIELD)
+    if not isinstance(segments, list) or not segments:
+        raise ScrapeError(f"脚本包缺少 {SCRIPT_BUNDLE_SEGMENT_FIELD} 数据段")
+    parts: list[str] = []
+    for index, segment in enumerate(segments):
+        if not isinstance(segment, str):
+            raise ScrapeError(f"脚本包第{index}段不是字符串")
+        candidate = re.sub(r"\s+", "", segment).replace("-", "+").replace("_", "/")
+        candidate += "=" * ((4 - len(candidate) % 4) % 4)
+        try:
+            raw = base64.b64decode(candidate)
+            parts.append(zlib.decompress(raw, -15).decode("utf-8", "replace"))
+        except (binascii.Error, ValueError, zlib.error) as exc:
+            raise ScrapeError(f"脚本包第{index}段解码失败: {exc}") from exc
+    return "".join(parts)
+
+
+def fetch_script_bundle_document(
+    config: SiteConfig,
+    timeout: int,
+    fetcher: Callable[[str, int], str],
+) -> str:
+    """两步取数：页面壳 → 脚本包 → 解包后的 HTML（解析器只在这份文档上工作）。"""
+    shell = fetcher(config.url, timeout)
+    bundle_url = extract_script_bundle_url(shell)
+    bundle = fetcher(bundle_url, timeout)
+    document = decode_script_bundle(bundle)
+    if not document.strip():
+        raise ScrapeError(f"{config.name} 脚本包解出空文档")
+    return document
 
 
 def decode_baicaitong_script(script: str) -> str:

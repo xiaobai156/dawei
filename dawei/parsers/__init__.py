@@ -6,7 +6,9 @@ from dawei.parsers.generic_36 import extract_generic_36, generic_candidates
 from dawei.parsers.image_36 import extract_tuku2135
 from dawei.parsers.registry import ParserRegistry
 from dawei.parsers.specials.dedicated import (
+    aocaijiayuan_candidates,
     baijie_zuizhun_candidates,
+    extract_aocaijiayuan,
     extract_baijie_zuizhun,
     extract_fengkuang_zhongma,
     extract_marker_after_issue_3x12,
@@ -87,6 +89,7 @@ def build_default_registry() -> ParserRegistry:
         section_3x12_candidates,
     )
     registry.register("yiyiba", extract_yiyiba, yiyiba_candidates)
+    registry.register("aocaijiayuan", extract_aocaijiayuan, aocaijiayuan_candidates)
     registry.register("yangguang_mingmei", extract_yangguang_mingmei, yangguang_mingmei_candidates)
     registry.register("baijie_zuizhun", extract_baijie_zuizhun, baijie_zuizhun_candidates)
     registry.register("kunnan_magazine", extract_generic_36)

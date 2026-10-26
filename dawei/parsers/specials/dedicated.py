@@ -12,6 +12,7 @@ from dawei.parsers.common import (
     all_keywords_present,
     candidate_foreign_strict_36_markers,
     collect_numbers_after_in_section,
+    collect_numbers_inline,
     document_range_for_index,
     first_topic_content_lines,
     html_to_lines,
@@ -27,7 +28,7 @@ from dawei.parsers.generic_36 import (
     candidate_context,
     candidate_evidence,
     collect_candidate_numbers_for_diagnostics,
-    extract_generic_36,
+    document_boundary_positions,
     generic_candidates,
 )
 from dawei.parsers.registry import extract_from_candidates
@@ -49,17 +50,136 @@ def meirenyu_effective_config(text_or_html: str, config: SiteConfig) -> SiteConf
     )
 
 
+def meirenyu_current_cycle_split(
+    candidates: list[CandidateEvidence],
+    invalid_candidates: list[tuple[int, int, str]],
+) -> tuple[list[CandidateEvidence], list[tuple[int, int, str]], set[int]]:
+    """只保留当期表（期号递减的第一段），丢弃其后的上一轮循环归档表。
+
+    该站在当期表之后还会附一段归档表，期号重新从高位开始（例如当期表
+    260→001 之后接着 365→…）。归档表会以相同期号给出另一组号码，若参与
+    同期冲突检查，指定期会一律失败。
+
+    切分判据：出现"期号回升且该期号在当前段中从未出现过"时，即视为归档表
+    起点。加"从未出现过"这一条是为了不误伤当期表内部的重复展示——若当期表
+    自己把同一期号展示两次（可能号码不同），必须留在候选池里，交由同期冲突
+    检查判失败，而不是被静默切掉。
+    """
+    archive_start: int | None = None
+    kept: list[CandidateEvidence] = []
+    seen_issues: set[int] = set()
+    previous_issue: int | None = None
+    for candidate in sorted(candidates, key=lambda item: item.page_index):
+        if (
+            previous_issue is not None
+            and candidate.issue > previous_issue
+            and candidate.issue not in seen_issues
+        ):
+            archive_start = candidate.page_index
+            break
+        kept.append(candidate)
+        seen_issues.add(candidate.issue)
+        previous_issue = candidate.issue
+    limit = archive_start if archive_start is not None else float("inf")
+    kept_invalid = [item for item in invalid_candidates if item[1] < limit]
+    seen = {candidate.issue for candidate in kept} | {item[0] for item in kept_invalid}
+    return kept, kept_invalid, seen
+
+
 def meirenyu_candidates(
     text_or_html: str,
     config: SiteConfig,
 ) -> tuple[list[CandidateEvidence], list[tuple[int, int, str]], set[int]]:
-    return generic_candidates(text_or_html, meirenyu_effective_config(text_or_html, config))
+    effective = meirenyu_effective_config(text_or_html, config)
+    candidates, invalid_candidates, _seen = generic_candidates(text_or_html, effective)
+    return meirenyu_current_cycle_split(candidates, invalid_candidates)
 
 
 def extract_meirenyu(text_or_html: str, config: SiteConfig) -> SiteResult:
-    return extract_generic_36(
+    return extract_from_candidates(
         text_or_html,
         meirenyu_effective_config(text_or_html, config),
+        meirenyu_candidates,
+        no_candidates_message="美人鱼无错36码栏目没有找到符合条件的数据",
+        issue_range_error="no 36-number record found in issue range",
+    )
+
+
+# 该站自 263 期起把期号标签从 "263期:" 改写成 "263:"（去掉"期"字）。
+# 专属解析器允许省略"期"，其余候选契约与 generic_36 完全一致。
+AOCAI_JIAYUAN_ISSUE_RE = re.compile(r"(?<!\d)(\d{3})\s*期?\s*[:：]")
+
+
+def aocaijiayuan_candidates(
+    text_or_html: str,
+    config: SiteConfig,
+) -> tuple[list[CandidateEvidence], list[tuple[int, int, str]], set[int]]:
+    lines = html_to_lines(text_or_html)
+    boundary_positions = document_boundary_positions(lines)
+    ranges = section_ranges(lines, config)
+    if config.section_keywords and not ranges:
+        raise ScrapeError("未找到栏目关键词: " + "、".join(config.section_keywords))
+    candidates: list[CandidateEvidence] = []
+    invalid_candidates: list[tuple[int, int, str]] = []
+    seen: set[int] = set()
+    for line_range in ranges:
+        for index in line_range:
+            match = AOCAI_JIAYUAN_ISSUE_RE.search(lines[index])
+            if not match or candidate_foreign_strict_36_markers(lines[index], config):
+                continue
+            context = candidate_context(
+                lines,
+                index,
+                config,
+                block_start=line_range.start,
+                block_end=line_range.stop,
+            )
+            if config.keywords and not all_keywords_present(context, config.keywords):
+                continue
+            issue = int(match.group(1))
+            seen.add(issue)
+            numbers = collect_numbers_inline(lines[index]) or collect_numbers_after_in_section(
+                lines,
+                index,
+                config,
+                stop=line_range.stop,
+            )
+            if not numbers or not valid_36_code_record(numbers):
+                diagnostic_numbers, raw_tokens = collect_candidate_numbers_for_diagnostics(
+                    lines,
+                    index,
+                    config,
+                    stop=line_range.stop,
+                )
+                invalid_candidates.append(
+                    (
+                        issue,
+                        index,
+                        invalid_36_code_diagnostic_reason(diagnostic_numbers, raw_tokens),
+                    )
+                )
+                continue
+            candidates.append(
+                candidate_evidence(
+                    lines,
+                    index,
+                    issue,
+                    numbers,
+                    config,
+                    line_range,
+                    boundary_positions=boundary_positions,
+                )
+            )
+    return candidates, invalid_candidates, seen
+
+
+def extract_aocaijiayuan(text_or_html: str, config: SiteConfig) -> SiteResult:
+    return extract_from_candidates(
+        text_or_html,
+        config,
+        aocaijiayuan_candidates,
+        no_candidates_message="澳彩家园三十六码栏目没有找到符合条件的数据",
+        issue_range_error="no 36-number record found in issue range",
     )
 
 
