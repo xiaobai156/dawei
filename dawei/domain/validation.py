@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Iterable
 
 from .errors import ValidationError
@@ -100,6 +101,29 @@ def _validate_origin(origin: CandidateOrigin, *, allow_non_text: bool) -> None:
         raise ValidationError("候选证据区块内位置无效")
 
 
+def _validate_raw_issue_line(
+    issue: int,
+    raw_issue_line: str,
+    source_method: str,
+) -> None:
+    """跨期借值第二道防线：原始期数行必须真的写着这个期号。
+
+    只依赖两个数值字段相等是不够的——数值可以被上游整体改写成同一期，
+    必须回到原文核对。图片/OCR 来源没有期数文本行，跳过。
+    """
+    if source_method in {"image_fixed", "image_ocr"}:
+        return
+    text = raw_issue_line or ""
+    raw_issues = {
+        int(match.group(1))
+        for match in re.finditer(r"(?<!\d)(\d{3})(?!\d)\s*期", text)
+    }
+    if raw_issues and issue not in raw_issues:
+        raise ValidationError(
+            f"候选证据原始期数行与期号不符: 期号{issue}期，原文{text[:60]!r}"
+        )
+
+
 def validate_candidate_evidence(record: ParsedRecord) -> CandidateEvidence:
     if not isinstance(record, ParsedRecord):
         raise ValidationError("解析结果必须为ParsedRecord")
@@ -125,6 +149,8 @@ def validate_candidate_evidence(record: ParsedRecord) -> CandidateEvidence:
         raise ValidationError(
             f"候选证据期数不一致: 结果{record.issue}期，证据{evidence.issue}期"
         )
+    # 跨期借值第二道防线：证据的原始期数行必须真的写着这个期号。
+    _validate_raw_issue_line(evidence.issue, evidence.raw_issue_line, evidence.source_method)
     if evidence.numbers != record.numbers:
         raise ValidationError("候选证据36码与结果不一致")
     if record.raw_position != evidence.page_index:

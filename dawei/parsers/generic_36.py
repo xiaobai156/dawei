@@ -38,6 +38,10 @@ from dawei.parsers.common import (
 DEFAULT_ISSUE_MIN = 126
 DEFAULT_ISSUE_MAX = 126
 STRICT_RECENT_CANDIDATE_LIMIT = 5
+# 当期表内相邻期号的正常间隔上限（每周一期，跨年 365→001 归一为 +1）。
+MAX_ISSUE_STEP = 3
+# 指定期允许落后页面最新期的期数上限；超过即判定取自上一轮归档表。
+CURRENT_CYCLE_LOOKBACK = STRICT_RECENT_CANDIDATE_LIMIT
 
 
 def candidate_region(config: SiteConfig) -> str:
@@ -585,11 +589,72 @@ def generic_candidates(
     return candidates, invalid_candidates, seen_matching_issues
 
 
+def truncate_archive_cycle_candidates(
+    candidates: list[CandidateEvidence],
+    fixed_issue: int,
+) -> list[CandidateEvidence]:
+    """切掉当期表之后的上一轮归档表，防跨期借值（只减不增）。
+
+    站点常在当期表后无缝接上一轮归档表（当期 293、292 后接上一轮 291、290…）。
+    归档表用同一批期号给出另一组号码；指定期当期未发布时，会把归档表里的
+    同期号当成本期结果。
+
+    断段判据（任一命中即进入归档区）：
+    1. 期号回升（且该期号未在当前段出现）；
+    2. 相邻期号间隔超过 MAX_ISSUE_STEP（跨年 365→001 归一为 +1）；
+    3. 目标期落后当前段最新期超过 CURRENT_CYCLE_LOOKBACK 期，或目标期之后
+       仍接续超过该窗口的更早期号——当期表只覆盖最近若干期，命中即判定目标期
+       位于归档区（无缝连续归档表的唯一可用判据）。
+
+    安全约束（只减不增）：结构截断后若指定期不再存在，原样返回，交由既有
+    失败路径处理，绝不因截断让原本不可选的期变得可选。
+    """
+    if not candidates:
+        return candidates
+    ordered = sorted(candidates, key=lambda item: item.page_index)
+    seen_issues: set[int] = set()
+    previous_issue: int | None = None
+    cut_at: int | None = None
+    for candidate in ordered:
+        if previous_issue is not None:
+            wrap = candidate.issue <= 2 and previous_issue >= 360
+            if not wrap and candidate.issue > previous_issue and candidate.issue not in seen_issues:
+                cut_at = candidate.page_index
+                break
+            step = 1 if wrap else abs(candidate.issue - previous_issue)
+            if step > MAX_ISSUE_STEP:
+                cut_at = candidate.page_index
+                break
+        seen_issues.add(candidate.issue)
+        previous_issue = candidate.issue
+    if cut_at is None:
+        current_cycle = ordered
+    else:
+        current_cycle = [candidate for candidate in ordered if candidate.page_index < cut_at]
+        if not current_cycle or not any(
+            candidate.issue == fixed_issue for candidate in current_cycle
+        ):
+            return candidates
+    latest_issue = max(candidate.issue for candidate in current_cycle)
+    oldest_issue = min(candidate.issue for candidate in current_cycle)
+    behind = latest_issue - fixed_issue
+    tail_span = fixed_issue - oldest_issue
+    if behind > CURRENT_CYCLE_LOOKBACK or (behind > 0 and tail_span > CURRENT_CYCLE_LOOKBACK):
+        raise ScrapeError(
+            f"指定{fixed_issue}期位于归档区（最新期{latest_issue}、最早候选{oldest_issue}，"
+            f"落后{behind}期、后接{tail_span}期更早数据）；"
+            "判定取自上一轮归档表，按跨期借值防护拒绝取值"
+        )
+    return current_cycle
+
+
 def extract_generic_36(text_or_html: str, config: SiteConfig) -> ParsedRecord:
     candidates, invalid_candidates, seen_matching_issues = generic_candidates(
         text_or_html,
         config,
     )
+    if config.fixed_issue is not None and _requires_strict_candidate_window(candidates):
+        candidates = truncate_archive_cycle_candidates(candidates, config.fixed_issue)
 
     if not candidates:
         if config.fixed_issue is not None:
