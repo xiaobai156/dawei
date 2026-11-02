@@ -1,7 +1,7 @@
 ﻿{
   "version": 1,
-  "archived_at": "2026-09-07T19:24:41+08:00",
-  "reason": "用户明确要求封存凤毛济美、形影不离、富豪神码，不再抓取",
+  "archived_at": "2026-11-02T18:46:03+08:00",
+  "reason": "用户明确要求封存东紫云轩，不再抓取（306 期抓取失败：帖子已被删除，无数据）",
   "sites": [
     {
       "name": "澳彩军师",
@@ -1595,6 +1595,470 @@
       "archive_tag": "用户明确封存：250期抓取失败，不再抓取（富豪神码）"
     },
     {
+      "name": "无冬无夏",
+      "url": "https://dfgrufao.tz0ex-y6o7v-lazxsq.work:29400/article/lottery/6a040f904ea5c20141013d93?url=lbw",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "无冬无夏"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://dfgrufao.tz0ex-y6o7v-lazxsq.work:29400/api/proxy/manager-articles/6a040f904ea5c20141013d93",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_831d2bf40d1c18f6dbe4",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a040f904ea5c20141013d93",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确要求：253期抓取失败，不再抓取（无冬无夏）"
+    },
+    {
+      "name": "富甲之王",
+      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=2894",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "富甲之王"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_5cfeb059930740c3a887",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确要求：253期抓取失败，不再抓取（富甲之王）"
+    },
+    {
+      "name": "穿云裂石",
+      "url": "https://0130190827.767566.xyz/bbs/topic.php?id=31279",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "穿云裂石"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_eed591890ce3d5a97bed",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确要求：253期抓取失败，不再抓取（穿云裂石）"
+    },
+    {
+      "name": "满山红彩",
+      "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1270",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "满山红彩"
+      ],
+      "search_window": 260,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_40b5e9dfea549bb1e549",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": "allow_incomplete_backup",
+      "archive_tag": "用户明确要求：253期抓取失败，不再抓取（满山红彩）"
+    },
+    {
+      "name": "神彩出击",
+      "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1223",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "神彩出击"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_b15638aaaad218cd876b",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确要求封存（神彩出击）"
+    },
+    {
+      "name": "认证猛料",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53972",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "认证猛料"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_8d659000d670f6c720b9",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：258期抓取失败，不再抓取（认证猛料）"
+    },
+    {
+      "name": "富贵在彩",
+      "url": "https://0085680827.326455.xyz/bbs/topic.php?id=19975",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "富贵在彩"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_7dfff228797761843784",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：259期抓取失败，不再抓取（富贵在彩）"
+    },
+    {
+      "name": "创富资料",
+      "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1280",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "创富资料"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_chuangfu_254_20260912",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "archive_tag": "用户明确封存：259期抓取失败，不再抓取（创富资料）"
+    },
+    {
+      "name": "别提当初",
+      "url": "https://nwrkkmv.rx287-rkrai-jsjccc.xyz:29499/article/manager/6a33d012dfa16552b923d058?url=ggz",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "别提当初"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://nwrkkmv.rx287-rkrai-jsjccc.xyz:29499/api/proxy/manager-articles/6a33d012dfa16552b923d058",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_bb6399c4de0a9d4604e4",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a33d012dfa16552b923d058",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：260期抓取失败，不再抓取（别提当初）"
+    },
+    {
+      "name": "功德圆满",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53282",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "功德圆满"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_43249e5e7bde75b9ae9e",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：260期抓取失败，不再抓取（功德圆满）"
+    },
+    {
+      "name": "烽火连天",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=52091",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "烽火连天"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_8f7a2ab2a630292fcad0",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：261期抓取失败，不再抓取（烽火连天）"
+    },
+    {
+      "name": "翩翩少年",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53895",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "翩翩少年"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_b6d1f0b13fc3fca66f75",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：261期抓取失败，不再抓取（翩翩少年）"
+    },
+    {
+      "name": "彩王财星",
+      "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3135",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "彩王财星"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_4a305473968e6b2b74be",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "archive_tag": "用户明确封存：263期抓取失败，不再抓取（彩王财星）"
+    },
+    {
+      "name": "爱特先生",
+      "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=2888",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "爱特先生"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_6015dd49a2fd48e6d981",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：264期抓取失败（帖子已下架），不再抓取（爱特先生）"
+    },
+    {
       "name": "星辰水乡",
       "url": "https://xkbbs-6u7uytj-ytrfg-6ujrytfgn-6jrytfgn.lol/xkbbs/read.php?tid=126000",
       "keywords": [
@@ -1623,7 +2087,2329 @@
       "onboarding_valid_issues": [],
       "onboarding_missing_issues": [],
       "archive_tag": "用户明确封存：265期页面无效/无权限，不再抓取（星辰水乡）"
+    },
+    {
+      "name": "财神经济",
+      "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1201",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "财神经济"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_1508057645bbb05f965d",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：266期抓取失败（帖子已下架），不再抓取（财神经济）"
+    },
+    {
+      "name": "言行一致",
+      "url": "https://11008880827.456732.xyz/bbs/topic.php?id=20313",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "言行一致"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_fe69b32381b4bf9f1140",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：266期抓取失败（帖子已下架），不再抓取（言行一致）"
+    },
+    {
+      "name": "一表人才",
+      "url": "https://dgjdlk.0hrwo-8qjsc-spwvba.xyz:29411/article/admin/6a12e7915eabe2c9e91d8627?url=cf",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "一表人才"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://dgjdlk.0hrwo-8qjsc-spwvba.xyz:29411/api/proxy/manager-articles/6a12e7915eabe2c9e91d8627",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_19e669459ba8f5f2d0e7",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a12e7915eabe2c9e91d8627",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：270期抓取失败（文章已下架，站点已无该栏目内容），不再抓取（一表人才）"
+    },
+    {
+      "name": "赴约月亮",
+      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=2885",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "赴约月亮"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_53c18c659dbd3b306984",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：270期抓取失败（帖子已被下架，页面提示「此帖子ID已被下架」），不再抓取（赴约月亮）"
+    },
+    {
+      "name": "国家主权",
+      "url": "https://luntan14.getrich-jinbi-otvlc.top/886/read.php?tid=14940",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "国家主权"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_94372e9a6bf2acc772c9",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：270期抓取失败（站点已更换镜像域名，原帖子不可达），不再抓取（国家主权）"
+    },
+    {
+      "name": "决策千金",
+      "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3105",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "决策千金"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_0f820e7a724a61ba39db",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：271期抓取失败（帖子已被下架，页面提示「此帖子ID已被下架」），不再抓取（决策千金）"
+    },
+    {
+      "name": "福临生财",
+      "url": "https://hhbbs-8097yi8ut-80uoyi.xyz/read.php?tid=49890",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "福临生财"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_46b82fa2f374856d3f13",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：271期抓取失败（帖子不可达，PW7 错误页提示链接无效/数据已被删除/无权限访问），不再抓取（福临生财）"
+    },
+    {
+      "name": "南方之福",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53267",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "南方之福"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_e58aa167ea1ef733874b",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：272期抓取失败（帖子不可达，PW 错误页提示链接无效/数据已被删除/无权限访问），不再抓取（南方之福）"
+    },
+    {
+      "name": "环球科技",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=74306",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "环球科技"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_87769cf87cb4738a21ea",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：272期抓取失败（帖子不可达，PW 错误页提示链接无效/数据已被删除/无权限访问），不再抓取（环球科技）"
+    },
+    {
+      "name": "财运胜利",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=54422",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "财运胜利"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_a684070dae694be68b23",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：272期抓取失败（帖子不可达，PW 错误页提示链接无效/数据已被删除/无权限访问），不再抓取（财运胜利）"
+    },
+    {
+      "name": "正传宝彩",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=54550",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "正传宝彩"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_41241f158c766436f175",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：272期抓取失败（帖子不可达，PW 错误页提示链接无效/数据已被删除/无权限访问），不再抓取（正传宝彩）"
+    },
+    {
+      "name": "光彩夺目",
+      "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1258",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "光彩夺目"
+      ],
+      "search_window": 260,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_c49b6e47838bc7b3e16d",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": "allow_incomplete_backup",
+      "archive_tag": "用户明确封存：273期抓取失败（站点侧帖子已下架，原文含「此帖子ID已被下架」，http/浏览器两路均无273期与栏目内容），不再抓取（光彩夺目）"
+    },
+    {
+      "name": "扶正祛邪",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53708",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "扶正祛邪"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_6d1a1632e67a018d0a05",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：274期抓取失败（站点侧帖子已删除，read.php 返回「您要访问的链接无效…数据已被删除」错误页），不再抓取（扶正祛邪）"
+    },
+    {
+      "name": "财富统计",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=73815",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "财富统计"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_ad5226909f18e141af71",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：274期抓取失败（站点侧帖子已删除，read.php 返回「您要访问的链接无效…数据已被删除」错误页），不再抓取（财富统计）"
+    },
+    {
+      "name": "世俗散仙",
+      "url": "https://pgyzulb.iwnn7-gyyip-pnpfqv.work:29477/article/admin/6a153fbdd9d9fc2cea5241a6?url=bflc",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "世俗散仙"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://pgyzulb.iwnn7-gyyip-pnpfqv.work:29477/api/proxy/manager-articles/6a153fbdd9d9fc2cea5241a6",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_569a6bd0f7430bd17e30",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a153fbdd9d9fc2cea5241a6",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：275期抓取失败（站方文章记录已删除，文章接口返回 404「AdminArticle 不存在」，浏览器渲染仅 SPA 空壳，同宿主兄弟站正常），不再抓取（世俗散仙）"
+    },
+    {
+      "name": "马会才人",
+      "url": "https://hcsuuoy.nimo7-9bgj4-fmspxt.xyz:29466/article/manager/6a81a922ee4739fbe9eae6a5?url=cww",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "马会才人"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://hcsuuoy.nimo7-9bgj4-fmspxt.xyz:29466/api/proxy/manager-articles/6a81a922ee4739fbe9eae6a5",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_3f28fbfcc2941e849e15",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a81a922ee4739fbe9eae6a5",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        233,
+        234,
+        235
+      ],
+      "onboarding_missing_issues": [
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232
+      ],
+      "archive_tag": "用户明确封存：275期抓取失败（站方文章记录已删除，文章接口返回 404「AdminArticle 不存在」，浏览器渲染仅 SPA 空壳，同宿主兄弟站正常），不再抓取（马会才人）"
+    },
+    {
+      "name": "嘈嘈杂杂",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=51905",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "嘈嘈杂杂"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_e97b90ac6fa8bceac9b3",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：276期抓取失败（站方已删除该帖，read.php 返回「您要访问的链接无效，可能链接不完整，或数据已被删除」错误页，同宿主兄弟栏目均正常），不再抓取（嘈嘈杂杂）"
+    },
+    {
+      "name": "神的使者",
+      "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=2769",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "神的使者"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_fd87de4a2342765fdfd1",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：277期抓取失败（站方已删除该帖，topic.php?id=2769 现返回站首页、全文无「期」字，全站搜「神的使者」0 命中，同宿主兄弟 277 期帖对照正常），不再抓取（神的使者）"
+    },
+    {
+      "name": "高手过招",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53796",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "高手过招"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_644c98fea97f372d48bd",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：277期抓取失败（站方已删除该帖，read.php?tid=53796 返回「您要访问的链接无效，可能链接不完整，或数据已被删除」，同宿主兄弟 277 期帖对照正常），不再抓取（高手过招）"
+    },
+    {
+      "name": "精灵马王",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=74703",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "精灵马王"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_d477972be31f41d146b9",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：277期抓取失败（站方已删除该帖，read.php?tid=74703 返回「您要访问的链接无效，可能链接不完整，或数据已被删除」，同宿主兄弟 277 期帖对照正常），不再抓取（精灵马王）"
+    },
+    {
+      "name": "坚韧不拔",
+      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=2920",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "坚韧不拔"
+      ],
+      "search_window": 260,
+      "min_numbers_per_line": 2,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_28350aa27db125d67ec7",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "render_policy": "never",
+      "image_decoder": null,
+      "archive_tag": "用户明确封存：278期抓取失败（站方已删除该帖，topic.php?id=2920 现返回「财富高手669331.com」空壳页、全文无「期」字，同站 /bbs/ 板块 61 条主题中无 2920 且站名 0 命中，他人三十六码 278 期帖对照正常），不再抓取（坚韧不拔）"
+    },
+    {
+      "name": "淮南铁路",
+      "url": "https://bbs8.1395200.com/read.php?tid=879",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "淮南铁路"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_8748247283a339daa1ba",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：278期抓取失败（站方已删除该帖，read.php?tid=879 返回「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」，同宿主 bbs8 首页 342 条 278 期帖中站名 0 命中，兄弟帖对照正常），不再抓取（淮南铁路）"
+    },
+    {
+      "name": "奋发有为",
+      "url": "https://bbs8.1395200.com/read.php?tid=1539",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "奋发有为"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_06f9fdf9eacf0ddb5831",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：278期抓取失败（站方已删除该帖，read.php?tid=1539 返回「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」，同宿主 bbs8 首页 342 条 278 期帖中站名 0 命中，兄弟帖对照正常），不再抓取（奋发有为）"
+    },
+    {
+      "name": "无敌终结者",
+      "url": "https://xkbbs-6u7uytj-ytrfg-6ujrytfgn-6jrytfgn.lol/xkbbs/read.php?tid=125356",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "无敌终结者"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_152d05eaa5d51c199e20",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：279期抓取失败（站方已删除该帖，read.php?tid=125356 返回「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」，该错误页由星空论坛模板渲染 ⇒ 宿主存活、仅该帖被删，同宿主含 279 期帖对照正常），不再抓取（无敌终结者）"
+    },
+    {
+      "name": "方方正正",
+      "url": "https://bbs8.1395200.com/read.php?tid=1344",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "方方正正"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_6f0dbe29cc07b1cedc1f",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：279期抓取失败（站方已删除该帖，read.php?tid=1344 返回「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」，该错误页由香港聚富网论坛模板渲染 ⇒ 宿主存活、仅该帖被删，同宿主含 279 期帖对照正常），不再抓取（方方正正）"
+    },
+    {
+      "name": "日进斗金",
+      "url": "https://0130190827.767566.xyz/bbs/topic.php?id=31766",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "日进斗金"
+      ],
+      "search_window": 260,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_fd5879c5d93a06446c16",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": "allow_incomplete_backup",
+      "archive_tag": "用户明确封存：280期抓取失败（站方已下架该帖，https://0130190827.767566.xyz/bbs/topic.php?id=31766 返回「此帖子ID已被下架」页面，http 与浏览器两路一致、页面仅剩论坛充值栏目 ⇒ 宿主存活、仅该帖被下架），不再抓取（日进斗金）"
+    },
+    {
+      "name": "四不像",
+      "url": "https://xefzqxq.79kp6-c681j-uechvs.xyz:16677/topic/572233.html",
+      "keywords": [
+        "无错36码"
+      ],
+      "section_keywords": [
+        "围特36码"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 1,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "top",
+      "render_browser": false,
+      "site_id": "site_9cce47a648f8e6e29ea7",
+      "source_type": "topic_page",
+      "parser_id": "generic_36",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：与「彩民书籍」为同源镜像对（两台 :16677 镜像，topic_page/generic_36/top、keywords ['无错36码']、section ['围特36码'] 完全相同；判重报告自 273 期起稳定复现该组，281 期窗口 281…272 十期号码位置+数值逐位一致），用户点名二选一封存、保留 彩民书籍，不再抓取（四不像）"
+    },
+    {
+      "name": "天天一中",
+      "url": "https://bbs8.1395200.com/read.php?tid=2543",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "天天一中"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_2065900d642f1b24ad6a",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：282 期抓取失败（[未分类失败/ScrapeError] 天天一中专属三十六码栏目没有找到符合条件的数据），不再抓取（天天一中）"
+    },
+    {
+      "name": "秋风过耳",
+      "url": "https://bbs8.1395200.com/read.php?tid=2741",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "秋风过耳"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_93549f4e56fd219c8c3e",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：282 期抓取失败（[指定期数缺失] 未找到指定 282 期，可用有效期数 272–281），不再抓取（秋风过耳）"
+    },
+    {
+      "name": "快快活活",
+      "url": "https://bbs8.1395200.com/read.php?tid=2807",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "快快活活"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_3853f38034564b052ecb",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：282 期抓取失败（[解析失败] 指定 282 期超出严格候选范围，候选 32 组、仅允许 bottom 方向最近 5 组），不再抓取（快快活活）"
+    },
+    {
+      "name": "家有敝帚",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53451",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "家有敝帚"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_df5579179b4844540b1b",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：283期抓取失败（站方已删除该帖，https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53451 返回「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」+ 登录墙；http 3 953 B 与 browser 3 950 B 一致、锚点 0、候选 0）⇒ 不再抓取（家有敝帚）"
+    },
+    {
+      "name": "各尽所能",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53985",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "各尽所能"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_067c8acec1e12331a17c",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：285期抓取失败（站方已删除该帖，https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53985 返回「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」+ 登录墙；http 3 953 B 与 browser 3 950 B 一致、锚点 0、候选 0）⇒ 不再抓取（各尽所能）"
+    },
+    {
+      "name": "清风爽朗",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=74714",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "清风爽朗"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_22bfaf28a6721d1731d8",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：287期抓取失败（站方已删除该帖，https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=74714 返回「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」；探针 http 与 browser 两路同型错误页、锚点 0、候选 0）⇒ 不再抓取（清风爽朗）"
+    },
+    {
+      "name": "高手聚集",
+      "url": "https://bbs8.1395200.com/read.php?tid=2828",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "高手聚集"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_08a836e3a37f378013b9",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：287期抓取失败（帖内 287 行为会员墙「对不起!您不是会员…帖子会在21点28分公开验证」，正文仅到 286 期；探针 browser 候选 33 组、窗口期数 282…286）⇒ 不再抓取（高手聚集）"
+    },
+    {
+      "name": "一盏明灯",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=72444",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "一盏明灯"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_9197cef1b9d0fc40591c",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [
+        265,
+        264,
+        263,
+        262,
+        261,
+        260,
+        259,
+        258,
+        257,
+        256
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：288期抓取失败（站方已删除该帖，页面返回「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」；探针 http 与 browser 两路同型错误页、锚点 0、候选 0）⇒ 不再抓取（一盏明灯；错误页 3 966 / 3 963 字符）"
+    },
+    {
+      "name": "公式传奇",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=74318",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "公式传奇"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_66b84113323aeaf6ebd0",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：288期抓取失败（站方已删除该帖，页面返回「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」；探针 http 与 browser 两路同型错误页、锚点 0、候选 0）⇒ 不再抓取（公式传奇；错误页 3 966 / 3 963 字符）"
+    },
+    {
+      "name": "五彩斑斓",
+      "url": "https://bbs8.1395200.com/read.php?tid=2763",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "五彩斑斓"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_1c2e7dc0537fc39ddb5b",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：288期抓取失败（站方已删除该帖，页面返回「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」；探针 http 与 browser 两路同型错误页、锚点 0、候选 0）⇒ 不再抓取（五彩斑斓；错误页 16 161 / 16 105 字符）"
+    },
+    {
+      "name": "上帝视角",
+      "url": "https://nwrkkmv.rx287-rkrai-jsjccc.xyz:29499/article/manager/6a55d891f447e21b02daa641?url=ggz",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "上帝视角"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://nwrkkmv.rx287-rkrai-jsjccc.xyz:29499/api/proxy/manager-articles/6a55d891f447e21b02daa641",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_e5dd4ebcaf469ea41cd5",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a55d891f447e21b02daa641",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        236
+      ],
+      "onboarding_missing_issues": [
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235
+      ],
+      "archive_tag": "用户明确封存：289 期抓取失败（文章记录 API 返回 HTTP 404，页面仅剩 JS/CSS 应用壳，http 49 299 / browser 56 264 字符，锚点 0、候选 0）⇒ 不再抓取（上帝视角；https://nwrkkmv.rx287-rkrai-jsjccc.xyz:29499/article/manager/6a55d891f447e21b02daa641?url=ggz）"
+    },
+    {
+      "name": "超群绝伦",
+      "url": "https://bbs8.1395200.com/read.php?tid=2137",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "超群绝伦"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_b4f48f56af8a3d372d51",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：289 期抓取失败（站方已删除该帖，http 16 161 / browser 16 105 字符同型「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」，锚点 0、候选 0）⇒ 不再抓取（超群绝伦；https://bbs8.1395200.com/read.php?tid=2137）"
+    },
+    {
+      "name": "黑市来料",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75065",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "黑市来料"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_9ed00a808a4b4e9796c5",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：290 期抓取失败（站方已删除该帖，http 3 966 / browser 3 963 字符同型『读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!』，锚点 0、候选 0）⇒ 不再抓取（黑市来料；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75065）"
+    },
+    {
+      "name": "梦断相思",
+      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=3028",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "梦断相思"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_e1694da6e8bbfa831ffb",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：290 期抓取失败（主题不存在——http 与 browser 两路均回落到站点首页外壳，无 36 码/站名锚点，候选 0）⇒ 不再抓取（梦断相思；https://z0gcdiww42.669332.shop/bbs/topic.php?id=3028）"
+    },
+    {
+      "name": "中彩盛典",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75478",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "中彩盛典"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_51acfe95dc657a50c4d9",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：290 期抓取失败（站方已删除该帖，http 3 966 / browser 3 963 字符同型『读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!』，锚点 0、候选 0）⇒ 不再抓取（中彩盛典；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75478）"
+    },
+    {
+      "name": "水上乐园",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75048",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "水上乐园"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_83b6558a9ec649b3d2cf",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：291 期抓取失败（站方已删除该帖，http 3 966 / browser 3 963 字符同型『读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!』，站名/三十六码锚点 0、候选 0；相邻 tid=75047/75051 正常、论坛首页 190 主题已无 75048）⇒ 不再抓取（水上乐园；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75048）"
+    },
+    {
+      "name": "天仙小童",
+      "url": "https://88888020827.997595.xyz/bbs/topic.php?id=23340",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "天仙小童"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_00dfbb97243985b62644",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：291 期抓取失败（主题已下架，http 38 476 / browser 38 356 字符回落站点首页外壳，正文『该帖子不存在或已被下架』，站名锚点 0、候选 0；邻号 23338/23339/23341/23342 同型下架，291 期『三十六码』现存帖作者均非天仙小童 ⇒ 无身份锚点不可换帖）⇒ 不再抓取（天仙小童；https://88888020827.997595.xyz/bbs/topic.php?id=23340）"
+    },
+    {
+      "name": "望穿秋水",
+      "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1357",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "望穿秋水"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_cd3f92f46027e9104bbf",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：292 期抓取失败（站方已删除该帖，browser 正文『此帖子ID已被下架』，站名/三十六码锚点 0、候选 0；http 148 187 / browser 142 125 字符均无内容锚点）⇒ 不再抓取（望穿秋水；https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1357）"
+    },
+    {
+      "name": "鱼游釜中",
+      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=3108",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "鱼游釜中"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_1f73cf69631d09eed6e5",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：292 期抓取失败（站方已删除该帖，browser 正文『此帖子ID已被下架』，站名/三十六码锚点 0、候选 0；291 期接入后次期即下架）⇒ 不再抓取（鱼游釜中；https://z0gcdiww42.669332.shop/bbs/topic.php?id=3108）"
+    },
+    {
+      "name": "皇家六合",
+      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=3057",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "皇家六合"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_25935c1cffe219229285",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：292 期抓取失败（站方已删除该帖，browser 正文『此帖子ID已被下架』，站名/三十六码锚点 0、候选 0；291 期接入后次期即下架）⇒ 不再抓取（皇家六合；https://z0gcdiww42.669332.shop/bbs/topic.php?id=3057）"
+    },
+    {
+      "name": "史无前例",
+      "url": "https://bbs8.1395200.com/read.php?tid=2679",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "史无前例"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_632cffd0377a4d5a11ec",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：293 期抓取失败（原域名 bbs8.1395200.com 已整站停用，导航页明示『所有老域名停止使用』；新域名 bbs7.1395200.com 上 tid=2679 返回『读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!』，站方已删帖）⇒ 不再抓取（史无前例；https://bbs8.1395200.com/read.php?tid=2679）"
+    },
+    {
+      "name": "走南闯北",
+      "url": "https://aszmkf.c3z3l-qrlqm-mwgccr.work:29411/article/admin/6a08370108adb5ed7357efbb?url=lhw",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "走南闯北"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://aszmkf.c3z3l-qrlqm-mwgccr.work:29411/api/proxy/manager-articles/6a08370108adb5ed7357efbb",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_ccb35086de16148c8e99",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a08370108adb5ed7357efbb",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：294 期抓取失败（专属API返回的 294 期区块本身残缺，第二行【16.17.18.22.24.25.26.27.28.29.30.34】重复一遍、第三行缺失，只有 24 个不同号码，36 码无法成立；293/292/291 均为完整三行，属站方当期内容缺行，非解析器问题，不能补值）⇒ 不再抓取（走南闯北；https://aszmkf.c3z3l-qrlqm-mwgccr.work:29411/article/admin/6a08370108adb5ed7357efbb?url=lhw）"
+    },
+    {
+      "name": "缔造财富",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75820",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "缔造财富"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_8b39b10fe92cef1b2a76",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：294 期抓取失败（tid=75820 已返回『读取数据错误，您要访问的链接无效，可能链接不完整，或数据已被删除』；雄霸天下论坛 294 期全部 201 个帖子标题中无『缔造财富』栏目，属站方删帖/停更，无身份锚点不可换帖）⇒ 不再抓取（缔造财富；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75820）"
+    },
+    {
+      "name": "忙忙碌碌",
+      "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1360",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "忙忙碌碌"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_abf6849b0a2d1d8cbb9e",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：295 期抓取失败（tid=1360 已被站方下架，页面正文『此帖子ID已被下架』；站点 b7sz3gaw48.552149.shop 本身存活可访问，属该帖下架而非站点故障，无身份锚点不可换帖）⇒ 不再抓取（忙忙碌碌；https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1360）"
+    },
+    {
+      "name": "信手拈来",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=74047",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "信手拈来"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_506636de89ba0a1c13de",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：296 期抓取失败（雄霸天下论坛 tid=74047 返回『读取数据错误，原因：您要访问的链接无效，可能链接不完整，或数据已被删除』，属站方删帖；同论坛 296 期现存帖中无该栏目作者锚点，不可换帖）⇒ 不再抓取（信手拈来；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=74047）"
+    },
+    {
+      "name": "吉祥澳彩",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=73803",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "吉祥澳彩"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_cc8addf58871660adf69",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：296 期抓取失败（雄霸天下论坛 tid=73803 返回『读取数据错误，原因：您要访问的链接无效，可能链接不完整，或数据已被删除』，属站方删帖；同论坛 296 期现存帖中无该栏目作者锚点，不可换帖）⇒ 不再抓取（吉祥澳彩；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=73803）"
+    },
+    {
+      "name": "超级公式",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75466",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "超级公式"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_bdc19d7a93424f562673",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：296 期抓取失败（雄霸天下论坛 tid=75466 返回『读取数据错误，原因：您要访问的链接无效，可能链接不完整，或数据已被删除』，属站方删帖；同论坛 296 期现存帖中无该栏目作者锚点，不可换帖）⇒ 不再抓取（超级公式；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75466）"
+    },
+    {
+      "name": "天天开心",
+      "url": "https://bbs7.1395200.com/read.php?tid=1865",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "天天开心"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_4ea41135de4349537580",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "fallback",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：296 期抓取失败（香港聚富网论坛 bbs7.1395200.com tid=1865 返回『读取数据错误，原因：您要访问的链接无效，可能链接不完整，或数据已被删除』，属站方删帖，非域名停用；无身份锚点不可换帖）⇒ 不再抓取（天天开心；https://bbs7.1395200.com/read.php?tid=1865）"
+    },
+    {
+      "name": "凤凰彩码",
+      "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3230",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "凤凰彩码"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_480d44f6c9e50d90336f",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：296 期抓取失败（tid=3230 页面正文『此帖子ID已被下架』，站点 5ipaulfv56.1081085bbs1.shop 本身存活，属该帖下架而非站点故障，无身份锚点不可换帖）⇒ 不再抓取（凤凰彩码；https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3230）"
+    },
+    {
+      "name": "一碧万顷",
+      "url": "https://0130190827.767566.xyz/bbs/topic.php?id=29905",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "一碧万顷"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_d6a043bb8053780a57e3",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：296 期抓取失败（域名 0130190827.767566.xyz 线路异常，TLS 握手持续超时，python/curl/浏览器三路均超时且重试 3 次未通；295 期换的新帖 tid=29905 同样取不到，非帖子下架而是整域不可达）⇒ 不再抓取（一碧万顷；https://0130190827.767566.xyz/bbs/topic.php?id=29905）"
+    },
+    {
+      "name": "稳赚不陪",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53532",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "稳赚不陪"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_60bceaa85c73cedf1674",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：297 期抓取失败（read.php?tid=53532 返回『读取数据错误，原因：您要访问的链接无效，可能链接不完整，或数据已被删除』；论坛 297 期帖子列表中无该栏目，属站方删帖且当期未再发布，无身份锚点不可换帖）⇒ 不再抓取（稳赚不陪；https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53532）"
+    },
+    {
+      "name": "和风细雨",
+      "url": "https://88888020827.997595.xyz/bbs/topic.php?id=19584",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "和风细雨"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_c090f9a09516eb832792",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：297 期抓取失败（tid=19584 页面显示『此帖子ID已被下架』；同论坛 297 期共 204 个帖子，其中『三十六码』类 7 个均非本栏目，当期未再发帖，无身份锚点不可换帖）⇒ 不再抓取（和风细雨；https://88888020827.997595.xyz/bbs/topic.php?id=19584）"
+    },
+    {
+      "name": "推心置腹",
+      "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1414",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "推心置腹"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_54221d7e34c9852e7b77",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "always",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：297 期抓取失败（tid=1414 页面显示『此帖子ID已被下架』；同论坛 297 期共 81 个帖子中无本栏目，当期未再发帖，无身份锚点不可换帖）⇒ 不再抓取（推心置腹；https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1414）"
+    },
+    {
+      "name": "以理服人",
+      "url": "https://88888020827.997595.xyz/bbs/topic.php?id=19442",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "以理服人"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_dff24da60dda48c0ef7c",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：298 期抓取失败（tid=19442 页面显示『此帖子ID已被下架』，站点本身存活可访问，属该帖下架而非站点故障，无身份锚点不可换帖）⇒ 不再抓取（以理服人；https://88888020827.997595.xyz/bbs/topic.php?id=19442）"
+    },
+    {
+      "name": "书生提筆",
+      "url": "https://buzsxio.821n4-hgj04-edkrft.xyz:29455/article/manager/6ac318ef08ef9d914860e727?url=bxj",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "书生提筆"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://buzsxio.821n4-hgj04-edkrft.xyz:29455/api/proxy/manager-articles/6ac318ef08ef9d914860e727",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_ce8da3b991384ad7dd80",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6ac318ef08ef9d914860e727",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：298 期抓取失败（文章接口 /api/proxy/manager-articles/6ac318ef08ef9d914860e727 返回 HTTP 404（73 字节），浏览器兜底也找不到该记录 ID，属站方删文而非整站故障，无合法修复路径）⇒ 不再抓取（书生提筆；https://buzsxio.821n4-hgj04-edkrft.xyz:29455/article/manager/6ac318ef08ef9d914860e727?url=bxj）"
+    },
+    {
+      "name": "最大赢家",
+      "url": "https://rwraojf.l54vq-9httr-cmdnip.work:29477/article/admin/6a041a9c4ea5c20141013dc3?url=xdr",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "最大赢家"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://rwraojf.l54vq-9httr-cmdnip.work:29477/api/proxy/manager-articles/6a041a9c4ea5c20141013dc3",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_a76d022ad577a18b3564",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a041a9c4ea5c20141013dc3",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：299 期抓取失败（文章接口 /api/proxy/manager-articles/6a041a9c4ea5c20141013dc3 返回 HTTP 404（73 字节），浏览器兜底也找不到该记录 ID，属站方删文而非整站故障，无合法修复路径）⇒ 不再抓取（最大赢家；https://rwraojf.l54vq-9httr-cmdnip.work:29477/article/admin/6a041a9c4ea5c20141013dc3?url=xdr）"
+    },
+    {
+      "name": "博庄一号",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=54663",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "博庄一号"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_881ebde4d25376be966a",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：299 期抓取失败（页面标题有 299 期，但正文号码未渲染：候选为『没有收集到有效号码』与连写数字 182566，132 组候选里 299 期无有效 36 码；属站方当期正文缺失，非解析器问题，不猜值）⇒ 不再抓取（博庄一号；https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=54663）"
+    },
+    {
+      "name": "期期疯狂",
+      "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1437",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "期期疯狂"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_d124f7497fa436f200f6",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：299 期抓取失败（tid=1437 页面显示『此帖子ID已被下架』，站点本身存活可访问，属该帖下架而非站点故障，无身份锚点不可换帖）⇒ 不再抓取（期期疯狂；https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1437）"
+    },
+    {
+      "name": "财富多宝",
+      "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1406",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "财富多宝"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_00d0b8931786f05fdf7c",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：299 期抓取失败（tid=1406 页面显示『此帖子ID已被下架』，站点本身存活可访问，属该帖下架而非站点故障，无身份锚点不可换帖）⇒ 不再抓取（财富多宝；https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1406）"
+    },
+    {
+      "name": "不折不扣",
+      "url": "https://bbs7.1395200.com/read.php?tid=834",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "不折不扣"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_7996895a60cb2971ffa5",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "fallback",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：299 期抓取失败（香港聚富网 bbs7.1395200.com tid=834 返回『读取数据错误，原因：您要访问的链接无效，可能链接不完整，或数据已被删除』，属站方删帖，非域名停用；无身份锚点不可换帖）⇒ 不再抓取（不折不扣；https://bbs7.1395200.com/read.php?tid=834）"
+    },
+    {
+      "name": "树上开花",
+      "url": "https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53712",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "树上开花"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_bc721bf11cce633960cd",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：301 期抓取失败（论坛 tid=53712 返回『读取数据错误，原因：您要访问的链接无效，可能链接不完整，或数据已被删除』，属站方删帖；无身份锚点不可换帖）⇒ 不再抓取（树上开花；https://6yrtfjghvnb-0978dtuxfyh.xyz/read.php?tid=53712）"
+    },
+    {
+      "name": "阳光明媚",
+      "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1278",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "阳光明媚"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_aa4cf6927ef2db2cb942",
+      "source_type": "bbs_topic",
+      "parser_id": "yangguang_mingmei",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_insufficient_history",
+      "onboarding_valid_issues": [
+        255
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：302 期抓取失败（bbs 帖子 id=1278 返回『此帖子ID已被下架』，论坛首页亦无该站栏目，属站方删帖；无身份锚点不可换帖）⇒ 不再抓取（阳光明媚；https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1278）"
+    },
+    {
+      "name": "精彩时代",
+      "url": "https://8818.www19753a.com/read.php?tid=593",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "精彩时代"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_2d611d98bdef6d526e89",
+      "source_type": "forum_thread",
+      "parser_id": "generic_36",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：303 期抓取失败（站点改为登录可见，返回『您没有登录或者没有权限访问此页面』，本项目无该站账号，属会员/登录墙）⇒ 不再抓取（精彩时代；https://8818.www19753a.com/read.php?tid=593）"
+    },
+    {
+      "name": "野草闲花",
+      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=3118",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "野草闲花"
+      ],
+      "search_window": 80,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_06246ab6777b732a0d28",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "always",
+      "archive_tag": "用户明确封存：303 期抓取失败（bbs 帖子 id=3118 返回『此帖子ID已被下架』，论坛首页亦无该站栏目，属站方删帖；无身份锚点不可换帖）⇒ 不再抓取（野草闲花；https://z0gcdiww42.669332.shop/bbs/topic.php?id=3118）"
+    },
+    {
+      "name": "腾讯专家",
+      "url": "https://buzsxio.821n4-hgj04-edkrft.xyz:29455/article/manager/6a5eef5ef447e21b02dd548a?url=bxj",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "腾讯专家"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://buzsxio.821n4-hgj04-edkrft.xyz:29455/api/proxy/manager-articles/6a5eef5ef447e21b02dd548a",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_c0bb6feb080459826c62",
+      "source_type": "dynamic_article",
+      "parser_id": "three_rows",
+      "record_id": "6a5eef5ef447e21b02dd548a",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：304 期抓取失败（dynamic_article API 返回 404 {\"message\":\"AdminArticle 不存在\"}，门户首页 / 与 /lp/bxj 均无「腾讯专家」入口，14 个链接里找不到新 record_id ⇒ 站方删帖，无身份锚点不可换帖）⇒ 不再抓取（腾讯专家；https://buzsxio.821n4-hgj04-edkrft.xyz:29455/article/manager/6a5eef5ef447e21b02dd548a?url=bxj）"
+    },
+    {
+      "name": "六彩宏图",
+      "url": "https://krcugkd.4pwds-7mfpc-daqkcm.cyou:29411/article/manager/6aaa7177fb6129bd4ba8b00e?url=tmww",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "六彩宏图"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://krcugkd.4pwds-7mfpc-daqkcm.cyou:29411/api/proxy/manager-articles/6aaa7177fb6129bd4ba8b00e",
+      "min_numbers_per_line": 2,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_b8c2e57f7924d37462dc",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6aaa7177fb6129bd4ba8b00e",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "image_decoder": null,
+      "archive_tag": "用户明确封存：305 期抓取失败（dynamic_article 前端报 Failed to fetch，/api/proxy/manager-articles/6aaa7177fb6129bd4ba8b00e 取不到记录，浏览器兜底也未找到记录 ID ⇒ 站方接口故障且无身份锚点不可换帖）⇒ 不再抓取（六彩宏图；https://krcugkd.4pwds-7mfpc-daqkcm.cyou:29411/article/manager/6aaa7177fb6129bd4ba8b00e?url=tmww）"
+    },
+    {
+      "name": "龙珠泛光",
+      "url": "https://66778800827.909776.xyz/bbs/topic.php?id=19484",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "龙珠泛光"
+      ],
+      "search_window": 80,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_7283602394059b52e779",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "always",
+      "archive_tag": "用户明确封存：305 期抓取失败（bbs 帖子 id=19484 返回『此帖子ID已被下架』，专属三十六码栏目无符合条件数据，属站方删帖，无身份锚点不可换帖）⇒ 不再抓取（龙珠泛光；https://66778800827.909776.xyz/bbs/topic.php?id=19484）"
+    },
+    {
+      "name": "洪福联盟",
+      "url": "https://wwlhc.com/forum.php?mod=viewthread&tid=101698",
+      "keywords": [
+        "36个码"
+      ],
+      "section_keywords": [
+        "36个码"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_6b2ee9125205c5a52d0b",
+      "source_type": "forum_thread",
+      "parser_id": "generic_36",
+      "record_id": null,
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "requires_login": true,
+      "login_profile": "C:/Users/Administrator/Desktop/每天工具/爬虫合集/大围数据_修复版2/browser-profile",
+      "onboarding_exception": "allow_insufficient_history",
+      "onboarding_valid_issues": [
+        298,
+        299,
+        300,
+        301,
+        302
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：305 期抓取失败（帖子标题【2026新澳303】36码，页内最新候选仅 303 期，305 期未发布，299–303 严格窗口不含指定期，属无数据）⇒ 不再抓取（洪福联盟；https://wwlhc.com/forum.php?mod=viewthread&tid=101698）"
+    },
+    {
+      "name": "东紫云轩",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75063",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "东紫云轩"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_99b3b4ff8280265de75c",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：306 期抓取失败（论坛 tid=75063 返回『您要访问的链接无效,可能链接不完整,或数据已被删除!』，帖子已删除，无身份锚点不可换帖）⇒ 不再抓取（东紫云轩；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75063）"
     }
   ],
-  "updated_at": "2026-09-22T18:33:09+08:00"
+  "updated_at": "2026-11-02T18:46:03+08:00"
 }
