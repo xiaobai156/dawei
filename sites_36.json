@@ -3838,35 +3838,6 @@
     "onboarding_missing_issues": []
   },
   {
-    "name": "聊从兔颖",
-    "url": "https://fansiggg.jc2q8-whfmg-vajjui.xyz:29433/article/manager/6a5117245e6c7637a3f4eb7a?url=dyj",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "聊从兔颖"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": "https://fansiggg.jc2q8-whfmg-vajjui.xyz:29433/api/proxy/manager-articles/6a5117245e6c7637a3f4eb7a",
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": true,
-    "site_id": "site_323ea26fdb15fcb02fc0",
-    "source_type": "dynamic_article",
-    "parser_id": "three_rows",
-    "record_id": "6a5117245e6c7637a3f4eb7a",
-    "render_policy": "always",
-    "navigation_keywords": [],
-    "onboarding_exception": null,
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
     "name": "貌美如花",
     "url": "https://fansiggg.jc2q8-whfmg-vajjui.xyz:29433/article/manager/6a096aca291caff3edcb8b8c?url=dyj",
     "keywords": [
@@ -3977,36 +3948,6 @@
     "parser_id": "three_rows",
     "record_id": "6a155508d9d9fc2cea524219",
     "render_policy": "always",
-    "navigation_keywords": [],
-    "onboarding_exception": null,
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
-    "name": "金码豹子",
-    "url": "https://hl.90216a.com/read.php?tid=822",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "金码豹子",
-      "三十六码"
-    ],
-    "search_window": 520,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_b03a810fe7a00635e76a",
-    "source_type": "forum_thread",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
     "navigation_keywords": [],
     "onboarding_exception": null,
     "onboarding_valid_issues": [],
@@ -4913,7 +4854,7 @@
     "region": "top",
     "render_browser": false,
     "site_id": "site_b076fa75de0145593e2a",
-    "proxy": "http://127.0.0.1:7897",
+    "proxy": "http://127.0.0.1:7900",
     "source_type": "paginated_article_list",
     "parser_id": "generic_36",
     "record_id": null,
@@ -5125,35 +5066,6 @@
       260,
       258
     ]
-  },
-  {
-    "name": "强者推荐",
-    "url": "https://bbs7.1395200.com/read.php?tid=1645",
-    "keywords": [
-      "36码中特"
-    ],
-    "section_keywords": [
-      "强者推荐"
-    ],
-    "search_window": 520,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": true,
-    "site_id": "site_e76adaa963a96d15e346",
-    "source_type": "forum_thread",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "fallback",
-    "navigation_keywords": [],
-    "onboarding_exception": null,
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
   },
   {
     "name": "嘴尖牙利",
@@ -6408,6 +6320,93 @@
     "render_policy": "never",
     "navigation_keywords": [],
     "onboarding_exception": "allow_incomplete_backup",
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "爆庄平特",
+    "url": "https://66778800827.909776.xyz/bbs/topic.php?id=19946",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "爆庄平特"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_4c106c87f7673f3402b5",
+    "source_type": "bbs_topic",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "共枝别干",
+    "url": "https://88888020827.885536.xyz/bbs/topic.php?id=19501",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "共枝别干"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_d78a2bad846c2936b51e",
+    "source_type": "bbs_topic",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "战庄至尊",
+    "url": "https://jkofyya.6sf58-wbz5a-thviwx.work:29477/article/manager/6ae56a3608ef9d91486de771?url=jbp",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "战庄至尊"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": "https://jkofyya.6sf58-wbz5a-thviwx.work:29477/api/proxy/manager-articles/6ae56a3608ef9d91486de771",
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": true,
+    "site_id": "site_ea796278ee1a3757d049",
+    "source_type": "dynamic_article",
+    "parser_id": "three_rows",
+    "record_id": "6ae56a3608ef9d91486de771",
+    "render_policy": "always",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
     "onboarding_valid_issues": [],
     "onboarding_missing_issues": []
   }

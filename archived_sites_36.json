@@ -1,7 +1,7 @@
 ﻿{
   "version": 1,
-  "archived_at": "2026-11-02T18:46:03+08:00",
-  "reason": "用户明确要求封存东紫云轩，不再抓取（306 期抓取失败：帖子已被删除，无数据）",
+  "archived_at": "2026-11-03T18:44:32+08:00",
+  "reason": "用户明确要求封存金码豹子、聊从兔颖、强者推荐，不再抓取（307 期抓取失败：金码豹子需登录/权限、聊从兔颖与强者推荐帖子已删除）",
   "sites": [
     {
       "name": "澳彩军师",
@@ -4409,7 +4409,98 @@
       "onboarding_valid_issues": [],
       "onboarding_missing_issues": [],
       "archive_tag": "用户明确封存：306 期抓取失败（论坛 tid=75063 返回『您要访问的链接无效,可能链接不完整,或数据已被删除!』，帖子已删除，无身份锚点不可换帖）⇒ 不再抓取（东紫云轩；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75063）"
+    },
+    {
+      "name": "金码豹子",
+      "url": "https://hl.90216a.com/read.php?tid=822",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "金码豹子",
+        "三十六码"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_b03a810fe7a00635e76a",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：307 期抓取失败（read.php?tid=822 匿名访问返回『您没有登录或者没有权限访问此页面』；同论坛 tid=774 匿名可读且已有 307 期，判定该帖受登录/权限限制，无凭据无法取证）⇒ 不再抓取（金码豹子；https://hl.90216a.com/read.php?tid=822）"
+    },
+    {
+      "name": "聊从兔颖",
+      "url": "https://fansiggg.jc2q8-whfmg-vajjui.xyz:29433/article/manager/6a5117245e6c7637a3f4eb7a?url=dyj",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "聊从兔颖"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://fansiggg.jc2q8-whfmg-vajjui.xyz:29433/api/proxy/manager-articles/6a5117245e6c7637a3f4eb7a",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_323ea26fdb15fcb02fc0",
+      "source_type": "dynamic_article",
+      "parser_id": "three_rows",
+      "record_id": "6a5117245e6c7637a3f4eb7a",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：307 期抓取失败（文章接口 /api/proxy/manager-articles/6a5117245e6c7637a3f4eb7a 返回 404、列表接口返回 []，同主机同模板站点正常显示 307 期，判定文章记录已下架删除）⇒ 不再抓取（聊从兔颖；https://fansiggg.jc2q8-whfmg-vajjui.xyz:29433/article/manager/6a5117245e6c7637a3f4eb7a?url=dyj）"
+    },
+    {
+      "name": "强者推荐",
+      "url": "https://bbs7.1395200.com/read.php?tid=1645",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "强者推荐"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_e76adaa963a96d15e346",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "fallback",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：307 期抓取失败（read.php?tid=1645 返回『您要访问的链接无效,可能链接不完整,或数据已被删除!』；同论坛 tid=110 正常且有 307 期，判定原帖已删除）⇒ 不再抓取（强者推荐；https://bbs7.1395200.com/read.php?tid=1645）"
     }
   ],
-  "updated_at": "2026-11-02T18:46:03+08:00"
+  "updated_at": "2026-11-03T18:44:32+08:00"
 }
