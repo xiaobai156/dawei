@@ -13,7 +13,6 @@ formal_output/
 onboarding_output/
 *.lock
 *.tmp
-recent_10_cache.json
 *期-大围-成功.txt
 *期-大围-失败.txt
 *期重复检测失败.txt
