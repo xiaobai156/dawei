@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import atexit
+import os
 import queue
 import threading
 import time
@@ -28,6 +29,16 @@ except ImportError:  # pragma: no cover - wrappers raise a clearer error later
 
 DEFAULT_TIMEOUT = 20
 _BLOCKED_RESOURCE_TYPES = frozenset({"image", "media", "font"})
+
+
+def resolve_login_profile(config: SiteConfig | None) -> str | None:
+    """Return the persistent profile directory for a login-only site."""
+    if config is None or not getattr(config, "requires_login", False):
+        return None
+    profile = getattr(config, "login_profile", None)
+    if not profile:
+        raise ScrapeError("登录站点缺少 login_profile 配置")
+    return profile
 
 
 @dataclass
@@ -76,6 +87,13 @@ class ReusableBrowserRenderer:
         self.local = threading.local()
         self.lock = threading.Lock()
         self.states: list[BrowserRenderState] = []
+        # 需要登录的站点走独立持久化 profile，与匿名上下文严格分开，
+        # 避免登录态泄漏到其他站点，也避免它们互相顶掉 cookie。
+        self.persistent_states: dict[str, BrowserRenderState] = {}
+        # Playwright 的同步 API 会在 owner 线程里常驻一个事件循环，同一线程
+        # 再次 sync_playwright().start() 会抛 "Playwright Sync API inside the
+        # asyncio loop"，所以整个渲染器共用一个实例。
+        self._playwright_instance: object | None = None
 
         self._lifecycle_lock = threading.Lock()
         self._tasks: queue.Queue[_BrowserTask] = queue.Queue()
@@ -137,12 +155,26 @@ class ReusableBrowserRenderer:
         with self.lock:
             return self.states[0] if self.states else None
 
+    def _playwright_on_owner(self) -> object:
+        """Return the renderer-wide Playwright instance, starting it at most once.
+
+        The sync API keeps a running event loop inside the owner thread, so a
+        second ``sync_playwright().start()`` on that thread raises "It looks
+        like you are using Playwright Sync API inside the asyncio loop".
+        """
+        instance = self._playwright_instance
+        if instance is None:
+            instance = self.playwright_starter()
+            self._playwright_instance = instance
+        return instance
+
     def _create_state_on_owner(self) -> BrowserRenderState:
         existing = self._existing_state()
         if existing is not None:
             return existing
 
-        playwright = self.playwright_starter()
+        owns_playwright = self._playwright_instance is None
+        playwright = self._playwright_on_owner()
         browser = None
         try:
             browser = playwright.chromium.launch(headless=True)
@@ -154,13 +186,53 @@ class ReusableBrowserRenderer:
                     browser.close()
                 except Exception:  # noqa: BLE001, S110
                     pass
-            try:
-                playwright.stop()
-            except Exception:  # noqa: BLE001, S110
-                pass
+            if owns_playwright:
+                self._playwright_instance = None
+                try:
+                    playwright.stop()
+                except Exception:  # noqa: BLE001, S110
+                    pass
             raise
         state = BrowserRenderState(playwright, browser, context)
         self._register_state(state)
+        return state
+
+    def _create_persistent_state_on_owner(self, profile_dir: str) -> BrowserRenderState:
+        """Open (or reuse) a persistent profile context for a login-only site."""
+        key = os.path.normcase(os.path.abspath(profile_dir))
+        with self.lock:
+            existing = self.persistent_states.get(key)
+        if existing is not None:
+            return existing
+        if not os.path.isdir(key):
+            raise ScrapeError(f"登录态配置目录不存在: {profile_dir}")
+
+        owns_playwright = self._playwright_instance is None
+        playwright = self._playwright_on_owner()
+        context = None
+        try:
+            context = playwright.chromium.launch_persistent_context(
+                key,
+                headless=True,
+                ignore_https_errors=False,
+            )
+            _install_resource_filter(context)
+        except Exception:
+            if context is not None:
+                try:
+                    context.close()
+                except Exception:  # noqa: BLE001, S110
+                    pass
+            if owns_playwright:
+                self._playwright_instance = None
+                try:
+                    playwright.stop()
+                except Exception:  # noqa: BLE001, S110
+                    pass
+            raise
+        state = BrowserRenderState(playwright, getattr(context, "browser", None), context)
+        with self.lock:
+            self.persistent_states[key] = state
         return state
 
     def state(self) -> BrowserRenderState:
@@ -191,10 +263,14 @@ class ReusableBrowserRenderer:
         injected_state: BrowserRenderState | None = None,
         timing: AuditTiming | None = None,
         requested: float | None = None,
+        login_profile: str | None = None,
     ) -> str:
         if timing is not None and requested is not None:
             timing.add("browser.queue", time.perf_counter() - requested)
-        state = self._state_for_call_on_owner(injected_state)
+        if login_profile:
+            state = self._create_persistent_state_on_owner(login_profile)
+        else:
+            state = self._state_for_call_on_owner(injected_state)
         page = state.context.new_page()
         try:
             with scoped(timing, "browser.nav"):
@@ -216,11 +292,19 @@ class ReusableBrowserRenderer:
         url: str,
         timeout: int = DEFAULT_TIMEOUT,
         timing: AuditTiming | None = None,
+        login_profile: str | None = None,
     ) -> str:
-        injected_state = getattr(self.local, "state", None)
+        injected_state = None if login_profile else getattr(self.local, "state", None)
         requested = time.perf_counter()
         return self._run_on_owner(
-            lambda: self._fetch_on_owner(url, timeout, injected_state, timing, requested)
+            lambda: self._fetch_on_owner(
+                url,
+                timeout,
+                injected_state,
+                timing,
+                requested,
+                login_profile,
+            )
         )
 
     def _fetch_article_on_owner(
@@ -233,7 +317,11 @@ class ReusableBrowserRenderer:
     ) -> ArticleRecord:
         if timing is not None and requested is not None:
             timing.add("browser.queue", time.perf_counter() - requested)
-        state = self._state_for_call_on_owner(injected_state)
+        login_profile = resolve_login_profile(config)
+        if login_profile:
+            state = self._create_persistent_state_on_owner(login_profile)
+        else:
+            state = self._state_for_call_on_owner(injected_state)
         page = state.context.new_page()
         responses: list[object] = []
 
@@ -313,6 +401,8 @@ class ReusableBrowserRenderer:
         with self.lock:
             states = self.states
             self.states = []
+            states.extend(self.persistent_states.values())
+            self.persistent_states = {}
         for state in states:
             try:
                 state.context.close()
@@ -322,8 +412,17 @@ class ReusableBrowserRenderer:
                 state.browser.close()
             except Exception:  # noqa: BLE001, S110
                 pass
+        # 所有 state 共用同一个 Playwright 实例，只能 stop 一次。
+        playwrights: list[object] = []
+        for state in states:
+            if state.playwright is not None and not any(
+                existing is state.playwright for existing in playwrights
+            ):
+                playwrights.append(state.playwright)
+        self._playwright_instance = None
+        for playwright in playwrights:
             try:
-                state.playwright.stop()
+                playwright.stop()
             except Exception:  # noqa: BLE001, S110
                 pass
         with self._lifecycle_lock:
@@ -428,9 +527,17 @@ class BrowserRendererPool:
         url: str,
         timeout: int = DEFAULT_TIMEOUT,
         affinity_key: str | None = None,
+        login_profile: str | None = None,
     ) -> str:
         renderer = self._renderer_for(self._affinity_key(url, affinity_key))
-        return renderer.fetch(url, timeout=timeout, timing=current_timing())
+        if login_profile is None:
+            return renderer.fetch(url, timeout=timeout, timing=current_timing())
+        return renderer.fetch(
+            url,
+            timeout=timeout,
+            timing=current_timing(),
+            login_profile=login_profile,
+        )
 
     def fetch_article(
         self,
@@ -483,14 +590,23 @@ def close_browser_renderer() -> None:
 def fetch_rendered_text(
     url: str,
     timeout: int = DEFAULT_TIMEOUT,
+    config: SiteConfig | None = None,
 ) -> str:
     try:
         from playwright.sync_api import sync_playwright
     except ImportError as exc:
         raise ScrapeError("browser rendering requires playwright") from exc
+    login_profile = resolve_login_profile(config)
     try:
         renderer = _get_renderer(lambda: sync_playwright().start())
-        return renderer.fetch(url, timeout=timeout, timing=current_timing())
+        return renderer.fetch(
+            url,
+            timeout=timeout,
+            timing=current_timing(),
+            login_profile=login_profile,
+        )
+    except ScrapeError:
+        raise
     except Exception as exc:
         raise ScrapeError(f"browser rendering failed: {exc}") from exc
 

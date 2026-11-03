@@ -192,13 +192,21 @@ def validate_site_config(site: SiteConfig) -> SiteConfig:
         "render_policy",
     ):
         _require_non_empty_text(getattr(site, field), field)
-    for field in ("region", "api_url", "image_decoder", "record_id", "onboarding_exception"):
+    for field in (
+        "region",
+        "api_url",
+        "image_decoder",
+        "record_id",
+        "onboarding_exception",
+        "login_profile",
+        "proxy",
+    ):
         _require_optional_text(getattr(site, field), field)
     _require_positive_int(site.search_window, "search_window")
     _require_positive_int(site.min_numbers_per_line, "min_numbers_per_line")
     if site.fixed_issue is not None:
         _require_positive_int(site.fixed_issue, "fixed_issue")
-    for field in ("numbers_before_issue", "drop_zero_numbers", "render_browser"):
+    for field in ("numbers_before_issue", "drop_zero_numbers", "render_browser", "requires_login"):
         _require_bool(getattr(site, field), field)
     for field in ("keywords", "section_keywords", "navigation_keywords"):
         _require_text_tuple(getattr(site, field), field)
@@ -232,4 +240,13 @@ def validate_site_config(site: SiteConfig) -> SiteConfig:
         raise ValidationError("新增站特例的有效期与缺失期不能重叠")
     if site.source_type == "paginated_article_list" and not site.navigation_keywords:
         raise ValidationError("分页文章列表来源必须配置navigation_keywords")
+    if site.requires_login:
+        if not site.login_profile:
+            raise ValidationError("登录站点必须配置login_profile（持久化登录态目录）")
+        if site.render_policy == "never" and not site.render_browser:
+            raise ValidationError("登录站点必须启用浏览器渲染: render_policy不能为never")
+    if site.proxy:
+        scheme, _, remainder = site.proxy.partition("://")
+        if scheme not in {"http", "https"} or not remainder or ":" not in remainder:
+            raise ValidationError(f"站点代理必须写成 http://主机:端口 形式: {site.proxy}")
     return site

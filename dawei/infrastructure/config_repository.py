@@ -15,7 +15,22 @@ from dawei.domain.errors import ConfigurationError, ValidationError
 from dawei.domain.models import SiteConfig, derive_site_id
 from dawei.domain.validation import validate_site_config
 
+from . import http_client
 from .cache_repository import atomic_write_text
+
+DEFAULT_LOGIN_PROFILE = Path(__file__).resolve().parents[2] / "browser-profile"
+
+
+def register_site_proxies(sites: tuple[SiteConfig, ...] | list[SiteConfig]) -> None:
+    """把站点级 proxy 按主机名登记到 HTTP 层，本机线路被劫持的站点单独走代理。"""
+    mapping: dict[str, str] = {}
+    for site in sites:
+        if not site.proxy:
+            continue
+        host = urlsplit(site.url).hostname
+        if host:
+            mapping[host] = site.proxy
+    http_client.configure_site_proxies(mapping)
 
 DYNAMIC_RECORD_RE = re.compile(
     r"/article/(?:admin|manager|lottery)/(?P<record_id>[0-9a-z]+)(?:[/?#]|$)",
@@ -75,6 +90,11 @@ def config_fingerprint(sites: tuple[SiteConfig, ...] | list[SiteConfig]) -> str:
         item["direction"] = site.direction
         for key in ("keywords", "section_keywords", "navigation_keywords"):
             item[key] = [_normalize_text(str(value)) for value in getattr(site, key)]
+        # 登录态字段按需参与身份：全部站点默认关闭时必须保持旧指纹不变，
+        # 否则一次代码升级会让既有缓存整体失效。
+        for key in ("requires_login", "login_profile", "proxy"):
+            if not item.get(key):
+                item.pop(key, None)
         canonical.append(item)
     encoded = json.dumps(
         canonical,
@@ -235,6 +255,29 @@ def migrate_site_mapping(item: object, index: int) -> SiteConfig:
     url = data.get("url")
     if not isinstance(name, str) or not isinstance(url, str):
         raise ConfigurationError(f"sites config item #{index} requires string name and url")
+    if "requires_login" in data:
+        if type(data["requires_login"]) is not bool:
+            raise ConfigurationError(
+                f"sites config item #{index} field requires_login must be a boolean"
+            )
+    else:
+        data["requires_login"] = False
+    if "login_profile" in data:
+        if data["login_profile"] is not None and type(data["login_profile"]) is not str:
+            raise ConfigurationError(
+                f"sites config item #{index} field login_profile must be a string or null"
+            )
+    else:
+        data["login_profile"] = None
+    if data["requires_login"] and not data["login_profile"]:
+        data["login_profile"] = str(DEFAULT_LOGIN_PROFILE)
+    if "proxy" in data:
+        if data["proxy"] is not None and type(data["proxy"]) is not str:
+            raise ConfigurationError(
+                f"sites config item #{index} field proxy must be a string or null"
+            )
+    else:
+        data["proxy"] = None
     if "source_type" in data:
         if type(data["source_type"]) is not str:
             raise ConfigurationError(
@@ -287,6 +330,9 @@ def migrate_site_mapping(item: object, index: int) -> SiteConfig:
     else:
         if data.get("render_browser"):
             data["render_policy"] = "always"
+        elif data.get("requires_login"):
+            # 登录站点的游客视图不可用，缺省就按总是渲染处理。
+            data["render_policy"] = "always"
         elif source_type == "dynamic_article":
             data["render_policy"] = "fallback"
         else:
@@ -321,6 +367,7 @@ class ConfigRepository:
         if duplicate_ids:
             raise ConfigurationError("duplicate site_id: " + ", ".join(duplicate_ids))
         _validate_identity_collisions(sites)
+        register_site_proxies(sites)
         return sites
 
     def save(self, sites: tuple[SiteConfig, ...]) -> None:

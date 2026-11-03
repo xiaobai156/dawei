@@ -155,6 +155,10 @@ def load_browser_source(
     if is_dynamic_article_site(config):
         article = rendered_article_fetcher(config, timeout=timeout)
         return SourceLoadResult(article.document, article, config.url, True)
+    if config.requires_login:
+        # 登录站点的游客版正文是空壳，必须带持久化登录态渲染。
+        document = rendered_text_fetcher(config.url, timeout=timeout, config=config)
+        return SourceLoadResult(document, None, config.url, True)
     document = rendered_text_fetcher(config.url, timeout=timeout)
     return SourceLoadResult(document, None, config.url, True)
 
@@ -207,6 +211,15 @@ def load_source(
             text_fetcher,
         )
         return SourceLoadResult(document, None, source_url, False)
+
+    if config.requires_login:
+        # 登录站点不接受HTTP游客视图，直接走持久化登录态渲染。
+        return load_browser_source(
+            config,
+            timeout,
+            rendered_text_fetcher=rendered_text_fetcher,
+            rendered_article_fetcher=rendered_article_fetcher,
+        )
 
     if config.api_url:
         api_fallback = False

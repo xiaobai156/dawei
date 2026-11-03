@@ -13,12 +13,19 @@ import threading
 import time
 import warnings
 import zlib
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from http.client import IncompleteRead
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
-from urllib.request import ProxyHandler, Request, build_opener, install_opener, urlopen
+from urllib.request import (
+    HTTPSHandler,
+    ProxyHandler,
+    Request,
+    build_opener,
+    install_opener,
+    urlopen,
+)
 
 from dawei.domain.errors import ScrapeError
 from dawei.infrastructure.timing import current_timing, measure
@@ -177,9 +184,23 @@ def is_tls_error(exc: BaseException) -> bool:
     )
 
 
+def _open_with_proxy(request: Request, timeout: int, proxy: str, context):
+    """用站点级代理打开请求；代理与 TLS 上下文都体现在自建 opener 上。"""
+    handler = ProxyHandler({"http": proxy, "https": proxy})
+    opener = (
+        build_opener(handler)
+        if context is None
+        else build_opener(handler, HTTPSHandler(context=context))
+    )
+    return opener.open(request, timeout=timeout)
+
+
 def open_url_with_retries(request: Request, timeout: int):
     _require_positive(timeout, "timeout")
+    proxy = site_proxy_for(request.full_url)
     if urlsplit(request.full_url).scheme != "https":
+        if proxy:
+            return _open_with_proxy(request, timeout, proxy, None)
         return urlopen(request, timeout=timeout)
     errors: list[str] = []
     attempts: list[tuple[str, ssl.SSLContext | None]] = [("default", None), *TLS_RETRY_CONTEXTS]
@@ -191,11 +212,14 @@ def open_url_with_retries(request: Request, timeout: int):
             attempts.sort(key=lambda item: item[0] != cached_label)
     for label, context in attempts:
         try:
-            response = (
-                urlopen(request, timeout=timeout)
-                if context is None
-                else urlopen(request, timeout=timeout, context=context)
-            )
+            if proxy:
+                response = _open_with_proxy(request, timeout, proxy, context)
+            else:
+                response = (
+                    urlopen(request, timeout=timeout)
+                    if context is None
+                    else urlopen(request, timeout=timeout, context=context)
+                )
             if host:
                 with TLS_CONTEXT_CACHE_LOCK:
                     TLS_CONTEXT_CACHE[host] = label
@@ -207,6 +231,31 @@ def open_url_with_retries(request: Request, timeout: int):
                 raise
             errors.append(f"{label}: {exc}")
     raise ScrapeError("network error: TLS handshake failed after retries: " + " | ".join(errors))
+
+
+SITE_PROXY_LOCK = threading.Lock()
+SITE_PROXIES: dict[str, str] = {}
+
+
+def configure_site_proxies(mapping: Mapping[str, str | None] | None) -> None:
+    """按主机名登记站点级代理，用于本机线路/代理劫持需要单独出口的站点。"""
+    normalized: dict[str, str] = {}
+    for host, proxy in (mapping or {}).items():
+        key = (host or "").strip().casefold()
+        value = (proxy or "").strip()
+        if key and value:
+            normalized[key] = value
+    with SITE_PROXY_LOCK:
+        SITE_PROXIES.clear()
+        SITE_PROXIES.update(normalized)
+
+
+def site_proxy_for(url: str) -> str | None:
+    host = urlsplit(url).hostname
+    if not host:
+        return None
+    with SITE_PROXY_LOCK:
+        return SITE_PROXIES.get(host.casefold())
 
 
 def configure_proxy(proxy: str | None) -> None:
@@ -301,8 +350,10 @@ def fetch_raw_with_curl(
     url: str,
     timeout: int = DEFAULT_TIMEOUT,
     extra_headers: dict[str, str] | None = None,
+    proxy: str | None = None,
 ) -> tuple[bytes, str, str]:
     _require_positive(timeout, "timeout")
+    effective_proxy = proxy or site_proxy_for(url)
     headers = {
         "User-Agent": USER_AGENT,
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -315,6 +366,8 @@ def fetch_raw_with_curl(
         _curl_executable(), "-L", "-f", "-sS", "--http1.1", "--connect-timeout",
         str(min(timeout, 10)), "--max-time", str(timeout),
     ]
+    if effective_proxy:
+        base.extend(["--proxy", effective_proxy])
     for key, value in headers.items():
         base.extend(["-H", f"{key}: {value}"])
     errors: list[str] = []

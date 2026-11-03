@@ -1050,6 +1050,102 @@ class BatchOutputAndCacheTests(unittest.TestCase):
                 ["原有成功行", f"{','.join(NUMBERS)} 站A"],
             )
 
+    def test_subset_run_removes_failure_file_when_nothing_left(self) -> None:
+        sites = (
+            SiteConfig("站A", "https://a.test", site_id="a", region="top", parser_id="generic_36"),
+            SiteConfig("站B", "https://b.test", site_id="b", region="top", parser_id="generic_36"),
+        )
+
+        def scrape(site: SiteConfig, *, timeout: int, fixed_issue: int | None) -> ParsedRecord:
+            return ParsedRecord(
+                site.name,
+                site.url,
+                236,
+                NUMBERS,
+                record_id="record-a",
+                raw_position=1,
+                evidence=evidence(),
+            )
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config_path = root / "sites.json"
+            ConfigRepository(config_path).save(sites)
+            failure_path = root / "failure.txt"
+            failure_path.write_text(
+                "站A https://a.test [超时] 方向:top；指定期数:236期；原因:timeout\n",
+                encoding="utf-8-sig",
+            )
+
+            SingleIssueBatchService(
+                site_scraper=scrape,
+                progress_sink=lambda _: None,
+            ).run_configured(
+                config_path,
+                BatchOptions(
+                    fixed_issue=236,
+                    output_path=root / "success.txt",
+                    error_output_path=failure_path,
+                    update_recent_cache=False,
+                    workers=1,
+                ),
+                only=("站A",),
+            )
+
+            self.assertFalse(
+                failure_path.exists(),
+                "失败清单清空后必须删除失败TXT，不留0字节空壳",
+            )
+
+    def test_subset_run_keeps_failure_file_when_other_sites_remain(self) -> None:
+        sites = (
+            SiteConfig("站A", "https://a.test", site_id="a", region="top", parser_id="generic_36"),
+            SiteConfig("站B", "https://b.test", site_id="b", region="top", parser_id="generic_36"),
+        )
+
+        def scrape(site: SiteConfig, *, timeout: int, fixed_issue: int | None) -> ParsedRecord:
+            return ParsedRecord(
+                site.name,
+                site.url,
+                236,
+                NUMBERS,
+                record_id="record-a",
+                raw_position=1,
+                evidence=evidence(),
+            )
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config_path = root / "sites.json"
+            ConfigRepository(config_path).save(sites)
+            failure_path = root / "failure.txt"
+            failure_path.write_text(
+                "站A https://a.test [超时] 方向:top；指定期数:236期；原因:timeout\n"
+                "站B https://b.test [解析失败] 方向:top；指定期数:236期；原因:no record\n",
+                encoding="utf-8-sig",
+            )
+
+            SingleIssueBatchService(
+                site_scraper=scrape,
+                progress_sink=lambda _: None,
+            ).run_configured(
+                config_path,
+                BatchOptions(
+                    fixed_issue=236,
+                    output_path=root / "success.txt",
+                    error_output_path=failure_path,
+                    update_recent_cache=False,
+                    workers=1,
+                ),
+                only=("站A",),
+            )
+
+            self.assertTrue(failure_path.exists())
+            self.assertEqual(
+                failure_path.read_text(encoding="utf-8-sig").splitlines(),
+                ["站B https://b.test [解析失败] 方向:top；指定期数:236期；原因:no record"],
+            )
+
     def test_only_run_appends_when_selected_site_is_entire_config(self) -> None:
         site = SiteConfig(
             "站A",

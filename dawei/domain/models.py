@@ -53,6 +53,9 @@ class SiteConfig:
     onboarding_exception: str | None = None
     onboarding_valid_issues: tuple[int, ...] = ()
     onboarding_missing_issues: tuple[int, ...] = ()
+    requires_login: bool = False
+    login_profile: str | None = None
+    proxy: str | None = None
 
     @property
     def direction(self) -> str:

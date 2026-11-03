@@ -534,11 +534,13 @@ class SingleIssueBatchService:
                         if not (parse_failure_identity(line) in processed)
                     ]
                     lines = [*retained, *failures]
-                    options.error_output_path.parent.mkdir(parents=True, exist_ok=True)
-                    options.error_output_path.write_text(
-                        "\n".join(lines) + ("\n" if lines else ""),
-                        encoding="utf-8-sig",
-                    )
+                    if lines:
+                        options.error_output_path.parent.mkdir(parents=True, exist_ok=True)
+                        atomic_write_text(
+                            options.error_output_path, "\n".join(lines) + "\n"
+                        )
+                    else:
+                        options.error_output_path.unlink(missing_ok=True)
             else:
                 write_failures(failures, options.error_output_path)
             if options.update_recent_cache:
@@ -684,8 +686,14 @@ class SingleIssueBatchService:
 
         rendered_kwargs: dict[str, object] = {}
         if browser_pool is not None:
+            def rendered_text(url: str, timeout: int, config: SiteConfig | None = None) -> str:
+                profile = browser_client.resolve_login_profile(config)
+                if profile is None:
+                    return browser_pool.fetch(url, timeout)
+                return browser_pool.fetch(url, timeout, login_profile=profile)
+
             rendered_kwargs = {
-                "rendered_text_fetcher": lambda url, timeout: browser_pool.fetch(url, timeout),
+                "rendered_text_fetcher": rendered_text,
                 "rendered_article_fetcher": lambda config, timeout: browser_pool.fetch_article(
                     config, timeout
                 ),

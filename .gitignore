@@ -30,3 +30,24 @@ recent_10_cache.json
 *.token
 *credentials*
 *secret*
+
+# 持久化登录态（含 cookie，禁止入库）
+browser-profile/
+
+# --- 生成物与本地临时文件（统一清理时补充） ---
+# Python / runtime artifacts
+.coverage.*
+.mypy_cache/
+# Local locks, temp files, logs and backups
+*.log
+*.bak
+*.before
+*.before_*
+*.orig
+*.rej
+nul
+# Browser profiles and build outputs
+build/
+dist/
+dist_*/
+.paddleocr-cpu-venv/
