@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "name": "唐朝老黄历",
     "url": "https://nclbpxzt.n56mb-oylzp-vjoofv.work:17477/topic/533905.html",
@@ -4854,7 +4854,10 @@
     "region": "top",
     "render_browser": false,
     "site_id": "site_b076fa75de0145593e2a",
-    "proxy": "http://127.0.0.1:7900",
+    "proxy": [
+      "http://127.0.0.1:7897",
+      "http://127.0.0.1:7900"
+    ],
     "source_type": "paginated_article_list",
     "parser_id": "generic_36",
     "record_id": null,
@@ -4887,32 +4890,6 @@
     "source_type": "dynamic_article",
     "parser_id": "generic_36",
     "record_id": "6a9a2f9f1d10beea56c929c7",
-    "render_policy": "fallback",
-    "onboarding_exception": "allow_incomplete_backup"
-  },
-  {
-    "name": "济公彩码",
-    "url": "https://cahgjib.5blx9-z8506-ekiwxc.work:29488/article/manager/6aa364aefb6129bd4ba68e62?url=lqz",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "济公彩码"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": "https://cahgjib.5blx9-z8506-ekiwxc.work:29488/api/proxy/manager-articles/6aa364aefb6129bd4ba68e62",
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": true,
-    "site_id": "site_8d33282465a227997a2a",
-    "source_type": "dynamic_article",
-    "parser_id": "generic_36",
-    "record_id": "6aa364aefb6129bd4ba68e62",
     "render_policy": "fallback",
     "onboarding_exception": "allow_incomplete_backup"
   },
@@ -6407,6 +6384,35 @@
     "render_policy": "always",
     "navigation_keywords": [],
     "onboarding_exception": null,
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "一碧万顷",
+    "url": "https://0130190827.767566.xyz/bbs/topic.php?id=29905",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "一碧万顷"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_aeada9a5c59e14569053",
+    "source_type": "bbs_topic",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_incomplete_backup",
     "onboarding_valid_issues": [],
     "onboarding_missing_issues": []
   }

@@ -245,8 +245,8 @@ def validate_site_config(site: SiteConfig) -> SiteConfig:
             raise ValidationError("登录站点必须配置login_profile（持久化登录态目录）")
         if site.render_policy == "never" and not site.render_browser:
             raise ValidationError("登录站点必须启用浏览器渲染: render_policy不能为never")
-    if site.proxy:
-        scheme, _, remainder = site.proxy.partition("://")
+    for candidate in site.proxies:
+        scheme, _, remainder = candidate.partition("://")
         if scheme not in {"http", "https"} or not remainder or ":" not in remainder:
-            raise ValidationError(f"站点代理必须写成 http://主机:端口 形式: {site.proxy}")
+            raise ValidationError(f"站点代理必须写成 http://主机:端口 形式: {candidate}")
     return site

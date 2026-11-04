@@ -13,7 +13,7 @@ import threading
 import time
 import warnings
 import zlib
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Mapping, Sequence
 from http.client import IncompleteRead
 from typing import Any
 from urllib.error import HTTPError, URLError
@@ -196,66 +196,106 @@ def _open_with_proxy(request: Request, timeout: int, proxy: str, context):
 
 
 def open_url_with_retries(request: Request, timeout: int):
+    """按站点兼容链尝试：每个代理依次试 TLS 上下文，全部不可用再退回直连。
+
+    站点代理只是兼容手段（本机线路/代理劫持时才需要），代理端口没开不应让抓取失败。
+    """
     _require_positive(timeout, "timeout")
-    proxy = site_proxy_for(request.full_url)
-    if urlsplit(request.full_url).scheme != "https":
-        if proxy:
-            return _open_with_proxy(request, timeout, proxy, None)
-        return urlopen(request, timeout=timeout)
-    errors: list[str] = []
-    attempts: list[tuple[str, ssl.SSLContext | None]] = [("default", None), *TLS_RETRY_CONTEXTS]
-    host = urlsplit(request.full_url).hostname or ""
-    if host:
+    url = request.full_url
+    https = urlsplit(url).scheme == "https"
+    host = urlsplit(url).hostname or ""
+    proxies = site_proxies_for(url)
+    candidates: tuple[str | None, ...] = (*proxies, None)
+    tls_attempts: list[tuple[str, ssl.SSLContext | None]] = (
+        [("default", None), *TLS_RETRY_CONTEXTS] if https else [("default", None)]
+    )
+    if https and host:
         with TLS_CONTEXT_CACHE_LOCK:
             cached_label = TLS_CONTEXT_CACHE.get(host)
         if cached_label:
-            attempts.sort(key=lambda item: item[0] != cached_label)
-    for label, context in attempts:
-        try:
-            if proxy:
-                response = _open_with_proxy(request, timeout, proxy, context)
-            else:
-                response = (
-                    urlopen(request, timeout=timeout)
-                    if context is None
-                    else urlopen(request, timeout=timeout, context=context)
-                )
-            if host:
+            tls_attempts.sort(key=lambda item: item[0] != cached_label)
+    errors: list[str] = []
+    unreachable = False
+    for proxy in candidates:
+        exit_label = f"proxy {proxy}" if proxy else "direct"
+        for label, context in tls_attempts:
+            try:
+                if proxy:
+                    response = _open_with_proxy(request, timeout, proxy, context)
+                else:
+                    response = (
+                        urlopen(request, timeout=timeout)
+                        if context is None
+                        else urlopen(request, timeout=timeout, context=context)
+                    )
+            except HTTPError:
+                raise
+            except (URLError, OSError) as exc:
+                if proxy and is_proxy_unreachable(exc):
+                    errors.append(f"{exit_label}: {exc}")
+                    unreachable = True
+                    break
+                if https and is_tls_error(exc):
+                    errors.append(f"{exit_label} {label}: {exc}")
+                    continue
+                raise
+            if https and host:
                 with TLS_CONTEXT_CACHE_LOCK:
                     TLS_CONTEXT_CACHE[host] = label
             return response
-        except HTTPError:
-            raise
-        except (URLError, OSError) as exc:
-            if not is_tls_error(exc):
-                raise
-            errors.append(f"{label}: {exc}")
-    raise ScrapeError("network error: TLS handshake failed after retries: " + " | ".join(errors))
+    detail = " | ".join(errors)
+    if unreachable:
+        raise ScrapeError("network error: 所有出口均不可用: " + detail)
+    raise ScrapeError("network error: TLS handshake failed after retries: " + detail)
+
+
+def is_proxy_unreachable(exc: BaseException) -> bool:
+    """代理端口没开或代理不可达：换下一个出口，而不是判定站点失败。"""
+    if isinstance(exc, ConnectionRefusedError):
+        return True
+    text = str(exc).casefold()
+    return any(
+        marker in text
+        for marker in (
+            "10061",
+            "connection refused",
+            "actively refused",
+            "拒绝",
+            "10060",
+            "timed out connecting to proxy",
+        )
+    )
 
 
 SITE_PROXY_LOCK = threading.Lock()
-SITE_PROXIES: dict[str, str] = {}
+SITE_PROXIES: dict[str, tuple[str, ...]] = {}
 
 
-def configure_site_proxies(mapping: Mapping[str, str | None] | None) -> None:
-    """按主机名登记站点级代理，用于本机线路/代理劫持需要单独出口的站点。"""
-    normalized: dict[str, str] = {}
+def configure_site_proxies(mapping: Mapping[str, str | Sequence[str] | None] | None) -> None:
+    """按主机名登记站点级代理链，用于本机线路/代理劫持需要单独出口的站点。"""
+    normalized: dict[str, tuple[str, ...]] = {}
     for host, proxy in (mapping or {}).items():
         key = (host or "").strip().casefold()
-        value = (proxy or "").strip()
-        if key and value:
-            normalized[key] = value
+        raw_values = (proxy,) if isinstance(proxy, str) else tuple(proxy or ())
+        values = tuple(value.strip() for value in raw_values if value and value.strip())
+        if key and values:
+            normalized[key] = values
     with SITE_PROXY_LOCK:
         SITE_PROXIES.clear()
         SITE_PROXIES.update(normalized)
 
 
-def site_proxy_for(url: str) -> str | None:
+def site_proxies_for(url: str) -> tuple[str, ...]:
     host = urlsplit(url).hostname
     if not host:
-        return None
+        return ()
     with SITE_PROXY_LOCK:
-        return SITE_PROXIES.get(host.casefold())
+        return SITE_PROXIES.get(host.casefold(), ())
+
+
+def site_proxy_for(url: str) -> str | None:
+    proxies = site_proxies_for(url)
+    return proxies[0] if proxies else None
 
 
 def configure_proxy(proxy: str | None) -> None:
@@ -353,7 +393,7 @@ def fetch_raw_with_curl(
     proxy: str | None = None,
 ) -> tuple[bytes, str, str]:
     _require_positive(timeout, "timeout")
-    effective_proxy = proxy or site_proxy_for(url)
+    chain: tuple[str | None, ...] = (proxy,) if proxy else (*site_proxies_for(url), None)
     headers = {
         "User-Agent": USER_AGENT,
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -362,31 +402,39 @@ def fetch_raw_with_curl(
     }
     if extra_headers:
         headers.update(extra_headers)
-    base = [
-        _curl_executable(), "-L", "-f", "-sS", "--http1.1", "--connect-timeout",
-        str(min(timeout, 10)), "--max-time", str(timeout),
-    ]
-    if effective_proxy:
-        base.extend(["--proxy", effective_proxy])
-    for key, value in headers.items():
-        base.extend(["-H", f"{key}: {value}"])
     errors: list[str] = []
-    for variant in _curl_variants():
-        command = base[:1] + list(variant) + base[1:] + [url]
-        try:
-            completed = subprocess.run(
-                command,
-                capture_output=True,
-                timeout=timeout + 5,
-                check=False,
-            )
-        except subprocess.TimeoutExpired as exc:
-            raise ScrapeError("curl 连接失败: network timeout") from exc
-        if completed.returncode == 0:
-            return completed.stdout, "utf-8", ""
-        detail = (completed.stderr or completed.stdout).decode("utf-8", errors="replace").strip()
-        errors.append(f"curl exit {completed.returncode}: {detail or 'unknown error'}")
-        if completed.returncode != 2:
+    for candidate in chain:
+        base = [
+            _curl_executable(), "-L", "-f", "-sS", "--http1.1", "--connect-timeout",
+            str(min(timeout, 10)), "--max-time", str(timeout),
+        ]
+        if candidate:
+            base.extend(["--proxy", candidate])
+        for key, value in headers.items():
+            base.extend(["-H", f"{key}: {value}"])
+        exit_errors: list[str] = []
+        for variant in _curl_variants():
+            command = base[:1] + list(variant) + base[1:] + [url]
+            try:
+                completed = subprocess.run(
+                    command,
+                    capture_output=True,
+                    timeout=timeout + 5,
+                    check=False,
+                )
+            except subprocess.TimeoutExpired as exc:
+                raise ScrapeError("curl 连接失败: network timeout") from exc
+            if completed.returncode == 0:
+                return completed.stdout, "utf-8", ""
+            detail = (completed.stderr or completed.stdout).decode("utf-8", errors="replace").strip()
+            exit_errors.append(f"curl exit {completed.returncode}: {detail or 'unknown error'}")
+            if completed.returncode != 2:
+                break
+        errors.extend(exit_errors)
+        # 代理端口没开（exit 7/5/6）时换下一个出口，其余错误直接报。
+        if candidate is None or not any(
+            marker in item for item in exit_errors for marker in ("exit 7:", "exit 5:", "exit 6:")
+        ):
             break
     raise ScrapeError("curl 连接失败: RuntimeError: " + " | ".join(errors))
 

@@ -23,13 +23,14 @@ DEFAULT_LOGIN_PROFILE = Path(__file__).resolve().parents[2] / "browser-profile"
 
 def register_site_proxies(sites: tuple[SiteConfig, ...] | list[SiteConfig]) -> None:
     """把站点级 proxy 按主机名登记到 HTTP 层，本机线路被劫持的站点单独走代理。"""
-    mapping: dict[str, str] = {}
+    mapping: dict[str, tuple[str, ...]] = {}
     for site in sites:
-        if not site.proxy:
+        proxies = site.proxies
+        if not proxies:
             continue
         host = urlsplit(site.url).hostname
         if host:
-            mapping[host] = site.proxy
+            mapping[host] = proxies
     http_client.configure_site_proxies(mapping)
 
 DYNAMIC_RECORD_RE = re.compile(
@@ -92,7 +93,7 @@ def config_fingerprint(sites: tuple[SiteConfig, ...] | list[SiteConfig]) -> str:
             item[key] = [_normalize_text(str(value)) for value in getattr(site, key)]
         # 登录态字段按需参与身份：全部站点默认关闭时必须保持旧指纹不变，
         # 否则一次代码升级会让既有缓存整体失效。
-        for key in ("requires_login", "login_profile", "proxy"):
+        for key in ("requires_login", "login_profile", "proxy", "proxy_candidates"):
             if not item.get(key):
                 item.pop(key, None)
         canonical.append(item)
@@ -272,9 +273,19 @@ def migrate_site_mapping(item: object, index: int) -> SiteConfig:
     if data["requires_login"] and not data["login_profile"]:
         data["login_profile"] = str(DEFAULT_LOGIN_PROFILE)
     if "proxy" in data:
-        if data["proxy"] is not None and type(data["proxy"]) is not str:
+        value = data["proxy"]
+        if value is None:
+            data["proxy"] = None
+        elif type(value) is str:
+            data["proxy"] = value
+        elif type(value) is list and value and all(type(item) is str for item in value):
+            # 兼容链：数组按顺序尝试，proxy 保存首项供旧逻辑读取。
+            data["proxy"] = value[0]
+            data["proxy_candidates"] = tuple(value)
+        else:
             raise ConfigurationError(
-                f"sites config item #{index} field proxy must be a string or null"
+                f"sites config item #{index} field proxy must be a string, "
+                "a non-empty list of strings, or null"
             )
     else:
         data["proxy"] = None

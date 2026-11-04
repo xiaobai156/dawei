@@ -1,7 +1,7 @@
 ﻿{
   "version": 1,
-  "archived_at": "2026-11-03T18:44:32+08:00",
-  "reason": "用户明确要求封存金码豹子、聊从兔颖、强者推荐，不再抓取（307 期抓取失败：金码豹子需登录/权限、聊从兔颖与强者推荐帖子已删除）",
+  "archived_at": "2026-11-04T18:47:43+08:00",
+  "reason": "用户明确要求封存济公彩码，不再抓取（308 期抓取失败：文章记录已下架删除，接口 404、列表为空）",
   "sites": [
     {
       "name": "澳彩军师",
@@ -4500,7 +4500,34 @@
       "onboarding_valid_issues": [],
       "onboarding_missing_issues": [],
       "archive_tag": "用户明确封存：307 期抓取失败（read.php?tid=1645 返回『您要访问的链接无效,可能链接不完整,或数据已被删除!』；同论坛 tid=110 正常且有 307 期，判定原帖已删除）⇒ 不再抓取（强者推荐；https://bbs7.1395200.com/read.php?tid=1645）"
+    },
+    {
+      "name": "济公彩码",
+      "url": "https://cahgjib.5blx9-z8506-ekiwxc.work:29488/article/manager/6aa364aefb6129bd4ba68e62?url=lqz",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "济公彩码"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://cahgjib.5blx9-z8506-ekiwxc.work:29488/api/proxy/manager-articles/6aa364aefb6129bd4ba68e62",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_8d33282465a227997a2a",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6aa364aefb6129bd4ba68e62",
+      "render_policy": "fallback",
+      "onboarding_exception": "allow_incomplete_backup",
+      "archive_tag": "用户明确封存：308 期抓取失败（文章接口 /api/proxy/manager-articles/6aa364aefb6129bd4ba68e62 返回 404、列表接口返回 []，同主机「兴致勃勃」记录 6a143d03597e16d57eacb621 接口 200 正常，判定该文章记录已下架删除）⇒ 不再抓取（济公彩码；https://cahgjib.5blx9-z8506-ekiwxc.work:29488/article/manager/6aa364aefb6129bd4ba68e62?url=lqz）"
     }
   ],
-  "updated_at": "2026-11-03T18:44:32+08:00"
+  "updated_at": "2026-11-04T18:47:43+08:00"
 }

@@ -166,5 +166,90 @@ class ProxyTransportTests(unittest.TestCase):
         self.assertIn(PROXY, command)
 
 
+class ProxyChainTests(unittest.TestCase):
+    """代理只是兼容手段：端口没开就换下一个出口，最后直连，不能因此判站点失败。"""
+
+    def tearDown(self) -> None:
+        http_client.configure_site_proxies({})
+
+    def test_list_proxy_config_keeps_chain(self) -> None:
+        site = migrate_site_mapping(
+            {"name": "站", "url": GRAB_URL, "proxy": [PROXY, "http://127.0.0.1:7900"]}, 1
+        )
+        self.assertEqual(site.proxy, PROXY)
+        self.assertEqual(site.proxies, (PROXY, "http://127.0.0.1:7900"))
+
+    def test_empty_list_proxy_is_rejected(self) -> None:
+        with self.assertRaises(ConfigurationError):
+            migrate_site_mapping({"name": "站", "url": GRAB_URL, "proxy": []}, 1)
+
+    def test_non_string_list_item_is_rejected(self) -> None:
+        with self.assertRaises(ConfigurationError):
+            migrate_site_mapping({"name": "站", "url": GRAB_URL, "proxy": [7897]}, 1)
+
+    def test_registry_keeps_chain_order(self) -> None:
+        http_client.configure_site_proxies(
+            {"mm.yc7877.com": (PROXY, "http://127.0.0.1:7900")}
+        )
+        self.assertEqual(
+            http_client.site_proxies_for(GRAB_URL), (PROXY, "http://127.0.0.1:7900")
+        )
+        self.assertEqual(http_client.site_proxy_for(GRAB_URL), PROXY)
+
+    def test_unreachable_proxy_falls_back_to_next_exit(self) -> None:
+        http_client.configure_site_proxies(
+            {"mm.yc7877.com": ("http://127.0.0.1:7900", PROXY)}
+        )
+        calls: list[str] = []
+
+        def fake_open(request: object, timeout: int, proxy: str, context: object) -> _FakeResponse:
+            calls.append(proxy)
+            if proxy == "http://127.0.0.1:7900":
+                raise ConnectionRefusedError(10061, "由于目标计算机积极拒绝，无法连接。")
+            return _FakeResponse()
+
+        with mock.patch.object(http_client, "_open_with_proxy", side_effect=fake_open):
+            http_client.open_url_with_retries(http_client.Request(GRAB_URL), timeout=5)
+        self.assertEqual(calls, ["http://127.0.0.1:7900", PROXY])
+
+    def test_all_proxies_unreachable_falls_back_to_direct(self) -> None:
+        http_client.configure_site_proxies({"mm.yc7877.com": ("http://127.0.0.1:7900",)})
+
+        def fake_open(request: object, timeout: int, proxy: str, context: object) -> object:
+            raise ConnectionRefusedError(10061, "拒绝")
+
+        with mock.patch.object(http_client, "_open_with_proxy", side_effect=fake_open):
+            with mock.patch.object(
+                http_client, "urlopen", return_value=_FakeResponse()
+            ) as direct:
+                http_client.open_url_with_retries(http_client.Request(GRAB_URL), timeout=5)
+        self.assertEqual(len(direct.call_args_list), 1)
+
+    def test_curl_tries_next_exit_when_proxy_port_closed(self) -> None:
+        http_client.configure_site_proxies(
+            {"mm.yc7877.com": ("http://127.0.0.1:7900", PROXY)}
+        )
+        refused = mock.Mock(returncode=7, stdout=b"", stderr=b"Failed to connect")
+        ok = mock.Mock(returncode=0, stdout=b"<html></html>", stderr=b"")
+        with mock.patch.object(http_client, "_curl_executable", return_value="curl"):
+            with mock.patch.object(
+                http_client.subprocess, "run", side_effect=[refused, ok]
+            ) as run:
+                data, _, _ = http_client.fetch_raw_with_curl(GRAB_URL, timeout=5)
+        self.assertEqual(data, b"<html></html>")
+        first = run.call_args_list[0].args[0]
+        second = run.call_args_list[1].args[0]
+        self.assertIn("http://127.0.0.1:7900", first)
+        self.assertIn(PROXY, second)
+
+    def test_proxy_chain_participates_in_fingerprint(self) -> None:
+        self.assertNotEqual(
+            config_fingerprint([_site()]),
+            config_fingerprint(
+                [_site(proxy=PROXY, proxy_candidates=(PROXY, "http://127.0.0.1:7900"))]
+            ),
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

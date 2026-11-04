@@ -56,6 +56,14 @@ class SiteConfig:
     requires_login: bool = False
     login_profile: str | None = None
     proxy: str | None = None
+    proxy_candidates: tuple[str, ...] = ()
+
+    @property
+    def proxies(self) -> tuple[str, ...]:
+        """兼容链：配置写成数组时按顺序尝试，单个字符串时只有一个候选。"""
+        if self.proxy_candidates:
+            return tuple(self.proxy_candidates)
+        return (self.proxy,) if self.proxy else ()
 
     @property
     def direction(self) -> str:
