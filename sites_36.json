@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "name": "唐朝老黄历",
     "url": "https://nclbpxzt.n56mb-oylzp-vjoofv.work:17477/topic/533905.html",
@@ -1647,35 +1647,6 @@
     "parser_id": "generic_36",
     "record_id": null,
     "render_policy": "fallback",
-    "navigation_keywords": [],
-    "onboarding_exception": null,
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
-    "name": "音容笑貌",
-    "url": "https://www28651a.com/read.php?tid=402",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "音容笑貌"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_692631e2a53f7ff85b40",
-    "source_type": "forum_thread",
-    "parser_id": "generic_36",
-    "record_id": null,
-    "render_policy": "never",
     "navigation_keywords": [],
     "onboarding_exception": null,
     "onboarding_valid_issues": [],
@@ -3541,35 +3512,6 @@
     "source_type": "dynamic_article",
     "parser_id": "generic_36",
     "record_id": "6a32799287ee9d0e75aaf18f",
-    "render_policy": "always",
-    "navigation_keywords": [],
-    "onboarding_exception": null,
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
-    "name": "大胆去博",
-    "url": "https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/article/manager/6a323802f21d7a093399eed0?url=jbx",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "大胆去博"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": "https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/api/proxy/manager-articles/6a323802f21d7a093399eed0",
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": true,
-    "site_id": "site_504c215eab06be491a00",
-    "source_type": "dynamic_article",
-    "parser_id": "generic_36",
-    "record_id": "6a323802f21d7a093399eed0",
     "render_policy": "always",
     "navigation_keywords": [],
     "onboarding_exception": null,
@@ -6163,57 +6105,6 @@
     "onboarding_missing_issues": []
   },
   {
-    "name": "逐鹿中原",
-    "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1463",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "三十六码"
-    ],
-    "search_window": 80,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_b312585c6a79db8900b5",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "navigation_keywords": [],
-    "onboarding_exception": null,
-    "onboarding_valid_issues": [
-      284,
-      285,
-      286,
-      287,
-      288,
-      289,
-      290,
-      291,
-      292,
-      293,
-      294,
-      295,
-      296,
-      297,
-      298,
-      299,
-      300,
-      301,
-      302,
-      303,
-      304
-    ],
-    "onboarding_missing_issues": []
-  },
-  {
     "name": "开门见山",
     "url": "https://88888020827.997595.xyz/bbs/topic.php?id=19567",
     "keywords": [
@@ -6388,13 +6279,13 @@
     "onboarding_missing_issues": []
   },
   {
-    "name": "一碧万顷",
-    "url": "https://0130190827.767566.xyz/bbs/topic.php?id=29905",
+    "name": "彩经大师",
+    "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1476",
     "keywords": [
       "三十六码"
     ],
     "section_keywords": [
-      "一碧万顷"
+      "彩经大师"
     ],
     "search_window": 260,
     "fixed_issue": null,
@@ -6406,11 +6297,98 @@
     "position": "tail",
     "region": "bottom",
     "render_browser": false,
-    "site_id": "site_aeada9a5c59e14569053",
+    "site_id": "site_20255b5c326c392d23f4",
     "source_type": "bbs_topic",
     "parser_id": "three_rows",
     "record_id": null,
     "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_incomplete_backup",
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "宝典码经",
+    "url": "https://hcsuuoy.nimo7-9bgj4-fmspxt.xyz:29466/article/manager/6ac4d22c08ef9d914861675f?url=cww",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "宝典码经"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": "https://hcsuuoy.nimo7-9bgj4-fmspxt.xyz:29466/api/proxy/manager-articles/6ac4d22c08ef9d914861675f",
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": true,
+    "site_id": "site_027983f68395157ccba7",
+    "source_type": "dynamic_article",
+    "parser_id": "three_rows",
+    "record_id": "6ac4d22c08ef9d914861675f",
+    "render_policy": "always",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_incomplete_backup",
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "爆彩决心",
+    "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=76865",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "爆彩决心"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_3220459b6daf75ce7b6c",
+    "source_type": "forum_thread",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_incomplete_backup",
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "音容笑貌",
+    "url": "https://vhwzyqj.ji55h-zae68-ukbbji.work:29411/article/manager/6a312164a8af7b640f129e65?url=jqb",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "音容笑貌"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": "https://vhwzyqj.ji55h-zae68-ukbbji.work:29411/api/proxy/manager-articles/6a312164a8af7b640f129e65",
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": true,
+    "site_id": "site_7f0473dedd42ced463eb",
+    "source_type": "dynamic_article",
+    "parser_id": "three_rows",
+    "record_id": "6a312164a8af7b640f129e65",
+    "render_policy": "always",
     "navigation_keywords": [],
     "onboarding_exception": "allow_incomplete_backup",
     "onboarding_valid_issues": [],
