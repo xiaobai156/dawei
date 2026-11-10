@@ -267,6 +267,28 @@ def load_source(
     return SourceLoadResult(text_fetcher(config.url, timeout), None, config.url, False)
 
 
+def load_collection_details(
+    config: SiteConfig,
+    payload: str,
+    text_fetcher: TextFetcher,
+    timeout: int,
+) -> dict[str, dynamic_article.KunnanDetail]:
+    """列表接口正文被截断时，逐篇补取详情接口的完整正文（只抓取，不裁决）。"""
+    try:
+        record_ids = dynamic_article.kunnan_magazine_record_ids(payload, config)
+    except ScrapeError:
+        return {}
+    details: dict[str, dynamic_article.KunnanDetail] = {}
+    for record_id in record_ids:
+        url = dynamic_article.kunnan_magazine_detail_url(config.api_url or "", record_id)
+        try:
+            body = text_fetcher(url, timeout)
+        except ScrapeError as exc:
+            raise ScrapeError(f"困难杂志文章{record_id}详情正文获取失败: {exc}") from exc
+        details[record_id] = dynamic_article.parse_kunnan_detail(url, body)
+    return details
+
+
 class ScrapeService:
     def __init__(
         self,
@@ -486,9 +508,12 @@ class ScrapeService:
     ) -> ParsedRecord:
         if not config.api_url:
             raise ScrapeError("困难杂志缺少专属 API 地址")
+        payload = self.text_fetcher(config.api_url, timeout)
+        details = load_collection_details(config, payload, self.text_fetcher, timeout)
         records = dynamic_article.kunnan_magazine_records_from_payload(
-            self.text_fetcher(config.api_url, timeout),
+            payload,
             config,
+            details,
         )
         candidates = [record.evidence for record in records if record.evidence is not None]
         if len(candidates) != len(records):

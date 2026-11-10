@@ -9,6 +9,7 @@ from pathlib import Path
 
 from dawei.application.scrape_service import (
     load_browser_source,
+    load_collection_details,
     load_source,
     should_render_html_fallback,
 )
@@ -238,9 +239,12 @@ def scrape_site_window(
     if resolve_parser_id(config) == "kunnan_magazine":
         if not config.api_url:
             raise ScrapeError("困难杂志缺少专属 API 地址")
+        payload = text_fetcher(config.api_url, timeout)
+        details = load_collection_details(config, payload, text_fetcher, timeout)
         all_records = dynamic_article.kunnan_magazine_records_from_payload(
-            text_fetcher(config.api_url, timeout),
+            payload,
             config,
+            details,
         )
         records = select_recent_records(
             all_records,

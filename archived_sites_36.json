@@ -1,7 +1,7 @@
 ﻿{
   "version": 1,
-  "archived_at": "2026-11-07T18:47:09+08:00",
-  "reason": "用户明确要求封存逐鹿中原、一碧万顷，不再抓取（311 期两站 topic 页均返回“此帖子ID已被下架”）",
+  "archived_at": "2026-11-10T18:54:18+08:00",
+  "reason": "用户明确要求封存无敌战神，不再抓取（314 期源站删帖，topic 页“此帖子ID已被下架”）",
   "sites": [
     {
       "name": "澳彩军师",
@@ -537,36 +537,6 @@
       "source_type": "dynamic_article",
       "parser_id": "generic_36",
       "record_id": "6a10c43a30a2246c4fe15ab4",
-      "render_policy": "always",
-      "navigation_keywords": [],
-      "onboarding_exception": null,
-      "onboarding_valid_issues": [],
-      "onboarding_missing_issues": [],
-      "archive_tag": "用户明确封存：230期抓取失败，不再抓取，不影响判重"
-    },
-    {
-      "name": "精准秘籍",
-      "url": "https://czcvzk.4n5g7-o871g-hqmkwz.work:29422/article/admin/6a09698c291caff3edcb8b6a?url=tsp",
-      "keywords": [
-        "三十六码"
-      ],
-      "section_keywords": [
-        "精准秘籍"
-      ],
-      "search_window": 260,
-      "fixed_issue": null,
-      "api_url": "https://czcvzk.4n5g7-o871g-hqmkwz.work:29422/api/proxy/manager-articles/6a09698c291caff3edcb8b6a",
-      "min_numbers_per_line": 2,
-      "image_decoder": null,
-      "numbers_before_issue": false,
-      "drop_zero_numbers": false,
-      "position": "tail",
-      "region": "bottom",
-      "render_browser": true,
-      "site_id": "site_532afe056d489b50eca8",
-      "source_type": "dynamic_article",
-      "parser_id": "generic_36",
-      "record_id": "6a09698c291caff3edcb8b6a",
       "render_policy": "always",
       "navigation_keywords": [],
       "onboarding_exception": null,
@@ -4233,32 +4203,6 @@
       "archive_tag": "用户明确封存：303 期抓取失败（站点改为登录可见，返回『您没有登录或者没有权限访问此页面』，本项目无该站账号，属会员/登录墙）⇒ 不再抓取（精彩时代；https://8818.www19753a.com/read.php?tid=593）"
     },
     {
-      "name": "野草闲花",
-      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=3118",
-      "keywords": [
-        "三十六码"
-      ],
-      "section_keywords": [
-        "野草闲花"
-      ],
-      "search_window": 80,
-      "fixed_issue": null,
-      "api_url": null,
-      "min_numbers_per_line": 2,
-      "image_decoder": null,
-      "numbers_before_issue": false,
-      "drop_zero_numbers": false,
-      "position": "tail",
-      "region": "bottom",
-      "render_browser": true,
-      "site_id": "site_06246ab6777b732a0d28",
-      "source_type": "bbs_topic",
-      "parser_id": "three_rows",
-      "record_id": null,
-      "render_policy": "always",
-      "archive_tag": "用户明确封存：303 期抓取失败（bbs 帖子 id=3118 返回『此帖子ID已被下架』，论坛首页亦无该站栏目，属站方删帖；无身份锚点不可换帖）⇒ 不再抓取（野草闲花；https://z0gcdiww42.669332.shop/bbs/topic.php?id=3118）"
-    },
-    {
       "name": "腾讯专家",
       "url": "https://buzsxio.821n4-hgj04-edkrft.xyz:29455/article/manager/6a5eef5ef447e21b02dd548a?url=bxj",
       "keywords": [
@@ -4641,7 +4585,181 @@
       ],
       "onboarding_missing_issues": [],
       "archive_tag": "用户明确封存：311 期抓取失败（topic.php?id=1463 页面仅返回“此帖子ID已被下架”，论坛壳页无任何 36 码正文；源站删帖，无凭据无法取证）⇒ 不再抓取（逐鹿中原；https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1463）"
+    },
+    {
+      "name": "共枝别干",
+      "url": "https://88888020827.885536.xyz/bbs/topic.php?id=19501",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "共枝别干"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_d78a2bad846c2936b51e",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：312 期抓取失败（topic.php?id=19501 页面仅返回“此帖子ID已被下架”，全文仅 695 字登录/充值壳页，无任何 36 码正文；源站删帖，无凭据无法取证）⇒ 不再抓取（共枝别干；https://88888020827.885536.xyz/bbs/topic.php?id=19501）"
+    },
+    {
+      "name": "城下之盟",
+      "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1465",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "城下之盟"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_e7c1b949b2b554d13eb2",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：313 期抓取失败（topic.php?id=1465 正文仅“此帖子ID已被下架”，壳页 34 行无任何 36 码正文）⇒ 不再抓取（城下之盟；https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1465）"
+    },
+    {
+      "name": "明月弯刀",
+      "url": "https://88888020827.997595.xyz/bbs/topic.php?id=19523",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "明月弯刀"
+      ],
+      "search_window": 80,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_1f7f75c96930a1009ac0",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "always",
+      "archive_tag": "用户明确封存：312、313 连续两期源站停止更新（页面标题停在“312期”，正文最新 312 期，312 期号码仍是“开奖日查看”占位）⇒ 不再抓取（明月弯刀；https://88888020827.997595.xyz/bbs/topic.php?id=19523）"
+    },
+    {
+      "name": "独秀一枝",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75846",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "独秀一枝"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_e3a67246067c0ca704c7",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：313 期抓取失败（read.php?tid=75846 返回“您要访问的链接无效,可能链接不完整,或数据已被删除!”+ 登录墙，源站删帖；同论坛 神算大师/步履安详 同期正常，排除论坛故障）⇒ 不再抓取（独秀一枝；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75846）"
+    },
+    {
+      "name": "爆彩决心",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=76865",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "爆彩决心"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_3220459b6daf75ce7b6c",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：313 期抓取失败（read.php?tid=76865 返回“您要访问的链接无效,可能链接不完整,或数据已被删除!”，312 期入库后源站删帖）⇒ 不再抓取（爆彩决心；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=76865）"
+    },
+    {
+      "name": "无敌战神",
+      "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3341",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "无敌战神"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_98e4c705d8ed23dd9840",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：314 期抓取失败（bbs/topic.php?id=3341 正文仅“此帖子ID已被下架”，壳页 552 字无任何 36 码正文）⇒ 不再抓取（无敌战神；https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3341）"
     }
   ],
-  "updated_at": "2026-11-07T18:47:09+08:00"
+  "updated_at": "2026-11-10T18:54:18+08:00"
 }

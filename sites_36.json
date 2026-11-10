@@ -5043,8 +5043,7 @@
     "onboarding_exception": null,
     "onboarding_valid_issues": [],
     "onboarding_missing_issues": []
-  }
-,
+  },
   {
     "name": "天伦之乐",
     "url": "https://bbs7.1395200.com/read.php?tid=2114",
@@ -5077,8 +5076,12 @@
   {
     "name": "火火风神",
     "url": "https://bbs7.1395200.com/read.php?tid=2644",
-    "keywords": ["36码中特"],
-    "section_keywords": ["火火风神"],
+    "keywords": [
+      "36码中特"
+    ],
+    "section_keywords": [
+      "火火风神"
+    ],
     "search_window": 520,
     "fixed_issue": null,
     "api_url": null,
@@ -5102,8 +5105,12 @@
   {
     "name": "逢凶化吉",
     "url": "https://bbs7.1395200.com/read.php?tid=1240",
-    "keywords": ["36码中特"],
-    "section_keywords": ["逢凶化吉"],
+    "keywords": [
+      "36码中特"
+    ],
+    "section_keywords": [
+      "逢凶化吉"
+    ],
     "search_window": 520,
     "fixed_issue": null,
     "api_url": null,
@@ -5181,8 +5188,7 @@
     "onboarding_exception": null,
     "onboarding_valid_issues": [],
     "onboarding_missing_issues": []
-  }
-,
+  },
   {
     "name": "财富梦想",
     "url": "https://kkrdaei.fhyge-4326u-gawurh.cyou:29422/article/manager/6aaa7c23fb6129bd4ba8b0d4?url=tmlt",
@@ -5211,8 +5217,7 @@
     "onboarding_exception": null,
     "onboarding_valid_issues": [],
     "onboarding_missing_issues": []
-  }
-,
+  },
   {
     "name": "最强推荐",
     "url": "https://bbs7.1395200.com/read.php?tid=1615",
@@ -5270,8 +5275,7 @@
     "onboarding_exception": null,
     "onboarding_valid_issues": [],
     "onboarding_missing_issues": []
-  }
-,
+  },
   {
     "name": "平安盛世",
     "url": "https://ihhzspk.1tyg4-66rmf-hrwlee.cyou:29411/article/manager/6aaa6a71fb6129bd4ba8aed9?url=ckbd",
@@ -5445,8 +5449,7 @@
     "onboarding_exception": null,
     "onboarding_valid_issues": [],
     "onboarding_missing_issues": []
-  }
-,
+  },
   {
     "name": "映雪囊萤",
     "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=2992",
@@ -5647,34 +5650,6 @@
     "onboarding_missing_issues": []
   },
   {
-    "name": "独秀一枝",
-    "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75846",
-    "keywords": [
-      "36码中特"
-    ],
-    "section_keywords": [
-      "独秀一枝"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_e3a67246067c0ca704c7",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "onboarding_exception": null,
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
     "name": "步履安详",
     "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75838",
     "keywords": [
@@ -5761,34 +5736,6 @@
     "onboarding_missing_issues": []
   },
   {
-    "name": "无敌战神",
-    "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3341",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "无敌战神"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_98e4c705d8ed23dd9840",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "onboarding_exception": null,
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
     "name": "AI算码王",
     "url": "https://kyrsgg.j3th6-yprjr-gqnzeo.work:17488/",
     "keywords": [
@@ -5865,31 +5812,6 @@
     "region": "bottom",
     "render_browser": true,
     "site_id": "site_2125fe3d9c07ee98c0cf",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "always"
-  },
-  {
-    "name": "明月弯刀",
-    "url": "https://88888020827.997595.xyz/bbs/topic.php?id=19523",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "明月弯刀"
-    ],
-    "search_window": 80,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": true,
-    "site_id": "site_1f7f75c96930a1009ac0",
     "source_type": "bbs_topic",
     "parser_id": "three_rows",
     "record_id": null,
@@ -6163,35 +6085,6 @@
     "onboarding_missing_issues": []
   },
   {
-    "name": "城下之盟",
-    "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1465",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "城下之盟"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_e7c1b949b2b554d13eb2",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "navigation_keywords": [],
-    "onboarding_exception": "allow_incomplete_backup",
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
     "name": "爆庄平特",
     "url": "https://66778800827.909776.xyz/bbs/topic.php?id=19946",
     "keywords": [
@@ -6211,35 +6104,6 @@
     "region": "bottom",
     "render_browser": false,
     "site_id": "site_4c106c87f7673f3402b5",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "navigation_keywords": [],
-    "onboarding_exception": null,
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
-    "name": "共枝别干",
-    "url": "https://88888020827.885536.xyz/bbs/topic.php?id=19501",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "共枝别干"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_d78a2bad846c2936b51e",
     "source_type": "bbs_topic",
     "parser_id": "three_rows",
     "record_id": null,
@@ -6337,35 +6201,6 @@
     "onboarding_missing_issues": []
   },
   {
-    "name": "爆彩决心",
-    "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=76865",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "爆彩决心"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_3220459b6daf75ce7b6c",
-    "source_type": "forum_thread",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "navigation_keywords": [],
-    "onboarding_exception": "allow_incomplete_backup",
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
     "name": "音容笑貌",
     "url": "https://vhwzyqj.ji55h-zae68-ukbbji.work:29411/article/manager/6a312164a8af7b640f129e65?url=jqb",
     "keywords": [
@@ -6391,6 +6226,180 @@
     "render_policy": "always",
     "navigation_keywords": [],
     "onboarding_exception": "allow_incomplete_backup",
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "近水楼台",
+    "url": "https://0130190808.880646.xyz/bbs/topic.php?id=20188",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "近水楼台"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_4324026af7e8e007a16f",
+    "source_type": "bbs_topic",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_incomplete_backup",
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "精准秘籍",
+    "url": "https://czcvzk.4n5g7-o871g-hqmkwz.work:29422/article/manager/6af12073f9f6f426a0ac3721?url=tsp",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "精准秘籍"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": "https://czcvzk.4n5g7-o871g-hqmkwz.work:29422/api/proxy/manager-articles/6af12073f9f6f426a0ac3721",
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": true,
+    "site_id": "site_493bdda8ca06641210ed",
+    "source_type": "dynamic_article",
+    "parser_id": "generic_36",
+    "record_id": "6af12073f9f6f426a0ac3721",
+    "render_policy": "always",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "义正辞严",
+    "url": "https://pa4dwcnd64.772149.shop/bbs/topic.php?id=1515",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "义正辞严"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_161108d4f13a3a73f8a5",
+    "source_type": "bbs_topic",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "野草闲花",
+    "url": "https://b7sz3gaw48.552149.shop/bbs/topic.php?id=1498",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "野草闲花"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_1e97ce3f0ae25061a7df",
+    "source_type": "bbs_topic",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "濠江马神",
+    "url": "https://0130190827.767566.xyz/bbs/topic.php?id=30688",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "濠江马神"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_a9c8eafe7965aca97c71",
+    "source_type": "bbs_topic",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "千真万确",
+    "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3440",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "千真万确"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_c5c2a449ca4dc0dda8dc",
+    "source_type": "bbs_topic",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
     "onboarding_valid_issues": [],
     "onboarding_missing_issues": []
   }

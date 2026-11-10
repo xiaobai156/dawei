@@ -48,6 +48,22 @@ def _numbers(offset: int = 0) -> tuple[str, ...]:
     return tuple(f"{value:02d}" for value in values)
 
 
+def _collection_fetcher(payload: str, issue_by_record: dict[str, int]):
+    """列表接口返回 payload；单篇详情接口按 record id 返回完整三行正文。"""
+    numbers = " ".join(f"{number:02d}" for number in range(1, 37))
+
+    def fetcher(url: str, _timeout: int) -> str:
+        if "/forums/" not in url:
+            return payload
+        issue = issue_by_record[url.rsplit("/", 1)[-1]]
+        return json.dumps(
+            {"content": f"<p>目标栏目 专属</p><p>{issue}期</p><p>{numbers}</p>"},
+            ensure_ascii=False,
+        )
+
+    return fetcher
+
+
 def _candidate(
     issue: int,
     page_index: int,
@@ -437,7 +453,10 @@ class DuplicateServiceCoverageTests(unittest.TestCase):
             2,
             1,
             5,
-            text_fetcher=lambda _url, _timeout: payload,
+            text_fetcher=_collection_fetcher(
+                payload,
+                {f"record-{issue}": issue for issue in (224, 225)},
+            ),
         )
         self.assertEqual((225, 224), tuple(record.issue for record in window.records))
 
@@ -1585,8 +1604,12 @@ class KunnanCollectionSelectionTests(unittest.TestCase):
 
     def test_fixed_issue_accepts_ten_collection_records_with_distinct_documents(self) -> None:
         config = self._config()
+        issues = list(range(200, 210))
         service = ScrapeService(
-            text_fetcher=lambda _url, _timeout: self._payload(list(range(200, 210)))
+            text_fetcher=_collection_fetcher(
+                self._payload(issues),
+                {f"record-{index}": issue for index, issue in enumerate(issues)},
+            )
         )
 
         result = service.scrape(config, fixed_issue=205)
@@ -1596,8 +1619,12 @@ class KunnanCollectionSelectionTests(unittest.TestCase):
 
     def test_collection_without_fixed_issue_uses_highest_explicit_issue(self) -> None:
         config = self._config()
+        issues = [205, 209, 207]
         service = ScrapeService(
-            text_fetcher=lambda _url, _timeout: self._payload([205, 209, 207])
+            text_fetcher=_collection_fetcher(
+                self._payload(issues),
+                {f"record-{index}": issue for index, issue in enumerate(issues)},
+            )
         )
 
         result = service.scrape(config)
