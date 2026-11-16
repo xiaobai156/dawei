@@ -1,7 +1,7 @@
 ﻿{
   "version": 1,
-  "archived_at": "2026-11-10T18:54:18+08:00",
-  "reason": "用户明确要求封存无敌战神，不再抓取（314 期源站删帖，topic 页“此帖子ID已被下架”）",
+  "archived_at": "2026-11-16T18:47:45+08:00",
+  "reason": "用户明确要求封存神算大师、宁静致远、宝典码经（源站删帖/删文），不再抓取",
   "sites": [
     {
       "name": "澳彩军师",
@@ -4759,7 +4759,284 @@
       "onboarding_valid_issues": [],
       "onboarding_missing_issues": [],
       "archive_tag": "用户明确封存：314 期抓取失败（bbs/topic.php?id=3341 正文仅“此帖子ID已被下架”，壳页 552 字无任何 36 码正文）⇒ 不再抓取（无敌战神；https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3341）"
+    },
+    {
+      "name": "满目青山",
+      "url": "https://88888020827.997595.xyz/bbs/topic.php?id=19520",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "满目青山"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_76efaafade97de2b05e2",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（满目青山；https://88888020827.997595.xyz/bbs/topic.php?id=19520）"
+    },
+    {
+      "name": "濠江马神",
+      "url": "https://0130190827.767566.xyz/bbs/topic.php?id=30688",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "濠江马神"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_a9c8eafe7965aca97c71",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（濠江马神；https://0130190827.767566.xyz/bbs/topic.php?id=30688）"
+    },
+    {
+      "name": "枕戈待旦",
+      "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3201",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "枕戈待旦"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_75827a9be34fef5c61b0",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（枕戈待旦；https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3201；317 期正文仅「此帖子ID已被下架」，帖已被删）"
+    },
+    {
+      "name": "四海纳财",
+      "url": "https://chuangsanguandbjiang.lol/read.php?tid=1876",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "四海纳财"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_3e118f3b115a7dec7459",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        312,
+        313,
+        314,
+        315
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（四海纳财；https://chuangsanguandbjiang.lol/read.php?tid=1876；318 期页面只剩「您要访问的链接无效」+登录墙，帖已被删；同论坛宁静致远同期正常）"
+    },
+    {
+      "name": "兴致勃勃",
+      "url": "https://cahgjib.5blx9-z8506-ekiwxc.work:29488/article/admin/6a143d03597e16d57eacb621?url=lqz",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "兴致勃勃"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://cahgjib.5blx9-z8506-ekiwxc.work:29488/api/proxy/manager-articles/6a143d03597e16d57eacb621",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_c0229b762fef5bf0f962",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a143d03597e16d57eacb621",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（兴致勃勃；https://cahgjib.5blx9-z8506-ekiwxc.work:29488/article/admin/6a143d03597e16d57eacb621?url=lqz；319 期接口返回 404「AdminArticle 不存在」，前端 Failed to fetch，文章已被源站删除）"
+    },
+    {
+      "name": "步履安详",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75838",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "步履安详"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_5a3c6f5fe7332de570e8",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（步履安详；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75838；319 期正文「您要访问的链接无效,可能链接不完整,或数据已被删除!」+登录墙；同论坛神算大师同期正常，故为该帖被删）"
+    },
+    {
+      "name": "神算大师",
+      "url": "https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75482",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "神算大师"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_6c4dbd677ac2de702377",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（神算大师；https://4-0oufiyhcjg-ipg0ojv.xyz/read.php?tid=75482；320 期正文仅 161 字「您要访问的链接无效,可能链接不完整,或数据已被删除!」+登录墙；同论坛首页当期帖 tid=77454/77446/77458 均正常含 320 期，故为该帖被删）"
+    },
+    {
+      "name": "宁静致远",
+      "url": "https://chuangsanguandbjiang.lol/read.php?tid=1623",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "宁静致远"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_55a2bd1833b30fb9dcdd",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        312,
+        313,
+        314,
+        315
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（宁静致远；https://chuangsanguandbjiang.lol/read.php?tid=1623；320 期正文仅 175 字同提示；旧域名对照帖 tid=1626/316 与新域名 chuangsanliandajiang.lol 对照帖 tid=24819/27923 均正常含 320 期，新域名同 tid=1623 同样失效，故该帖已被源站删除）"
+    },
+    {
+      "name": "宝典码经",
+      "url": "https://hcsuuoy.nimo7-9bgj4-fmspxt.xyz:29466/article/manager/6ac4d22c08ef9d914861675f?url=cww",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "宝典码经"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://hcsuuoy.nimo7-9bgj4-fmspxt.xyz:29466/api/proxy/manager-articles/6ac4d22c08ef9d914861675f",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_027983f68395157ccba7",
+      "source_type": "dynamic_article",
+      "parser_id": "three_rows",
+      "record_id": "6ac4d22c08ef9d914861675f",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（宝典码经；https://hcsuuoy.nimo7-9bgj4-fmspxt.xyz:29466/article/manager/6ac4d22c08ef9d914861675f?url=cww；320 期页面仅 45 字「Failed to fetch」；接口 /api/proxy/manager-articles/6ac4d22c08ef9d914861675f 返回 404 「AdminArticle 不存在」，列表接口返回空数组，文章已被源站删除）"
     }
   ],
-  "updated_at": "2026-11-10T18:54:18+08:00"
+  "updated_at": "2026-11-16T18:47:45+08:00"
 }
