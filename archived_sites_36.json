@@ -1,7 +1,7 @@
 ﻿{
   "version": 1,
-  "archived_at": "2026-11-16T18:47:45+08:00",
-  "reason": "用户明确要求封存神算大师、宁静致远、宝典码经（源站删帖/删文），不再抓取",
+  "archived_at": "2026-11-19T19:00:15+08:00",
+  "reason": "用户明确要求封存中国大兵、彩门第一（源站删帖），不再抓取",
   "sites": [
     {
       "name": "澳彩军师",
@@ -5036,7 +5036,326 @@
       "onboarding_valid_issues": [],
       "onboarding_missing_issues": [],
       "archive_tag": "用户明确封存：不再抓取（宝典码经；https://hcsuuoy.nimo7-9bgj4-fmspxt.xyz:29466/article/manager/6ac4d22c08ef9d914861675f?url=cww；320 期页面仅 45 字「Failed to fetch」；接口 /api/proxy/manager-articles/6ac4d22c08ef9d914861675f 返回 404 「AdminArticle 不存在」，列表接口返回空数组，文章已被源站删除）"
+    },
+    {
+      "name": "九牛二虎",
+      "url": "https://z0gcdiww42.669332.shop/bbs/topic.php?id=2940",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "九牛二虎"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_jiuniuerhu_254_20260912",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "archive_tag": "用户明确封存：不再抓取（九牛二虎；https://z0gcdiww42.669332.shop/bbs/topic.php?id=2940；321 期正文仅「此帖子ID已被下架」的 933 字壳页；同论坛首页 tid=3259/3257/3258/3249/3240 均正常且含 321 期，故为该帖被删）"
+    },
+    {
+      "name": "功成名就",
+      "url": "https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/article/manager/6a39788c018539c611cb891c?url=jbx",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "功成名就"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/api/proxy/manager-articles/6a39788c018539c611cb891c",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_7c8a96a0d442d2d6efb0",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a39788c018539c611cb891c",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（功成名就；https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/article/manager/6a39788c018539c611cb891c?url=jbx；321 期页面仅 45 字「Failed to fetch」；接口 /api/proxy/manager-articles/6a39788c018539c611cb891c 返回 404 「AdminArticle 不存在」；同域名 决一雌雄、上援下推 接口均 200 且含 321 期，故为该文章被源站删除）"
+    },
+    {
+      "name": "大雁北归",
+      "url": "https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/article/manager/6a39792a018539c611cb8924?url=jbx",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "大雁北归"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/api/proxy/manager-articles/6a39792a018539c611cb8924",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_f298875d151c4080185d",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a39792a018539c611cb8924",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（大雁北归；https://xjsjbkv.b3e4x-wxhjo-lbdbjg.xyz:29477/article/manager/6a39792a018539c611cb8924?url=jbx；321 期页面仅 45 字「Failed to fetch」；接口 /api/proxy/manager-articles/6a39792a018539c611cb8924 返回 404 「AdminArticle 不存在」；同域名 决一雌雄、上援下推 接口均 200 且含 321 期，故为该文章被源站删除）"
+    },
+    {
+      "name": "千真万确",
+      "url": "https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3440",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "千真万确"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_c5c2a449ca4dc0dda8dc",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（千真万确；https://5ipaulfv56.1081085bbs1.shop/bbs/topic.php?id=3440；321 期正文仅「此帖子ID已被下架」的 1412 字壳页；同论坛 六合队长 tid=3447 正常且含 321 期，故为该帖被删）"
+    },
+    {
+      "name": "映雪囊萤",
+      "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=2992",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "映雪囊萤"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_bb44d043797e8bc54ed8",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（映雪囊萤；https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=2992；322 期正文仅「此帖子ID已被下架」的 388 字壳页；同论坛首页 200 且含 322 期，tid=3256/3253 等相邻帖正常，本帖及其相邻 id 2990/2991/2993 全部下架，故为该帖被删）"
+    },
+    {
+      "name": "天地正气",
+      "url": "https://67806780827.978754.xyz/bbs/topic.php?id=19527",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "三十六码"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_9e6abf2f67ca511979e4",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299,
+        300,
+        302
+      ],
+      "onboarding_missing_issues": [
+        301
+      ],
+      "archive_tag": "用户明确封存：不再抓取（天地正气；https://67806780827.978754.xyz/bbs/topic.php?id=19527；322 期正文仅「此帖子ID已被下架」的 799 字壳页；同论坛首页 200 且含 322 期，tid=17143/16324/19238 正常，本帖及相邻 19525/19526/19528 全部下架，故为该帖被删）"
+    },
+    {
+      "name": "近水楼台",
+      "url": "https://0130190808.880646.xyz/bbs/topic.php?id=20188",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "近水楼台"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_4324026af7e8e007a16f",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（近水楼台；https://0130190808.880646.xyz/bbs/topic.php?id=20188；322 期正文仅「此帖子ID已被下架」的 699 字壳页；同论坛首页 200 且含 322 期，tid=17143/16324/20450 正常，本帖及相邻 20186/20187/20189 全部下架，故为该帖被删）"
+    },
+    {
+      "name": "六合特供",
+      "url": "https://67806780827.325346.xyz/bbs/topic.php?id=19575",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "三十六码"
+      ],
+      "search_window": 80,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_b6aa862ac7f79db816c7",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "always",
+      "archive_tag": "用户明确封存：不再抓取（六合特供；https://67806780827.325346.xyz/bbs/topic.php?id=19575；322 期正文仅「此帖子ID已被下架」的 695 字壳页；同论坛首页 200 且含 322 期，tid=17143/16324/19536/19574 正常，本帖及相邻 19573/19576 全部下架，故为该帖被删）"
+    },
+    {
+      "name": "中国大兵",
+      "url": "https://chuangsanguandbjiang.lol/read.php?tid=1285",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "中国大兵"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_75fbe90d1e4d57620a59",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        316,
+        317,
+        318,
+        319
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（中国大兵；https://chuangsanguandbjiang.lol/read.php?tid=1285；323 期页面正文仅 175 字「您要访问的链接无效,可能链接不完整,或数据已被删除!」，渲染后 4031 字节无任何 36 码正文；同域名首页与版块 thread.php?fid=2 均 200（137557 / 225559 字节）且含 299 条 323 期主题，清江墨林 tid=1183、瑞岁祥年 1010、碌碌无闻 590、秋高气肃 1652、功夫皇帝 1777 同期全部正常；tid=1285 不在版块主题列表内，站内主题名也搜不到本站在用帖，故为该帖被删且未换新帖）"
+    },
+    {
+      "name": "彩门第一",
+      "url": "https://chuangsanguandbjiang.lol/read.php?tid=1786",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "彩门第一"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_fb941e8ba22a7deb9b88",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        318,
+        319,
+        320,
+        321
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（彩门第一；https://chuangsanguandbjiang.lol/read.php?tid=1786；323 期页面正文仅 175 字「您要访问的链接无效,可能链接不完整,或数据已被删除!」，渲染后 4031 字节无任何 36 码正文；同域名首页与版块 thread.php?fid=2 均 200（137557 / 225559 字节）且含 299 条 323 期主题，同论坛 5 个在用站同期全部正常；tid=1786 不在版块主题列表内，站内主题名也搜不到本站在用帖，故为该帖被删且未换新帖）"
     }
   ],
-  "updated_at": "2026-11-16T18:47:45+08:00"
+  "updated_at": "2026-11-19T19:00:15+08:00"
 }
