@@ -1,7 +1,7 @@
 ﻿{
   "version": 1,
-  "archived_at": "2026-11-19T19:00:15+08:00",
-  "reason": "用户明确要求封存中国大兵、彩门第一（源站删帖），不再抓取",
+  "archived_at": "2026-11-24T18:55:50+08:00",
+  "reason": "用户明确要求封存麒麟凤凰（源站删帖），不再抓取",
   "sites": [
     {
       "name": "澳彩军师",
@@ -5355,7 +5355,220 @@
       ],
       "onboarding_missing_issues": [],
       "archive_tag": "用户明确封存：不再抓取（彩门第一；https://chuangsanguandbjiang.lol/read.php?tid=1786；323 期页面正文仅 175 字「您要访问的链接无效,可能链接不完整,或数据已被删除!」，渲染后 4031 字节无任何 36 码正文；同域名首页与版块 thread.php?fid=2 均 200（137557 / 225559 字节）且含 299 条 323 期主题，同论坛 5 个在用站同期全部正常；tid=1786 不在版块主题列表内，站内主题名也搜不到本站在用帖，故为该帖被删且未换新帖）"
+    },
+    {
+      "name": "横冲直撞",
+      "url": "https://11008880827.456732.xyz/bbs/topic.php?id=19401",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "横冲直撞"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_c21d7e6b4097d673d0ba",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（横冲直撞；https://11008880827.456732.xyz/bbs/topic.php?id=19401；326 期帖子正文仅 656 字节「此帖子ID已被下架」加登录打赏提示，无任何 36 码数据块；同论坛相邻 6 个 tid（19398–19404）全部同样提示，属整批下架；但论坛列表 index.php 仍 200、189 条主题、最新 tid=20820 正常含 326 期，说明论坛可用、仅该批帖被删，且列表内已无本站在用帖可换）"
+    },
+    {
+      "name": "爆庄平特",
+      "url": "https://66778800827.909776.xyz/bbs/topic.php?id=19946",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "爆庄平特"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_4c106c87f7673f3402b5",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（爆庄平特；https://66778800827.909776.xyz/bbs/topic.php?id=19946；326 期帖子正文仅 676 字节「此帖子ID已被下架」加登录打赏提示，无任何 36 码数据块；同论坛相邻 6 个 tid（19943–19949）全部同样提示，属整批下架；论坛列表 index.php 200、181 条主题、最新 tid=20790 正常含 326 期，说明论坛可用、仅该批帖被删，且列表内已无本站在用帖可换）"
+    },
+    {
+      "name": "赌坛彩经",
+      "url": "https://vhwzyqj.ji55h-zae68-ukbbji.work:29411/article/admin/6a3121f2fdb15f66b88578f4?url=jqb",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "赌坛彩经"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://vhwzyqj.ji55h-zae68-ukbbji.work:29411/api/proxy/manager-articles/6a3121f2fdb15f66b88578f4",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_9a553d78a5764e830a53",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a3121f2fdb15f66b88578f4",
+      "render_policy": "fallback",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（赌坛彩经；https://vhwzyqj.ji55h-zae68-ukbbji.work:29411/article/admin/6a3121f2fdb15f66b88578f4?url=jqb；327 期接口 200/41856B，正文 base64 解码后只有「三国中特」295–327 期，完全没有三十六码栏目；文章列表 /api/proxy/manager-articles 全部返回 []，首页 200/35249B 不含「赌坛彩经」「三十六码」⇒ 该站当前只发布三国中特，无 36 码数据）"
+    },
+    {
+      "name": "风风韵韵",
+      "url": "https://vnxqseiu.ymm13-381iq-zcgmtu.xyz:29400/article/manager/6a9a2f9f1d10beea56c929c7?url=jdb",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "风风韵韵"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://vnxqseiu.ymm13-381iq-zcgmtu.xyz:29400/api/proxy/manager-articles/6a9a2f9f1d10beea56c929c7",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_d59da2446535b3977e0c",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6a9a2f9f1d10beea56c929c7",
+      "render_policy": "fallback",
+      "onboarding_exception": "allow_incomplete_backup",
+      "archive_tag": "用户明确封存：不再抓取（风风韵韵；https://vnxqseiu.ymm13-381iq-zcgmtu.xyz:29400/article/manager/6a9a2f9f1d10beea56c929c7?url=jdb；327 期页面 200/49355B 但纯文本仅 45 字「Failed to fetch」，HTML 不含 327期/风风韵韵/三十六码；接口 /api/proxy/manager-articles/6a9a2f9f1d10beea56c929c7 返回 404 Not Found ⇒ 文章已不存在）"
+    },
+    {
+      "name": "研讨会所",
+      "url": "https://0130190827.767566.xyz/bbs/topic.php?id=30889",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "研讨会所"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_887e8455fca569e01e8f",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        314,
+        315,
+        316,
+        317
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（研讨会所；https://0130190827.767566.xyz/bbs/topic.php?id=30889；327 期帖子正文仅 361 字节「此帖子ID已被下架」，无任何 36 码数据块；同论坛首页与列表 200/6369B 仍含 327 期，说明论坛可用、仅该帖被删）"
+    },
+    {
+      "name": "好彩在这",
+      "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=3151",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "好彩在这"
+      ],
+      "search_window": 80,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_f990ceef6aa2229ff104",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "always",
+      "archive_tag": "用户明确封存：不再抓取（好彩在这；https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=3151；327 期帖子正文仅 388 字节「此帖子ID已被下架」，无任何 36 码数据块；同论坛首页 200/2784B 仍含 327 期，说明论坛可用、仅该帖被删）"
+    },
+    {
+      "name": "麒麟凤凰",
+      "url": "https://chuangsanliandajiang.lol/read.php?tid=27811",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "麒麟凤凰"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_a15a2588c07fb2b69225",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        315,
+        316,
+        317,
+        318
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（麒麟凤凰；https://chuangsanliandajiang.lol/read.php?tid=27811；328 期帖子 200 但正文仅 165 字符「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」，无任何 36 码数据块；同论坛首页 200/160488B 含 328 期、版块列表 200/259041B 含 328 期且最新 tid=28133，同域名在用站愚公移山正常含 325–328 期，说明论坛可用；版块列表已无 tid=27811（相邻 27808–27812 同时消失，27813 仍在），站内也无「麒麟凤凰」主题⇒ 该帖连同相邻 id 一起被下架，已无同名主题可换）"
     }
   ],
-  "updated_at": "2026-11-19T19:00:15+08:00"
+  "updated_at": "2026-11-24T18:55:50+08:00"
 }

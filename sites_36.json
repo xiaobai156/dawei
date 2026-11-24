@@ -1653,35 +1653,6 @@
     "onboarding_missing_issues": []
   },
   {
-    "name": "赌坛彩经",
-    "url": "https://vhwzyqj.ji55h-zae68-ukbbji.work:29411/article/admin/6a3121f2fdb15f66b88578f4?url=jqb",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "赌坛彩经"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": "https://vhwzyqj.ji55h-zae68-ukbbji.work:29411/api/proxy/manager-articles/6a3121f2fdb15f66b88578f4",
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_9a553d78a5764e830a53",
-    "source_type": "dynamic_article",
-    "parser_id": "generic_36",
-    "record_id": "6a3121f2fdb15f66b88578f4",
-    "render_policy": "fallback",
-    "navigation_keywords": [],
-    "onboarding_exception": null,
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
     "name": "日久生情",
     "url": "https://f6.525213c.com:8443/gsb/044.html",
     "keywords": [
@@ -4698,32 +4669,6 @@
     "onboarding_exception": "allow_incomplete_backup"
   },
   {
-    "name": "风风韵韵",
-    "url": "https://vnxqseiu.ymm13-381iq-zcgmtu.xyz:29400/article/manager/6a9a2f9f1d10beea56c929c7?url=jdb",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "风风韵韵"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": "https://vnxqseiu.ymm13-381iq-zcgmtu.xyz:29400/api/proxy/manager-articles/6a9a2f9f1d10beea56c929c7",
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": true,
-    "site_id": "site_d59da2446535b3977e0c",
-    "source_type": "dynamic_article",
-    "parser_id": "generic_36",
-    "record_id": "6a9a2f9f1d10beea56c929c7",
-    "render_policy": "fallback",
-    "onboarding_exception": "allow_incomplete_backup"
-  },
-  {
     "name": "天才富王",
     "url": "https://uqdccnri.oy2bh-swrfr-gvzxkk.work:29499/article/manager/6a9998f81d10beea56c90935?url=lcz",
     "keywords": [
@@ -5565,31 +5510,6 @@
     "render_policy": "always"
   },
   {
-    "name": "好彩在这",
-    "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=3151",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "好彩在这"
-    ],
-    "search_window": 80,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": true,
-    "site_id": "site_f990ceef6aa2229ff104",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "always"
-  },
-  {
     "name": "十冬腊月",
     "url": "https://0085680827.326455.xyz/bbs/topic.php?id=19227",
     "keywords": [
@@ -5727,64 +5647,6 @@
     "render_policy": "never",
     "navigation_keywords": [],
     "onboarding_exception": "allow_incomplete_backup",
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
-    "name": "横冲直撞",
-    "url": "https://11008880827.456732.xyz/bbs/topic.php?id=19401",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "横冲直撞"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_c21d7e6b4097d673d0ba",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "navigation_keywords": [],
-    "onboarding_exception": "allow_incomplete_backup",
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
-    "name": "爆庄平特",
-    "url": "https://66778800827.909776.xyz/bbs/topic.php?id=19946",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "爆庄平特"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_4c106c87f7673f3402b5",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "navigation_keywords": [],
-    "onboarding_exception": null,
     "onboarding_valid_issues": [],
     "onboarding_missing_issues": []
   },
@@ -5989,74 +5851,6 @@
     "navigation_keywords": [],
     "onboarding_exception": null,
     "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
-    "name": "研讨会所",
-    "url": "https://0130190827.767566.xyz/bbs/topic.php?id=30889",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "研讨会所"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_887e8455fca569e01e8f",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "navigation_keywords": [],
-    "onboarding_exception": "allow_incomplete_backup",
-    "onboarding_valid_issues": [
-      314,
-      315,
-      316,
-      317
-    ],
-    "onboarding_missing_issues": []
-  },
-  {
-    "name": "麒麟凤凰",
-    "url": "https://chuangsanliandajiang.lol/read.php?tid=27811",
-    "keywords": [
-      "36码中特"
-    ],
-    "section_keywords": [
-      "麒麟凤凰"
-    ],
-    "search_window": 520,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_a15a2588c07fb2b69225",
-    "source_type": "forum_thread",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "navigation_keywords": [],
-    "onboarding_exception": "allow_incomplete_backup",
-    "onboarding_valid_issues": [
-      315,
-      316,
-      317,
-      318
-    ],
     "onboarding_missing_issues": []
   },
   {
@@ -6477,6 +6271,274 @@
       320,
       321,
       322
+    ],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "浮光掠影",
+    "url": "https://0130190808.880646.xyz/bbs/topic.php?id=20546",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "浮光掠影"
+    ],
+    "search_window": 520,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_938d0ed51b55694e2105",
+    "source_type": "bbs_topic",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [
+      317,
+      318,
+      319,
+      320,
+      321,
+      322,
+      323,
+      324,
+      325
+    ],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "摇摇晃晃",
+    "url": "https://yanglianwangfanririzhong.lol/read.php?tid=42608",
+    "keywords": [
+      "36码中特"
+    ],
+    "section_keywords": [
+      "摇摇晃晃"
+    ],
+    "search_window": 520,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_f869730ad315ba0d8e2f",
+    "source_type": "forum_thread",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_incomplete_backup",
+    "onboarding_valid_issues": [
+      322,
+      323,
+      324,
+      325
+    ],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "忧国忧民",
+    "url": "https://puzumcat.5txst-l6ua7-gkduja.work:17455/topic/761012.html",
+    "keywords": [
+      "稳赚36码"
+    ],
+    "section_keywords": [
+      "忧国忧民"
+    ],
+    "search_window": 80,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "head",
+    "region": "top",
+    "render_browser": false,
+    "site_id": "site_003ae947e3e35edf6bf9",
+    "source_type": "topic_page",
+    "parser_id": "generic_36",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [
+      318,
+      319,
+      320,
+      321,
+      322,
+      323,
+      324,
+      325,
+      326
+    ],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "慢性自殺",
+    "url": "https://puzumcat.5txst-l6ua7-gkduja.work:17455/topic/761009.html",
+    "keywords": [
+      "绝版珍藏料"
+    ],
+    "section_keywords": [
+      "慢性自殺"
+    ],
+    "search_window": 80,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "head",
+    "region": "top",
+    "render_browser": false,
+    "site_id": "site_eab19ae135dfc877995a",
+    "source_type": "topic_page",
+    "parser_id": "generic_36",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [
+      318,
+      319,
+      320,
+      321,
+      322,
+      323,
+      324,
+      325,
+      326
+    ],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "凿壁偷光",
+    "url": "https://puzumcat.5txst-l6ua7-gkduja.work:17455/topic/760944.html",
+    "keywords": [
+      "36码中特"
+    ],
+    "section_keywords": [
+      "凿壁偷光"
+    ],
+    "search_window": 80,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "head",
+    "region": "top",
+    "render_browser": false,
+    "site_id": "site_7c98d1731df6d7a0e332",
+    "source_type": "topic_page",
+    "parser_id": "generic_36",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [
+      318,
+      319,
+      320,
+      321,
+      322,
+      323,
+      324,
+      325,
+      326
+    ],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "晚秋风雨",
+    "url": "https://puzumcat.5txst-l6ua7-gkduja.work:17455/topic/761008.html",
+    "keywords": [
+      "经典36码"
+    ],
+    "section_keywords": [
+      "晚秋风雨"
+    ],
+    "search_window": 80,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "head",
+    "region": "top",
+    "render_browser": false,
+    "site_id": "site_168b99c68daf9d7a7af7",
+    "source_type": "topic_page",
+    "parser_id": "generic_36",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [
+      318,
+      319,
+      320,
+      321,
+      322,
+      323,
+      324,
+      325,
+      326
+    ],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "旧里迟暮",
+    "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=3249",
+    "keywords": [
+      "三十六码"
+    ],
+    "section_keywords": [
+      "旧里迟暮"
+    ],
+    "search_window": 260,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_8c042ce83ce8bef4dd33",
+    "source_type": "bbs_topic",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": null,
+    "onboarding_valid_issues": [
+      318,
+      319,
+      320,
+      321,
+      322,
+      323,
+      324,
+      325,
+      326
     ],
     "onboarding_missing_issues": []
   }
