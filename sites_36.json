@@ -4965,35 +4965,6 @@
     "onboarding_missing_issues": []
   },
   {
-    "name": "操控命运",
-    "url": "https://krcugkd.4pwds-7mfpc-daqkcm.cyou:29411/article/manager/6aaa7048fb6129bd4ba8afef?url=tmww",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "操控命运"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": "https://krcugkd.4pwds-7mfpc-daqkcm.cyou:29411/api/proxy/manager-articles/6aaa7048fb6129bd4ba8afef",
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": true,
-    "site_id": "site_33dd1e63635c886a99ce",
-    "source_type": "dynamic_article",
-    "parser_id": "generic_36",
-    "record_id": "6aaa7048fb6129bd4ba8afef",
-    "render_policy": "always",
-    "navigation_keywords": [],
-    "onboarding_exception": null,
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
     "name": "催人奋进",
     "url": "https://ihhzspk.1tyg4-66rmf-hrwlee.cyou:29411/article/manager/6aaa83c8fb6129bd4ba8b182?url=ckbd",
     "keywords": [
@@ -5510,31 +5481,6 @@
     "render_policy": "always"
   },
   {
-    "name": "十冬腊月",
-    "url": "https://0085680827.326455.xyz/bbs/topic.php?id=19227",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "十冬腊月"
-    ],
-    "search_window": 80,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": true,
-    "site_id": "site_1198e9b33141e9a74c8d",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "always"
-  },
-  {
     "name": "财神福彩",
     "url": "https://kkrdaei.fhyge-4326u-gawurh.cyou:29422/article/manager/6aaa79ddfb6129bd4ba8b0b5?url=tmlt",
     "keywords": [
@@ -5618,35 +5564,6 @@
     "render_policy": "always",
     "navigation_keywords": [],
     "onboarding_exception": null,
-    "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
-    "name": "开门见山",
-    "url": "https://88888020827.997595.xyz/bbs/topic.php?id=19567",
-    "keywords": [
-      "三十六码"
-    ],
-    "section_keywords": [
-      "开门见山"
-    ],
-    "search_window": 260,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_7b6dab87834b2a15251c",
-    "source_type": "bbs_topic",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "navigation_keywords": [],
-    "onboarding_exception": "allow_incomplete_backup",
     "onboarding_valid_issues": [],
     "onboarding_missing_issues": []
   },
@@ -5851,40 +5768,6 @@
     "navigation_keywords": [],
     "onboarding_exception": null,
     "onboarding_valid_issues": [],
-    "onboarding_missing_issues": []
-  },
-  {
-    "name": "愚公移山",
-    "url": "https://chuangsanliandajiang.lol/read.php?tid=26983",
-    "keywords": [
-      "36码中特"
-    ],
-    "section_keywords": [
-      "愚公移山"
-    ],
-    "search_window": 520,
-    "fixed_issue": null,
-    "api_url": null,
-    "min_numbers_per_line": 2,
-    "image_decoder": null,
-    "numbers_before_issue": false,
-    "drop_zero_numbers": false,
-    "position": "tail",
-    "region": "bottom",
-    "render_browser": false,
-    "site_id": "site_e3f37fc2690d6207f798",
-    "source_type": "forum_thread",
-    "parser_id": "three_rows",
-    "record_id": null,
-    "render_policy": "never",
-    "navigation_keywords": [],
-    "onboarding_exception": "allow_incomplete_backup",
-    "onboarding_valid_issues": [
-      315,
-      316,
-      317,
-      318
-    ],
     "onboarding_missing_issues": []
   },
   {
@@ -6504,13 +6387,81 @@
     "onboarding_missing_issues": []
   },
   {
-    "name": "旧里迟暮",
-    "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=3249",
+    "name": "坚强不屈",
+    "url": "https://yanglianwangfanririzhong.lol/read.php?tid=42805",
+    "keywords": [
+      "36码中特"
+    ],
+    "section_keywords": [
+      "坚强不屈"
+    ],
+    "search_window": 520,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_0c760195b9ba783bd0d0",
+    "source_type": "forum_thread",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_incomplete_backup",
+    "onboarding_valid_issues": [
+      325,
+      326,
+      327,
+      328
+    ],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "流浪江湖",
+    "url": "https://yanglianwangfanririzhong.lol/read.php?tid=42283",
+    "keywords": [
+      "36码中特"
+    ],
+    "section_keywords": [
+      "流浪江湖"
+    ],
+    "search_window": 520,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_b29cca1e3be7a83cd301",
+    "source_type": "forum_thread",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_incomplete_backup",
+    "onboarding_valid_issues": [
+      325,
+      326,
+      327,
+      328
+    ],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "胜利来临",
+    "url": "https://6609960827.456732.xyz/bbs/topic.php?id=20818",
     "keywords": [
       "三十六码"
     ],
     "section_keywords": [
-      "旧里迟暮"
+      "胜利来临"
     ],
     "search_window": 260,
     "fixed_issue": null,
@@ -6522,7 +6473,7 @@
     "position": "tail",
     "region": "bottom",
     "render_browser": false,
-    "site_id": "site_8c042ce83ce8bef4dd33",
+    "site_id": "site_8d408da99bf36ee58349",
     "source_type": "bbs_topic",
     "parser_id": "three_rows",
     "record_id": null,
@@ -6530,15 +6481,83 @@
     "navigation_keywords": [],
     "onboarding_exception": null,
     "onboarding_valid_issues": [
-      318,
-      319,
-      320,
       321,
       322,
       323,
       324,
       325,
-      326
+      326,
+      327,
+      328,
+      329
+    ],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "盛气凌人",
+    "url": "https://chuangsanguagainajiang.lol/read.php?tid=1517",
+    "keywords": [
+      "36码中特"
+    ],
+    "section_keywords": [
+      "盛气凌人"
+    ],
+    "search_window": 520,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_40327e5430dac6fb8042",
+    "source_type": "forum_thread",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_incomplete_backup",
+    "onboarding_valid_issues": [
+      326,
+      327,
+      328,
+      329
+    ],
+    "onboarding_missing_issues": []
+  },
+  {
+    "name": "大陆好彩",
+    "url": "https://chuangsanguagainajiang.lol/read.php?tid=1475",
+    "keywords": [
+      "36码中特"
+    ],
+    "section_keywords": [
+      "大陆好彩"
+    ],
+    "search_window": 520,
+    "fixed_issue": null,
+    "api_url": null,
+    "min_numbers_per_line": 2,
+    "image_decoder": null,
+    "numbers_before_issue": false,
+    "drop_zero_numbers": false,
+    "position": "tail",
+    "region": "bottom",
+    "render_browser": false,
+    "site_id": "site_6171389ac0011dcf17dc",
+    "source_type": "forum_thread",
+    "parser_id": "three_rows",
+    "record_id": null,
+    "render_policy": "never",
+    "navigation_keywords": [],
+    "onboarding_exception": "allow_incomplete_backup",
+    "onboarding_valid_issues": [
+      326,
+      327,
+      328,
+      329
     ],
     "onboarding_missing_issues": []
   }

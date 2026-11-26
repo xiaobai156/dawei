@@ -1,7 +1,7 @@
 ﻿{
   "version": 1,
-  "archived_at": "2026-11-24T18:55:50+08:00",
-  "reason": "用户明确要求封存麒麟凤凰（源站删帖），不再抓取",
+  "archived_at": "2026-11-26T19:59:25+08:00",
+  "reason": "用户明确要求封存 操控命运、愚公移山、旧里迟暮（源站删文/封禁/删帖），不再抓取",
   "sites": [
     {
       "name": "澳彩军师",
@@ -5568,7 +5568,168 @@
       ],
       "onboarding_missing_issues": [],
       "archive_tag": "用户明确封存：不再抓取（麒麟凤凰；https://chuangsanliandajiang.lol/read.php?tid=27811；328 期帖子 200 但正文仅 165 字符「读取数据错误,原因：您要访问的链接无效,可能链接不完整,或数据已被删除!」，无任何 36 码数据块；同论坛首页 200/160488B 含 328 期、版块列表 200/259041B 含 328 期且最新 tid=28133，同域名在用站愚公移山正常含 325–328 期，说明论坛可用；版块列表已无 tid=27811（相邻 27808–27812 同时消失，27813 仍在），站内也无「麒麟凤凰」主题⇒ 该帖连同相邻 id 一起被下架，已无同名主题可换）"
+    },
+    {
+      "name": "开门见山",
+      "url": "https://88888020827.997595.xyz/bbs/topic.php?id=19567",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "开门见山"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_7b6dab87834b2a15251c",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（开门见山；https://88888020827.997595.xyz/bbs/topic.php?id=19567；329 期帖子 200 但正文仅「此帖子ID已被下架」564 字节；同论坛列表 bbs/index.php 200/121870 字节含 329 期、218 条主题 tid 覆盖 16323–21178，但已无 tid=19567、也无「开门见山」主题；邻近 tid 19563–19571 中 19566/19570 均有正常正文⇒ 论坛可用，该批帖被下架且无同名主题可换）"
+    },
+    {
+      "name": "十冬腊月",
+      "url": "https://0085680827.326455.xyz/bbs/topic.php?id=19227",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "十冬腊月"
+      ],
+      "search_window": 80,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_1198e9b33141e9a74c8d",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "always",
+      "archive_tag": "用户明确封存：不再抓取（十冬腊月；https://0085680827.326455.xyz/bbs/topic.php?id=19227；329 期帖子 200 但正文仅「此帖子ID已被下架」630 字节；同论坛列表 bbs/index.php 200/97237 字节含 329 期、196 条主题 tid 覆盖 18523–20674，但已无 tid=19227、也无「十冬腊月」主题；邻近 tid 19223–19231 多数有正常正文 48195–96886 字节⇒ 论坛可用，该批帖被下架且无同名主题可换）"
+    },
+    {
+      "name": "操控命运",
+      "url": "https://krcugkd.4pwds-7mfpc-daqkcm.cyou:29411/article/manager/6aaa7048fb6129bd4ba8afef?url=tmww",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "操控命运"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": "https://krcugkd.4pwds-7mfpc-daqkcm.cyou:29411/api/proxy/manager-articles/6aaa7048fb6129bd4ba8afef",
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": true,
+      "site_id": "site_33dd1e63635c886a99ce",
+      "source_type": "dynamic_article",
+      "parser_id": "generic_36",
+      "record_id": "6aaa7048fb6129bd4ba8afef",
+      "render_policy": "always",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（操控命运；https://krcugkd.4pwds-7mfpc-daqkcm.cyou:29411/article/manager/6aaa7048fb6129bd4ba8afef?url=tmww；330 期文章接口 /api/proxy/manager-articles/6aaa7048fb6129bd4ba8afef 返回 404 AdminArticle 不存在；列表 /api/proxy/manager-articles 与 ?page=1&per_page=50 均返回 []；首页 200/35184 字节既无「操控命运」也无该文章 ID ⇒ 文章已删除，无同名可换）"
+    },
+    {
+      "name": "愚公移山",
+      "url": "https://chuangsanliandajiang.lol/read.php?tid=26983",
+      "keywords": [
+        "36码中特"
+      ],
+      "section_keywords": [
+        "愚公移山"
+      ],
+      "search_window": 520,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_e3f37fc2690d6207f798",
+      "source_type": "forum_thread",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": "allow_incomplete_backup",
+      "onboarding_valid_issues": [
+        315,
+        316,
+        317,
+        318
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（愚公移山；https://chuangsanliandajiang.lol/read.php?tid=26983；330 期帖子/首页/版块 thread.php?fid=2 全 HTTP 403 Forbidden nginx 548 字节；urllib 直连、7897 代理、浏览器均为 403，浏览器另报 net::ERR_CERT_AUTHORITY_INVALID；同家族 chuangsanguandbjiang.lol 首页 200/143291 字节含 330 期但同 tid=26983 返回「帖子ID非法」，不可跨站替代 ⇒ 整域名封禁且证书失效）"
+    },
+    {
+      "name": "旧里迟暮",
+      "url": "https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=3249",
+      "keywords": [
+        "三十六码"
+      ],
+      "section_keywords": [
+        "旧里迟暮"
+      ],
+      "search_window": 260,
+      "fixed_issue": null,
+      "api_url": null,
+      "min_numbers_per_line": 2,
+      "image_decoder": null,
+      "numbers_before_issue": false,
+      "drop_zero_numbers": false,
+      "position": "tail",
+      "region": "bottom",
+      "render_browser": false,
+      "site_id": "site_8c042ce83ce8bef4dd33",
+      "source_type": "bbs_topic",
+      "parser_id": "three_rows",
+      "record_id": null,
+      "render_policy": "never",
+      "navigation_keywords": [],
+      "onboarding_exception": null,
+      "onboarding_valid_issues": [
+        318,
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326
+      ],
+      "onboarding_missing_issues": [],
+      "archive_tag": "用户明确封存：不再抓取（旧里迟暮；https://i97lk4jb16.333741bbs1.shop/bbs/topic.php?id=3249；330 期帖子 200/36205 字节但正文仅「此帖子ID已被下架」，无 330、无「三十六码」；同论坛列表 bbs/index.php 200/94826 字节含 330 期、67 条主题 tid 覆盖 1–3293，已无 tid=3249，邻近 3248/3249/3250 全缺而 3247/3251 在列 ⇒ 帖子被删除，禁止跨站补值）"
     }
   ],
-  "updated_at": "2026-11-24T18:55:50+08:00"
+  "updated_at": "2026-11-26T19:59:25+08:00"
 }
